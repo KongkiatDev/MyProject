@@ -73,7 +73,7 @@ function read_settings()
     settings.auto_sell_rarity_units = false
     settings.item_limit_amount_to_farm = 0
     settings.item_limit_received = 0
-    settings.fps_cap = 15
+    settings.fps_limit = true
     settings.auto_claim_quests = true
     settings.auto_remove_map = true
     settings.auto_remove_units_name = true
@@ -1025,6 +1025,13 @@ MiscGroupbox:AddLabel('🖥️ FPS Limit'):AddKeyPicker('FPSLimit', {
   Callback = function(Value)
     settings.fps_limit = not settings.fps_limit
     save_settings()
+    if settings.fps_limit then
+      setfpscap(5)
+      Library:Notify('FPS Limit [ON]', 3)
+    else
+      setfpscap(30)
+      Library:Notify('FPS Limit [OFF]', 3)
+    end
     -- low_cpu()
   end
 })
@@ -3120,27 +3127,28 @@ end
 
 --#region [Function] Low CPU
 function low_cpu()
-  -- if _PERF then return end
-  -- _PERF = true
-
-  UserInputService.WindowFocused:Connect(function()
-    setfpscap(30)
+  -- UserInputService.WindowFocused:Connect(function()
+    -- setfpscap(30)
     -- RunService:Set3dRenderingEnabled(false)
     -- settings.white_screen = true
     -- save_settings()
     -- toggleLoadingScreen()
-  end)
+  -- end)
 
-  UserInputService.WindowFocusReleased:Connect(function()
+  -- UserInputService.WindowFocusReleased:Connect(function()
+    -- setfpscap(5)
+    -- RunService:Set3dRenderingEnabled(false)
+    -- settings.white_screen = true
+    -- save_settings()
+    -- toggleLoadingScreen()
+  -- end)
+
+  if settings.fps_limit then
     setfpscap(5)
-    -- RunService:Set3dRenderingEnabled(false)
-    -- settings.white_screen = true
-    -- save_settings()
-    -- toggleLoadingScreen()
-  end)
+  else
+    setfpscap(30)
+  end
 
-  task.wait(15)
-  setfpscap(5)
 end
 low_cpu()
 --#endregion
