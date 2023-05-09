@@ -3116,6 +3116,7 @@ function auto_reconnect()
   game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
     if e.Name == 'ErrorPrompt' then
       warn("Trying to Reconnect")
+      task.wait(3)
       repeat
         TeleportService:Teleport(game.PlaceId)
         task.wait(3)
@@ -3123,7 +3124,7 @@ function auto_reconnect()
     end
   end)
 end
--- auto_reconnect()
+auto_reconnect()
 --#endregion
 
 --#region [Function] Low CPU
