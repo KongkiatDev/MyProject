@@ -3143,6 +3143,7 @@ function low_cpu()
     -- toggleLoadingScreen()
   -- end)
 
+  task.wait(5)
   if settings.fps_limit then
     setfpscap(5)
   else
