@@ -2443,7 +2443,7 @@ function infinite_castle_end()
     save_settings()
     webhook_finish()
     -- Nexus:SetAutoRelaunch(false)
-    -- game:Shutdown()
+    game:Shutdown()
     return_to_lobby()
   else
     webhook()
@@ -3167,3 +3167,4 @@ end
 low_cpu()
 --#endregion
 
+-- 398f2551c2c314fdd639eaf3953c194a
