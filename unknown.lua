@@ -2989,7 +2989,37 @@ end))
 
 --#region [Function] Reduece Low Graphic Settings
 function low_graphic_settings()
-  if game.PlaceId ~= ANIME_ADVENTURES_ID then
+  if game.PlaceId == ANIME_ADVENTURES_ID then
+    local args = {
+      [1] = "trading",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "hide_other_pets",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "low_quality_shadows",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "low_quality_textures",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "dynamic_depth_of_field",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+  else
     local args = {
       [1] = "show_all_unit_health",
       [2] = true
@@ -3067,7 +3097,6 @@ function low_graphic_settings()
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait(0.5)
   end
 end
 low_graphic_settings()
@@ -3115,3 +3144,4 @@ function low_cpu()
 end
 low_cpu()
 --#endregion
+
