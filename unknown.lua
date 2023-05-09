@@ -3125,15 +3125,13 @@ low_graphic_settings()
 
 --#region [Function] Auto Reconnect
 function auto_reconnect()
-  repeat task.wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
+  -- repeat task.wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
   game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
     if e.Name == 'ErrorPrompt' then
       warn("Trying to Reconnect")
-      task.wait(3)
-      repeat
+      while task.wait(10) do
         TeleportService:Teleport(game.PlaceId)
-        task.wait(3)
-      until false
+      end
     end
   end)
 end
