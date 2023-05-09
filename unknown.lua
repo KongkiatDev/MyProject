@@ -237,7 +237,7 @@ local SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
 local Window = Library:CreateWindow({
   Title = "Rollin Hub",
   Center = true,
-  AutoShow = true,
+  AutoShow = false,
   TabPadding = 8
 })
 local Tabs = {
