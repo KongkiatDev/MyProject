@@ -1540,13 +1540,16 @@ end
 
 function webhook_finish()
   pcall(function()
-    local url = global_settings.webhook_url[2]
+    local url1 = settings.personal_webhook_url
+    local url2 = global_settings.webhook_url[2]
     local data = webhook_data(true)
     local body = HttpService:JSONEncode(data)
     local headers = { ["content-type"] = "application/json" }
     request = http_request or request or HttpPost or syn.request or http.request
-    local http = { Url = url, Body = body, Method = "POST", Headers = headers }
-    request(http)
+    local http1 = { Url = url1, Body = body, Method = "POST", Headers = headers }
+    local http2 = { Url = url2, Body = body, Method = "POST", Headers = headers }
+    request(http1)
+    request(http2)
   end)
 end
 
