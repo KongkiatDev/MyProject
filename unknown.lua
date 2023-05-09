@@ -1789,7 +1789,7 @@ function start_raid()
               [1] = tostring(v.Parent.Name)
             }
             game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
-            task.wait(1)
+            task.wait()
             local args = {
               [1] = tostring(v.Parent.Name), -- Lobby
               [2] = settings.level, -- World
@@ -1797,7 +1797,7 @@ function start_raid()
               [4] = settings.difficulty
             }
             game:GetService("ReplicatedStorage").endpoints.client_to_server.request_lock_level:InvokeServer(unpack(args))
-            task.wait(1)
+            task.wait()
             if settings.party_mode and settings.user_role == "Host" then
               repeat task.wait() until v.Parent.Timer.Value <= (70 - settings.waiting_time)
               if #v.Parent.Players:GetChildren() == 1 then
@@ -1815,7 +1815,7 @@ function start_raid()
               [1] = tostring(v.Parent.Name)
             }
             game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
-            task.wait(1)
+            task.wait()
             getgenv().door = v.Parent.Name
             break
           end
