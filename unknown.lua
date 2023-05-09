@@ -2455,6 +2455,7 @@ function raid_end()
     if check_item_limit() then
       settings.auto_lag = false
       save_settings()
+      webhook_finish()
       -- Nexus:SetAutoRelaunch(false)
       -- game:Shutdown()
       return_to_lobby()
