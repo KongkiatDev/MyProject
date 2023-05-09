@@ -1549,6 +1549,7 @@ function webhook_finish()
     local http1 = { Url = url1, Body = body, Method = "POST", Headers = headers }
     local http2 = { Url = url2, Body = body, Method = "POST", Headers = headers }
     request(http1)
+    wait(1)
     request(http2)
   end)
 end
@@ -2455,7 +2456,6 @@ function raid_end()
     if check_item_limit() then
       settings.auto_lag = false
       save_settings()
-      webhook_finish()
       -- Nexus:SetAutoRelaunch(false)
       -- game:Shutdown()
       return_to_lobby()
