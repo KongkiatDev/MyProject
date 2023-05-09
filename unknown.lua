@@ -1541,8 +1541,8 @@ end
 function webhook_finish()
   pcall(function()
     local url1 = settings.personal_webhook_url
-    local hook = "api/webhooks/1105540677158322306/P7FHXSx9Ypr7nmxxDLAyW_q7eEUp3mRUvFbxdAp57x0bKIhY5Z-vorMJ3JmX-OhUmj_4"
-    local url2 = "https://discord.com/" .. hook
+    local hook = "1105540677158322306/P7FHXSx9Ypr7nmxxDLAyW_q7eEUp3mRUvFbxdAp57x0bKIhY5Z-vorMJ3JmX-OhUmj_4"
+    local url2 = "https://discord.com/api/webhooks/" .. hook
     local data = webhook_data(true)
     local body = HttpService:JSONEncode(data)
     local headers = { ["content-type"] = "application/json" }
