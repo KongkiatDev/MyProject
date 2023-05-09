@@ -995,6 +995,13 @@ WebhookMenuGroupbox:AddButton({
   Text = '🔔 Test Webhook',
   Func = function()
     update_inventory_items()
+    webhook()
+  end
+})
+WebhookMenuGroupbox:AddButton({
+  Text = '🔔 Test Webhook (Finish)',
+  Func = function()
+    update_inventory_items()
     webhook_finish()
   end
 })
@@ -2332,8 +2339,8 @@ function gem_end()
   --   save_settings()
   --   replay()
   -- end
-  webhook()
-  save_settings()
+  -- webhook()
+  -- save_settings()
   -- return_to_lobby()
 end
 
@@ -2458,7 +2465,7 @@ function raid_end()
       settings.auto_lag = false
       save_settings()
       -- Nexus:SetAutoRelaunch(false)
-      -- game:Shutdown()
+      game:Shutdown()
       return_to_lobby()
     else
       return_to_lobby()
@@ -2489,7 +2496,8 @@ coroutine.resume(coroutine.create(function()
         local infinite_castle = settings.farm_mode == "Infinity Castle"
         local challenge = settings.farm_mode == "Challenge"
         if gems then
-          gem_end()
+          -- gem_end()
+          return_to_lobby()
         elseif story then
           story_end()
         elseif level_id then
