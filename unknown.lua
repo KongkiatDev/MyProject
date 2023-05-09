@@ -115,11 +115,6 @@ function read_global_settings()
   if status then
     return value
   else
-    global_settings.api_url = "https://rollinhub.ngrok.app"
-    global_settings.webhook_url = {
-      "https://discord.com/api/webhooks/1101064374208167947/96DZJ2w4TsrnsRos_igXi63R8duWSGkK4CjEYtMyH73dXSJsgYukSIHNhUPizTFq7Dn6",
-      "https://discord.com/api/webhooks/1083201187857305691/ZzE7W1VZ6Oc5oej5lvPsZVZ4XP_gnUJq8V235MScQAr08YcnG77fxO9REQp_-nMiSBtv"
-    }
     global_settings.party_id = ""
     save_global_settings()
     return read_global_settings()
