@@ -2789,6 +2789,7 @@ coroutine.resume(coroutine.create(function()
         local status, result = pcall(function()
           return game:HttpGet(global_settings.api_url .. "/party-server")
         end)
+        print("result", result)
         if status then
           if game.JobId ~= result then
             TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
