@@ -1051,8 +1051,14 @@ MiscGroupbox:AddLabel('🔄 Restart Game'):AddKeyPicker('RestartGame', {
   NoUI = true,
   Callback = function(Value)
     if settings.party_mode then
-      local party_id = HttpService:JSONDecode(readfile("RollinHub.json"))["party_id"]
-      TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_id, LocalPlayer)
+      -- local party_id = HttpService:JSONDecode(readfile("RollinHub.json"))["party_id"]
+      -- TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_id, LocalPlayer)
+      local status, result = pcall(function()
+        return game:HttpGet(global_settings.api_url .. "/party-server")
+      end)
+      if status then
+        TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
+      end
     else
       math.randomseed(os.time())
       local servers = {}
@@ -2290,8 +2296,14 @@ end
 
 function return_to_lobby()
   if settings.party_mode then
-    local party_id = HttpService:JSONDecode(readfile("RollinHub.json"))["party_id"]
-    TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_id, LocalPlayer)
+    -- local party_id = HttpService:JSONDecode(readfile("RollinHub.json"))["party_id"]
+    -- TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_id, LocalPlayer)
+    local status, result = pcall(function()
+      return game:HttpGet(global_settings.api_url .. "/party-server")
+    end)
+    if status then
+      TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
+    end
   else
     math.randomseed(os.time())
     local servers = {}
@@ -2768,11 +2780,19 @@ end))
 --#region [Function] Party Mode
 coroutine.resume(coroutine.create(function()
   if game.PlaceId == ANIME_ADVENTURES_ID then
-    while task.wait(3) do
+    while task.wait(5) do
       if settings.party_mode then
-        local party_id = HttpService:JSONDecode(readfile("RollinHub.json"))["party_id"]
-        if game.JobId ~= party_id then
-          TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_id, LocalPlayer)
+        -- local party_id = HttpService:JSONDecode(readfile("RollinHub.json"))["party_id"]
+        -- if game.JobId ~= party_id then
+        --   TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_id, LocalPlayer)
+        -- end
+        local status, result = pcall(function()
+          return game:HttpGet(global_settings.api_url .. "/party-server")
+        end)
+        if status then
+          if game.JobId ~= result then
+            TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
+          end
         end
         if settings.user_role == "Member" then
           -- normal farm
