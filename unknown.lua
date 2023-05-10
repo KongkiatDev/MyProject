@@ -1532,10 +1532,7 @@ end
 
 function webhook()
   pcall(function()
-    local url = global_settings.webhook_url[1]
-    if settings.personal_webhook_url ~= nil then
-      url = settings.personal_webhook_url
-    end
+    local url = settings.personal_webhook_url
     local data = webhook_data()
     local body = HttpService:JSONEncode(data)
     local headers = { ["content-type"] = "application/json" }
@@ -3167,4 +3164,3 @@ end
 low_cpu()
 --#endregion
 
--- 398f2551c2c314fdd639eaf3953c194a
