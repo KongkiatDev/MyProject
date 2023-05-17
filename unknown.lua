@@ -260,7 +260,7 @@ WorldConfigGroupbox:AddDropdown("SelectCategory", {
   Callback = function(Value)
     settings.world_category = Value
     if Value == "Story Worlds" then
-      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City"}
+      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City", "Puppet Island"}
     elseif Value == "Legend Stages" then
       settings.worlds = {"Clover Kingdom (Elf Invasion)", "Hollow Invasion", "Cape Canaveral (Legend)", "Fabled Kingdom (Legend)", "Hero City (Midnight)"}
     elseif Value == "Raid Worlds" then
@@ -309,6 +309,8 @@ WorldConfigGroupbox:AddDropdown("SelectWorld", {
       settings.levels = {"7ds_infinite", "7ds_level_1", "7ds_level_2", "7ds_level_3", "7ds_level_4", "7ds_level_5", "7ds_level_6"}
     elseif Value == "Hero City" then
       settings.levels = {"mha_infinite", "mha_level_1", "mha_level_2", "mha_level_3", "mha_level_4", "mha_level_5", "mha_level_6"}
+    elseif Value == "Puppet Island" then
+      settings.levels = {"dressrosa_infinite", "dressrosa_level_1", "dressrosa_level_2", "dressrosa_level_3", "dressrosa_level_4", "dressrosa_level_5", "dressrosa_level_6"}
     --///Legend Stages\\\--- 
     elseif Value == "Clover Kingdom (Elf Invasion)" then
       settings.levels = {"clover_legend_1", "clover_legend_2", "clover_legend_3"}
@@ -435,7 +437,7 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
       settings.auto_leave = false
       settings.auto_force_leave = false
       settings.world_category = "Story Worlds"
-      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City"}
+      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City", "Puppet Island"}
       settings.world = "Planet Namak"
       settings.levels = {"namek_infinite", "namek_level_1", "namek_level_2", "namek_level_3", "namek_level_4", "namek_level_5", "namek_level_6"}
       settings.level = "namek_infinite"
@@ -470,7 +472,7 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
       settings.auto_leave = false
       settings.auto_force_leave = false
       settings.world_category = "Story Worlds"
-      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City"}
+      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City", "Puppet Island"}
       settings.world = "Planet Namak"
       settings.levels = {"namek_infinite", "namek_level_1", "namek_level_2", "namek_level_3", "namek_level_4", "namek_level_5", "namek_level_6"}
       settings.level = "namek_level_1"
@@ -505,9 +507,9 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
       settings.auto_leave = false
       settings.auto_force_leave = false
       settings.world_category = "Story Worlds"
-      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City"}
+      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City", "Puppet Island"}
       settings.world = "Shiganshinu District"
-      settings.levels = {"namek_infinite", "namek_level_1", "namek_level_2", "namek_level_3", "namek_level_4", "namek_level_5", "namek_level_6"}
+      settings.levels = {"aot_infinite", "aot_level_1", "aot_level_2", "aot_level_3", "aot_level_4","aot_level_5", "aot_level_6"}
       settings.level = "aot_infinite"
       settings.difficulty_options = {"Hard"}
       settings.difficulty = "Hard"
@@ -1037,7 +1039,7 @@ MiscGroupbox:AddLabel('🖥️ FPS Limit'):AddKeyPicker('FPSLimit', {
       setfpscap(5)
       Library:Notify('FPS Limit [ON]', 3)
     else
-      setfpscap(30)
+      setfpscap(60)
       Library:Notify('FPS Limit [OFF]', 3)
     end
     -- low_cpu()
@@ -1129,7 +1131,7 @@ MiscGroupbox:AddToggle("HideEnemyUnitNames", {
 MiscGroupbox:AddButton({
   Text = '🎀 Redeem Codes',
   Func = function()
-    local codes = {"ENTERTAINMENT", "HAPPYEASTER", "VIGILANTE", "GOLDENSHUTDOWN", "GOLDEN", "SINS2", "SINS", "UCHIHA", "CLOUD", "HERO", "CHAINSAW", "NEWYEAR2023", "kingluffy", "toadboigaming", "noclypso", "fictionthefirst", "subtomaokuma", "subtokelvingts", "subtoblamspot"}
+    local codes = {"DRESSROSA", "BILLION", "ENTERTAINMENT", "HAPPYEASTER", "VIGILANTE", "GOLDENSHUTDOWN", "GOLDEN", "SINS2", "SINS", "UCHIHA", "CLOUD", "HERO", "CHAINSAW", "NEWYEAR2023", "kingluffy", "toadboigaming", "noclypso", "fictionthefirst", "subtomaokuma", "subtokelvingts", "subtoblamspot"}
     for _, code in pairs(codes) do
       local args = {
         [1] = code
@@ -2118,6 +2120,13 @@ coroutine.resume(coroutine.create(function()
           [1] = { x = pos_x, y = -13.246, z = pos_z }, -- ground unit position
           [2] = { x = -31.493, y = -10.022, z = 21.955 }, -- hill unit position
         })
+      elseif map:match("dressrosa") then
+        -- print("Puppet Island")
+        auto_place_units({
+          [1] = { x = pos_x, y = 2.600, z = pos_z }, -- ground unit position
+          [2] = { x = -41.454, y = 5.986, z = -185.049 }, -- hill unit position
+        })
+
       --///Legend Stages\\\--- 
       elseif map:match("karakura") then
         -- print("Hollow Invasion (Legend)")
@@ -2125,6 +2134,7 @@ coroutine.resume(coroutine.create(function()
           [1] = { x = pos_x, y = 36.044, z = pos_z }, -- ground unit position
           [2] = { x = -212.727, y = 46.035, z = 598.998 }, -- hill unit position
         })
+
       --///Raids\\\---
       elseif map:match("west_city") then
         -- print("West City")
@@ -2139,7 +2149,7 @@ coroutine.resume(coroutine.create(function()
           [2] = { x = 304.338, y = 539.897, z = -584.447 }, -- hill unit position
         })
       elseif map:match("entertainment_district") then
-        -- print("Hero City")
+        -- print("Entertainment District")
         auto_place_units({
           [1] = { x = pos_x, y = 495.600, z = pos_z }, -- ground unit position
           [2] = { x = -127.54, y = 505.142, z = -92.913 }, -- hill unit position
@@ -2958,6 +2968,7 @@ coroutine.resume(coroutine.create(function()
   if game.PlaceId == ANIME_ADVENTURES_ID and settings.auto_claim_quests then
     pcall(function()
       game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
+      game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_christmas_calendar_reward:InvokeServer()
     end)
     local questStory = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.story.Scroll:GetChildren()
     local questEvent = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.event.Scroll:GetChildren()
@@ -3178,7 +3189,7 @@ function low_cpu()
   if settings.fps_limit then
     setfpscap(5)
   else
-    setfpscap(30)
+    setfpscap(15)
   end
 
 end
