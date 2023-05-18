@@ -997,12 +997,6 @@ WebhookMenuGroupbox:AddButton({
     create_channel()
   end
 })
-WebhookMenuGroupbox:AddButton({
-  Text = '📥 Create Ticket Webhook',
-  Func = function()
-    create_ticket_webhook()
-  end
-})
 -- WebhookMenuGroupbox:AddButton({
 --   Text = '📤 Delete Channel',
 --   Func = function()
