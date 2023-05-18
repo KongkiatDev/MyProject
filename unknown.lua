@@ -2792,13 +2792,15 @@ end))
 --#region [Function] Party Mode
 coroutine.resume(coroutine.create(function()
   if game.PlaceId == ANIME_ADVENTURES_ID then
-    task.wait(5)
-    local status, result = pcall(function()
-      return game:HttpGet(global_settings.api_url .. "/party-server")
-    end)
-    if status then
-      if game.JobId ~= result then
-        TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
+    if settings.party_mode then
+      task.wait(5)
+      local status, result = pcall(function()
+        return game:HttpGet(global_settings.api_url .. "/party-server")
+      end)
+      if status then
+        if game.JobId ~= result then
+          TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
+        end
       end
     end
     while task.wait(5) do
