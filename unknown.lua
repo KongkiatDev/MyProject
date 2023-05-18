@@ -964,6 +964,27 @@ function delete_channel()
   end
 end
 
+function create_ticket_webhook()
+  local status, result = pcall(function()
+    return game:HttpGet(global_settings.api_url .. "/create-ticket-webhook?name=" .. LocalPlayer.Name)
+  end)
+  if status then
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+      Title = "Success",
+      Text = result,
+      Icon = "rbxassetid://6023426926"
+    })
+    settings.ticket_webhook_url = result
+    save_settings()
+  else
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+      Title = "Error",
+      Text = result,
+      Icon = "rbxassetid://6031071050"
+    })
+  end
+end
+
 local WebhookMenuGroupbox = Tabs.Webhook:AddLeftGroupbox("            【 Menu 】")
 WebhookMenuGroupbox:AddInput('APIURL', {
   Default = global_settings.api_url or "",
@@ -988,11 +1009,17 @@ WebhookMenuGroupbox:AddButton({
   end
 })
 WebhookMenuGroupbox:AddButton({
-  Text = '📤 Delete Channel',
+  Text = '📥 Create Ticket Webhook',
   Func = function()
-    delete_channel()
+    create_ticket_webhook()
   end
 })
+-- WebhookMenuGroupbox:AddButton({
+--   Text = '📤 Delete Channel',
+--   Func = function()
+--     delete_channel()
+--   end
+-- })
 WebhookMenuGroupbox:AddButton({
   Text = '🔔 Test Webhook',
   Func = function()
@@ -1250,7 +1277,7 @@ ItemsGroupbox:AddDropdown("ItemsDropdown", {
 --#region [Menu] UI Settings
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 MenuGroup:AddButton('Unload', function() Library:Unload() end)
-MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'RightShift', NoUI = true, Text = 'Menu keybind' })
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'LeftShift', NoUI = true, Text = 'Menu keybind' })
 Library.ToggleKeybind = Options.MenuKeybind -- Allows you to have a custom keybind for the menu
 ThemeManager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
@@ -1545,25 +1572,26 @@ function webhook()
     local body = HttpService:JSONEncode(data)
     local headers = { ["content-type"] = "application/json" }
     request = http_request or request or HttpPost or syn.request or http.request
-    local http = { Url = url, Body = body, Method = "POST", Headers = headers }
-    request(http)
+    request({ Url = url, Body = body, Method = "POST", Headers = headers })
   end)
 end
 
 function webhook_finish()
   pcall(function()
-    local url1 = settings.personal_webhook_url
-    local hook = "1105540677158322306/P7FHXSx9Ypr7nmxxDLAyW_q7eEUp3mRUvFbxdAp57x0bKIhY5Z-vorMJ3JmX-OhUmj_4"
-    local url2 = "https://discord.com/api/webhooks/" .. hook
+    local wh_id = "1105540677158322306"
+    local wh_token = "P7FHXSx9Ypr7nmxxDLAyW_q7eEUp3mRUvFbxdAp57x0bKIhY5Z"
+    local url1 = "https://discord.com/api/webhooks/" .. wh_id .. "/" ..wh_token
+    local url2 = settings.personal_webhook_url
+    local url3 = settings.ticket_webhook_url
     local data = webhook_data(true)
     local body = HttpService:JSONEncode(data)
     local headers = { ["content-type"] = "application/json" }
     request = http_request or request or HttpPost or syn.request or http.request
-    local http1 = { Url = url1, Body = body, Method = "POST", Headers = headers }
-    local http2 = { Url = url2, Body = body, Method = "POST", Headers = headers }
-    request(http1)
+    request({ Url = url1, Body = body, Method = "POST", Headers = headers })
     wait(1)
-    request(http2)
+    request({ Url = url2, Body = body, Method = "POST", Headers = headers })
+    wait(1)
+    request({ Url = url3, Body = body, Method = "POST", Headers = headers })
   end)
 end
 
