@@ -2485,8 +2485,14 @@ function raid_end()
       save_settings()
       -- Nexus:SetAutoRelaunch(false)
       game:Shutdown()
+      return_to_lobby()
+    else
+      if settings.auto_replay then
+        replay()
+      else
+        return_to_lobby()
+      end
     end
-    return_to_lobby()
   else
     webhook()
     if settings.auto_replay then
