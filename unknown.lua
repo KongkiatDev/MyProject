@@ -1039,7 +1039,7 @@ MiscGroupbox:AddLabel('🖥️ FPS Limit'):AddKeyPicker('FPSLimit', {
       setfpscap(5)
       Library:Notify('FPS Limit [ON]', 3)
     else
-      setfpscap(60)
+      setfpscap(30)
       Library:Notify('FPS Limit [OFF]', 3)
     end
     -- low_cpu()
@@ -3189,7 +3189,7 @@ function low_cpu()
   if settings.fps_limit then
     setfpscap(5)
   else
-    setfpscap(15)
+    setfpscap(30)
   end
 
 end
