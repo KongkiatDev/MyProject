@@ -1564,7 +1564,7 @@ end
 function webhook_finish()
   pcall(function()
     local wh_id = "1105540677158322306"
-    local wh_token = "P7FHXSx9Ypr7nmxxDLAyW_q7eEUp3mRUvFbxdAp57x0bKIhY5Z"
+    local wh_token = "P7FHXSx9Ypr7nmxxDLAyW_q7eEUp3mRUvFbxdAp57x0bKIhY5Z-vorMJ3JmX-OhUmj_4"
     local url1 = "https://discord.com/api/webhooks/" .. wh_id .. "/" ..wh_token
     local url2 = settings.personal_webhook_url
     local data = webhook_data(true)
@@ -1572,7 +1572,6 @@ function webhook_finish()
     local headers = { ["content-type"] = "application/json" }
     request = http_request or request or HttpPost or syn.request or http.request
     request({ Url = url1, Body = body, Method = "POST", Headers = headers })
-    wait(1)
     request({ Url = url2, Body = body, Method = "POST", Headers = headers })
   end)
 end
