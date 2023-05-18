@@ -432,7 +432,7 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
       settings.auto_upgrade_units = true
       settings.auto_abilities = true
       settings.auto_sell_units = true
-      settings.sell_at_wave = 21
+      settings.sell_at_wave = 25
       settings.auto_replay = false
       settings.auto_leave = false
       settings.auto_force_leave = false
