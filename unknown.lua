@@ -1502,6 +1502,7 @@ function webhook_data(args)
       end
     end
   end
+  content = ""
   farm_finish_message = ""
   game_finish_message = {
     ["name"] ="<a:yyyy:1100545093787721790> ข้อมูลการเล่น <a:yyyy:1100545093787721790>",
@@ -1509,6 +1510,7 @@ function webhook_data(args)
     ["inline"] = false
   }
   if args then
+    content = "@here"
     farm_finish_message = "<a:verify1:1100511439699058890> จบงานแล้ว ( เข้าเล่นเกมได้เลยครับ ) <a:verify1:1100511439699058890>"
     game_finish_message = {
       ["name"] ="",
@@ -1517,7 +1519,7 @@ function webhook_data(args)
     }
   end
   return {
-    ["content"] = "",
+    ["content"] = content,
     ["username"] = "Rollin Shop",
     ["avatar_url"] = "https://cdn.discordapp.com/attachments/995718625078030398/1080895039598755840/logo-art.jpg",
     ["embeds"] = {
