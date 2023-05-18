@@ -965,16 +965,6 @@ function delete_channel()
 end
 
 local WebhookMenuGroupbox = Tabs.Webhook:AddLeftGroupbox("            【 Menu 】")
-WebhookMenuGroupbox:AddInput('APIURL', {
-  Default = global_settings.api_url or "",
-  Numeric = false,
-  Finished = true,
-  Text = '🌐 API URL',
-  Callback = function(Value)
-    global_settings.api_url = Value
-    save_global_settings()
-  end
-})
 WebhookMenuGroupbox:AddInput('USERID', {
   Default = settings.discord_user_id or "",
   Numeric = true,
@@ -983,6 +973,16 @@ WebhookMenuGroupbox:AddInput('USERID', {
   Callback = function(Value)
     settings.discord_user_id = Value
     save_settings()
+  end
+})
+WebhookMenuGroupbox:AddInput('APIURL', {
+  Default = global_settings.api_url or "",
+  Numeric = false,
+  Finished = true,
+  Text = '🌐 API URL',
+  Callback = function(Value)
+    global_settings.api_url = Value
+    save_global_settings()
   end
 })
 WebhookMenuGroupbox:AddButton({
