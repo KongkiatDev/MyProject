@@ -964,36 +964,25 @@ function delete_channel()
   end
 end
 
-function create_ticket_webhook()
-  local status, result = pcall(function()
-    return game:HttpGet(global_settings.api_url .. "/create-ticket-webhook?name=" .. LocalPlayer.Name)
-  end)
-  if status then
-    game:GetService("StarterGui"):SetCore("SendNotification",{
-      Title = "Success",
-      Text = result,
-      Icon = "rbxassetid://6023426926"
-    })
-    settings.ticket_webhook_url = result
-    save_settings()
-  else
-    game:GetService("StarterGui"):SetCore("SendNotification",{
-      Title = "Error",
-      Text = result,
-      Icon = "rbxassetid://6031071050"
-    })
-  end
-end
-
 local WebhookMenuGroupbox = Tabs.Webhook:AddLeftGroupbox("            【 Menu 】")
 WebhookMenuGroupbox:AddInput('APIURL', {
   Default = global_settings.api_url or "",
-  Numeric = false, -- true / false, only allows numbers
-  Finished = true, -- true / false, only calls callback when you press enter
+  Numeric = false,
+  Finished = true,
   Text = '🌐 API URL',
   Callback = function(Value)
     global_settings.api_url = Value
     save_global_settings()
+  end
+})
+WebhookMenuGroupbox:AddInput('USERID', {
+  Default = settings.discord_user_id or "",
+  Numeric = true,
+  Finished = true,
+  Text = '👤 Discord User ID',
+  Callback = function(Value)
+    settings.discord_user_id = Value
+    save_settings()
   end
 })
 WebhookMenuGroupbox:AddButton({
@@ -1510,7 +1499,7 @@ function webhook_data(args)
     ["inline"] = false
   }
   if args then
-    content = "@here"
+    content = "<@" .. tostring(settings.discord_user_id) .. ">"
     farm_finish_message = "<a:verify1:1100511439699058890> จบงานแล้ว ( เข้าเล่นเกมได้เลยครับ ) <a:verify1:1100511439699058890>"
     game_finish_message = {
       ["name"] ="",
@@ -1584,7 +1573,6 @@ function webhook_finish()
     local wh_token = "P7FHXSx9Ypr7nmxxDLAyW_q7eEUp3mRUvFbxdAp57x0bKIhY5Z"
     local url1 = "https://discord.com/api/webhooks/" .. wh_id .. "/" ..wh_token
     local url2 = settings.personal_webhook_url
-    local url3 = settings.ticket_webhook_url
     local data = webhook_data(true)
     local body = HttpService:JSONEncode(data)
     local headers = { ["content-type"] = "application/json" }
@@ -1592,8 +1580,6 @@ function webhook_finish()
     request({ Url = url1, Body = body, Method = "POST", Headers = headers })
     wait(1)
     request({ Url = url2, Body = body, Method = "POST", Headers = headers })
-    wait(1)
-    request({ Url = url3, Body = body, Method = "POST", Headers = headers })
   end)
 end
 
