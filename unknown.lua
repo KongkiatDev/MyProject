@@ -1544,11 +1544,11 @@ function webhook_data(args)
           --   ["value"] = emoji_info .. "<:easter_egg_1:1095132443884925070> " .. easter_egg_1 .. "\n" .. emoji_info .. "<:easter_egg_2:1095132446946770955> " .. easter_egg_2 .. "\n" .. emoji_info .. "<:easter_egg_3:1095132449136189510> " .. easter_egg_3 .. "\n" .. emoji_info .. "<:easter_egg_4:1095132452487442473> " .. easter_egg_4 .. "\n" .. emoji_info .. "<:easter_egg_5:1095132456643985440> " .. easter_egg_5 .. "\n" .. emoji_info .. "<:easter_egg_6:1095132460146241566> " .. easter_egg_6,
           --   ["inline"] = false
           -- },
-          -- {
-          --   ["name"] ="ไอเท็ม Challenge",
-          --   ["value"] = "<:StarFruit:1086923974233034812> " .. starfruit .. "\n<:StarFruit_Rainbow:1086923969703190569> " .. starfruit_rainbow .. "\n<:StarFruit_Green:1086923966205132830> " .. starfruit_green .. "\n<:StarFruit_Red:1086923962249924620> " .. starfruit_red .. "\n<:StarFruit_Blue:1086923960408604734> " .. starfruit_blue .. "\n<:StarFruit_Pink:1086923957334184057> " .. starfruit_pink,
-          --   ["inline"] = false
-          -- },
+          {
+            ["name"] ="ไอเท็ม Challenge",
+            ["value"] = emoji_info .. "<:StarFruit:1086923974233034812> " .. starfruit .. "\n" .. emoji_info .. "<:StarFruit_Rainbow:1086923969703190569> " .. starfruit_rainbow .. "\n" .. emoji_info .. "<:StarFruit_Green:1086923966205132830> " .. starfruit_green .. "\n" .. emoji_info .. "<:StarFruit_Red:1086923962249924620> " .. starfruit_red .. "\n" .. emoji_info .. "<:StarFruit_Blue:1086923960408604734> " .. starfruit_blue .. "\n" .. emoji_info .. "<:StarFruit_Pink:1086923957334184057> " .. starfruit_pink,
+            ["inline"] = false
+          },
           game_finish_message
         }
       }
