@@ -2343,9 +2343,7 @@ function return_to_lobby()
     --   TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
     -- end
     local party_job_id = game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.txt")
-    if game.JobId ~= party_job_id then
-      TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
-    end
+    TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
   else
     math.randomseed(os.time())
     local servers = {}
