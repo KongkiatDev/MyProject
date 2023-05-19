@@ -1870,6 +1870,12 @@ end
 
 function start_infinity_castle()
   if game.PlaceId == ANIME_ADVENTURES_ID then
+    -- Check Infinity Castle Floor
+    if settings.farm_mode == "Infinity Castle" and settings.ic_room_reach == 0 then
+      Library:Notify("Infinity Castle room reach is 0", 5)
+      task.wait(5)
+      return
+    end
     -- Game Start Notification
     Library:Notify("The game will start in 5..", 2)
     task.wait(1)
