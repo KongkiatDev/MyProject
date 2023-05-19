@@ -2815,27 +2815,16 @@ end))
 --#region [Function] Party Mode
 coroutine.resume(coroutine.create(function()
   if game.PlaceId == ANIME_ADVENTURES_ID then
-    if settings.party_mode then
-      task.wait(5)
-      -- local status, result = pcall(function()
-      --   return game:HttpGet(global_settings.api_url .. "/party-server")
-      -- end)
-      -- if status then
-      --   if game.JobId ~= result then
-      --     TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
-      --   end
-      -- end
-      local party_job_id = game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.txt")
-      if game.JobId ~= tostring(party_job_id) then
-        -- TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
-      end
-    end
     while task.wait(5) do
       if settings.party_mode then
         -- local party_id = HttpService:JSONDecode(readfile("RollinHub.json"))["party_id"]
         -- if game.JobId ~= party_id then
         --   TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_id, LocalPlayer)
         -- end
+        local party_job_id = game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.txt")
+        if game.JobId ~= party_job_id then
+          TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
+        end
         if settings.user_role == "Member" then
           -- normal farm
           for i, v in pairs(Workspace["_LOBBIES"].Story:GetDescendants()) do
