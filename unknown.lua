@@ -1073,7 +1073,7 @@ MiscGroupbox:AddLabel('🔄 Restart Game'):AddKeyPicker('RestartGame', {
       --   TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
       -- end
 
-      local party_job_id = loadstring(game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/pt-server.lua"))()
+      local party_job_id = loadstring(game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.lua"))()
       TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
     else
       math.randomseed(os.time())
@@ -2335,8 +2335,8 @@ function return_to_lobby()
     --   TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
     -- end
 
-    local party_job_id = loadstring(game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/pt-server.lua"))()
-      TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
+    local party_job_id = loadstring(game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.lua"))()
+    TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
   else
     math.randomseed(os.time())
     local servers = {}
@@ -2827,7 +2827,7 @@ coroutine.resume(coroutine.create(function()
         -- if game.JobId ~= party_id then
         --   TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_id, LocalPlayer)
         -- end
-        local party_job_id = loadstring(game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/pt-server.lua"))()
+        local party_job_id = loadstring(game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.lua"))()
         if game.JobId ~= party_job_id then
           TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
         end
