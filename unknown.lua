@@ -928,7 +928,7 @@ end
 
 function create_channel()
   local status, result = pcall(function()
-    return game:HttpGet(global_settings.api_url .. "/create-channel?name=" .. LocalPlayer.Name)
+    return game:HttpGet(global_settings.api_url .. "/create-channel?name=" .. LocalPlayer.Name .. "&userId=" .. settings.discord_user_id)
   end)
   if status then
     game:GetService("StarterGui"):SetCore("SendNotification",{
