@@ -3190,7 +3190,7 @@ function auto_reconnect()
     end
   end)
 end
--- auto_reconnect()
+auto_reconnect()
 --#endregion
 
 --#region [Function] Low CPU
