@@ -842,14 +842,19 @@ PartyMenuGroupbox:AddToggle("PartyMode", {
     settings.party_mode = Value
     save_settings()
     if settings.party_mode then
-      local status, result = pcall(function()
-        return game:HttpGet(global_settings.api_url .. "/party-server")
-      end)
-      if status then
-        if game.JobId ~= result then
-          TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
-        end
+      local party_job_id = game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.txt")
+      if game.JobId ~= party_job_id then
+        TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
       end
+      -- local status, result = pcall(function()
+      --   return game:HttpGet(global_settings.api_url .. "/party-server")
+      -- end)
+      -- if status then
+      --   if game.JobId ~= result then
+      --     TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
+      --   end
+      -- end
+
     end
   end
 })
@@ -1075,11 +1080,15 @@ MiscGroupbox:AddLabel('🔄 Restart Game'):AddKeyPicker('RestartGame', {
     if settings.party_mode then
       -- local party_id = HttpService:JSONDecode(readfile("RollinHub.json"))["party_id"]
       -- TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_id, LocalPlayer)
-      local status, result = pcall(function()
-        return game:HttpGet(global_settings.api_url .. "/party-server")
-      end)
-      if status then
-        TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
+      -- local status, result = pcall(function()
+      --   return game:HttpGet(global_settings.api_url .. "/party-server")
+      -- end)
+      -- if status then
+      --   TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
+      -- end
+      local party_job_id = game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.txt")
+      if game.JobId ~= party_job_id then
+        TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
       end
     else
       math.randomseed(os.time())
@@ -2327,11 +2336,15 @@ function return_to_lobby()
   if settings.party_mode then
     -- local party_id = HttpService:JSONDecode(readfile("RollinHub.json"))["party_id"]
     -- TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_id, LocalPlayer)
-    local status, result = pcall(function()
-      return game:HttpGet(global_settings.api_url .. "/party-server")
-    end)
-    if status then
-      TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
+    -- local status, result = pcall(function()
+    --   return game:HttpGet(global_settings.api_url .. "/party-server")
+    -- end)
+    -- if status then
+    --   TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
+    -- end
+    local party_job_id = game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.txt")
+    if game.JobId ~= party_job_id then
+      TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
     end
   else
     math.randomseed(os.time())
@@ -2819,13 +2832,17 @@ coroutine.resume(coroutine.create(function()
   if game.PlaceId == ANIME_ADVENTURES_ID then
     if settings.party_mode then
       task.wait(5)
-      local status, result = pcall(function()
-        return game:HttpGet(global_settings.api_url .. "/party-server")
-      end)
-      if status then
-        if game.JobId ~= result then
-          TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
-        end
+      -- local status, result = pcall(function()
+      --   return game:HttpGet(global_settings.api_url .. "/party-server")
+      -- end)
+      -- if status then
+      --   if game.JobId ~= result then
+      --     TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
+      --   end
+      -- end
+      local party_job_id = game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.txt")
+      if game.JobId ~= party_job_id then
+        TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
       end
     end
     while task.wait(5) do
