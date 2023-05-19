@@ -841,6 +841,16 @@ PartyMenuGroupbox:AddToggle("PartyMode", {
   Callback = function(Value)
     settings.party_mode = Value
     save_settings()
+    if settings.party_mode then
+      local status, result = pcall(function()
+        return game:HttpGet(global_settings.api_url .. "/party-server")
+      end)
+      if status then
+        if game.JobId ~= result then
+          TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
+        end
+      end
+    end
   end
 })
 PartyMenuGroupbox:AddButton({
