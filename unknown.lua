@@ -2827,7 +2827,7 @@ coroutine.resume(coroutine.create(function()
       -- end
       local party_job_id = game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.txt")
       if game.JobId ~= tostring(party_job_id) then
-        TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
+        -- TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
       end
     end
     while task.wait(5) do
@@ -3195,7 +3195,7 @@ function auto_reconnect()
     end
   end)
 end
-auto_reconnect()
+-- auto_reconnect()
 --#endregion
 
 --#region [Function] Low CPU
