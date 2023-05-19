@@ -2829,7 +2829,7 @@ coroutine.resume(coroutine.create(function()
         -- end
         local party_job_id = game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.txt")
         if game.JobId ~= tostring(party_job_id) then
-          TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
+          -- TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
         end
         if settings.user_role == "Member" then
           -- normal farm
@@ -3221,4 +3221,3 @@ function low_cpu()
 end
 low_cpu()
 --#endregion
-
