@@ -2828,7 +2828,7 @@ coroutine.resume(coroutine.create(function()
         --   TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_id, LocalPlayer)
         -- end
         local party_job_id = game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.txt")
-        if game.JobId ~= party_job_id then
+        if game.JobId ~= tostring(party_job_id) then
           TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
         end
         if settings.user_role == "Member" then
