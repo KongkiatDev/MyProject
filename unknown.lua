@@ -1543,7 +1543,7 @@ function webhook_data(args)
           --   ["inline"] = false
           -- },
           {
-            ["name"] ="ไอเท็ม Challenge",
+            ["name"] ="<a:yyyy:1100545093787721790> ไอเท็ม Challenge <a:yyyy:1100545093787721790>",
             ["value"] = emoji_info .. "<:StarFruit:1086923974233034812> " .. starfruit .. "\n" .. emoji_info .. "<:StarFruit_Rainbow:1086923969703190569> " .. starfruit_rainbow .. "\n" .. emoji_info .. "<:StarFruit_Green:1086923966205132830> " .. starfruit_green .. "\n" .. emoji_info .. "<:StarFruit_Red:1086923962249924620> " .. starfruit_red .. "\n" .. emoji_info .. "<:StarFruit_Blue:1086923960408604734> " .. starfruit_blue .. "\n" .. emoji_info .. "<:StarFruit_Pink:1086923957334184057> " .. starfruit_pink,
             ["inline"] = false
           },
