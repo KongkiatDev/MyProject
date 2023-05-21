@@ -1576,6 +1576,7 @@ function webhook_finish()
     local headers = { ["content-type"] = "application/json" }
     request = http_request or request or HttpPost or syn.request or http.request
     request({ Url = url1, Body = body, Method = "POST", Headers = headers })
+    content = ""
     request({ Url = url2, Body = body, Method = "POST", Headers = headers })
   end)
 end
