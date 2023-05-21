@@ -260,13 +260,13 @@ WorldConfigGroupbox:AddDropdown("SelectCategory", {
   Callback = function(Value)
     settings.world_category = Value
     if Value == "Story Worlds" then
-      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City"}
+      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City", "Puppet Island"}
     elseif Value == "Legend Stages" then
       settings.worlds = {"Clover Kingdom (Elf Invasion)", "Hollow Invasion", "Cape Canaveral (Legend)", "Fabled Kingdom (Legend)", "Hero City (Midnight)"}
     elseif Value == "Raid Worlds" then
       settings.worlds = {"Entertainment District", "West City (Freezo's Invasion)", "Storm Hideout", "West City", "Infinity Train", "Shiganshinu District - Raid", "Hiddel Sand Village - Raid"}
     elseif Value == "Portals" then
-      settings.worlds = {"Alien Portals", "Zeldris Portals", "Demon Portals"}
+      settings.worlds = {"Alien Portals", "Zeldris Portals", "Demon Portals", "Dressrosa Portals"}
     end
     Options.SelectWorld:Refresh(settings.worlds)
     save_settings()
@@ -309,6 +309,8 @@ WorldConfigGroupbox:AddDropdown("SelectWorld", {
       settings.levels = {"7ds_infinite", "7ds_level_1", "7ds_level_2", "7ds_level_3", "7ds_level_4", "7ds_level_5", "7ds_level_6"}
     elseif Value == "Hero City" then
       settings.levels = {"mha_infinite", "mha_level_1", "mha_level_2", "mha_level_3", "mha_level_4", "mha_level_5", "mha_level_6"}
+    elseif Value == "Puppet Island" then
+      settings.levels = {"dressrosa_infinite", "dressrosa_level_1", "dressrosa_level_2", "dressrosa_level_3", "dressrosa_level_4", "dressrosa_level_5", "dressrosa_level_6"}
     --///Legend Stages\\\--- 
     elseif Value == "Clover Kingdom (Elf Invasion)" then
       settings.levels = {"clover_legend_1", "clover_legend_2", "clover_legend_3"}
@@ -342,6 +344,8 @@ WorldConfigGroupbox:AddDropdown("SelectWorld", {
       settings.levels = {"portal_zeldris"}
     elseif Value == "Demon Portals" then
       settings.levels = {"april_portal_item"}
+    elseif Value == "Dressrosa Portals" then
+      settings.levels = {"portal_item__dressrosa"}
     end
     Options.SelectLevel:Refresh(settings.levels)
     save_settings()
@@ -430,12 +434,12 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
       settings.auto_upgrade_units = true
       settings.auto_abilities = true
       settings.auto_sell_units = true
-      settings.sell_at_wave = 21
+      settings.sell_at_wave = 25
       settings.auto_replay = false
       settings.auto_leave = false
       settings.auto_force_leave = false
       settings.world_category = "Story Worlds"
-      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City"}
+      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City", "Puppet Island"}
       settings.world = "Planet Namak"
       settings.levels = {"namek_infinite", "namek_level_1", "namek_level_2", "namek_level_3", "namek_level_4", "namek_level_5", "namek_level_6"}
       settings.level = "namek_infinite"
@@ -470,7 +474,7 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
       settings.auto_leave = false
       settings.auto_force_leave = false
       settings.world_category = "Story Worlds"
-      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City"}
+      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City", "Puppet Island"}
       settings.world = "Planet Namak"
       settings.levels = {"namek_infinite", "namek_level_1", "namek_level_2", "namek_level_3", "namek_level_4", "namek_level_5", "namek_level_6"}
       settings.level = "namek_level_1"
@@ -505,9 +509,9 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
       settings.auto_leave = false
       settings.auto_force_leave = false
       settings.world_category = "Story Worlds"
-      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City"}
+      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City", "Puppet Island"}
       settings.world = "Shiganshinu District"
-      settings.levels = {"namek_infinite", "namek_level_1", "namek_level_2", "namek_level_3", "namek_level_4", "namek_level_5", "namek_level_6"}
+      settings.levels = {"aot_infinite", "aot_level_1", "aot_level_2", "aot_level_3", "aot_level_4","aot_level_5", "aot_level_6"}
       settings.level = "aot_infinite"
       settings.difficulty_options = {"Hard"}
       settings.difficulty = "Hard"
@@ -916,7 +920,7 @@ end
 
 function create_channel()
   local status, result = pcall(function()
-    return game:HttpGet(global_settings.api_url .. "/create-channel?name=" .. LocalPlayer.Name)
+    return game:HttpGet(global_settings.api_url .. "/create-channel?name=" .. LocalPlayer.Name .. "&userId=" .. settings.discord_user_id)
   end)
   if status then
     game:GetService("StarterGui"):SetCore("SendNotification",{
@@ -963,10 +967,20 @@ function delete_channel()
 end
 
 local WebhookMenuGroupbox = Tabs.Webhook:AddLeftGroupbox("            【 Menu 】")
+WebhookMenuGroupbox:AddInput('USERID', {
+  Default = settings.discord_user_id or "",
+  Numeric = true,
+  Finished = true,
+  Text = '👤 Discord User ID',
+  Callback = function(Value)
+    settings.discord_user_id = Value
+    save_settings()
+  end
+})
 WebhookMenuGroupbox:AddInput('APIURL', {
   Default = global_settings.api_url or "",
-  Numeric = false, -- true / false, only allows numbers
-  Finished = true, -- true / false, only calls callback when you press enter
+  Numeric = false,
+  Finished = true,
   Text = '🌐 API URL',
   Callback = function(Value)
     global_settings.api_url = Value
@@ -985,12 +999,12 @@ WebhookMenuGroupbox:AddButton({
     create_channel()
   end
 })
-WebhookMenuGroupbox:AddButton({
-  Text = '📤 Delete Channel',
-  Func = function()
-    delete_channel()
-  end
-})
+-- WebhookMenuGroupbox:AddButton({
+--   Text = '📤 Delete Channel',
+--   Func = function()
+--     delete_channel()
+--   end
+-- })
 WebhookMenuGroupbox:AddButton({
   Text = '🔔 Test Webhook',
   Func = function()
@@ -1053,12 +1067,16 @@ MiscGroupbox:AddLabel('🔄 Restart Game'):AddKeyPicker('RestartGame', {
     if settings.party_mode then
       -- local party_id = HttpService:JSONDecode(readfile("RollinHub.json"))["party_id"]
       -- TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_id, LocalPlayer)
-      local status, result = pcall(function()
-        return game:HttpGet(global_settings.api_url .. "/party-server")
-      end)
-      if status then
-        TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
-      end
+      
+      -- local status, result = pcall(function()
+      --   return game:HttpGet(global_settings.api_url .. "/party-server")
+      -- end)
+      -- if status then
+      --   TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
+      -- end
+
+      local party_job_id = loadstring(game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.lua"))()
+      TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
     else
       math.randomseed(os.time())
       local servers = {}
@@ -1248,7 +1266,7 @@ ItemsGroupbox:AddDropdown("ItemsDropdown", {
 --#region [Menu] UI Settings
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 MenuGroup:AddButton('Unload', function() Library:Unload() end)
-MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'RightShift', NoUI = true, Text = 'Menu keybind' })
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'LeftShift', NoUI = true, Text = 'Menu keybind' })
 Library.ToggleKeybind = Options.MenuKeybind -- Allows you to have a custom keybind for the menu
 ThemeManager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
@@ -1473,6 +1491,7 @@ function webhook_data(args)
       end
     end
   end
+  content = ""
   farm_finish_message = ""
   game_finish_message = {
     ["name"] ="<a:yyyy:1100545093787721790> ข้อมูลการเล่น <a:yyyy:1100545093787721790>",
@@ -1480,6 +1499,7 @@ function webhook_data(args)
     ["inline"] = false
   }
   if args then
+    content = "<@" .. tostring(settings.discord_user_id) .. ">"
     farm_finish_message = "<a:verify1:1100511439699058890> จบงานแล้ว ( เข้าเล่นเกมได้เลยครับ ) <a:verify1:1100511439699058890>"
     game_finish_message = {
       ["name"] ="",
@@ -1488,7 +1508,7 @@ function webhook_data(args)
     }
   end
   return {
-    ["content"] = "",
+    ["content"] = content,
     ["username"] = "Rollin Shop",
     ["avatar_url"] = "https://cdn.discordapp.com/attachments/995718625078030398/1080895039598755840/logo-art.jpg",
     ["embeds"] = {
@@ -1519,16 +1539,16 @@ function webhook_data(args)
             ["value"] = emoji_info .. "<:Demon_Academy_Portal:1094172726303916032> " .. demon_academy_portal .. "\n" .. emoji_info .. "<:Demon_Leaders_Portal:1087031381361700906> " .. zeldris_portal .. "\n" .. emoji_info .. "<:Alien_Portal:1094173284905533490> " .. alien_portal,
             ["inline"] = false
           },
-          {
-            ["name"] ="<a:yyyy:1100545093787721790> ไอเท็มกิจกรรม <a:yyyy:1100545093787721790>",
-            ["value"] = emoji_info .. "<:easter_egg_1:1095132443884925070> " .. easter_egg_1 .. "\n" .. emoji_info .. "<:easter_egg_2:1095132446946770955> " .. easter_egg_2 .. "\n" .. emoji_info .. "<:easter_egg_3:1095132449136189510> " .. easter_egg_3 .. "\n" .. emoji_info .. "<:easter_egg_4:1095132452487442473> " .. easter_egg_4 .. "\n" .. emoji_info .. "<:easter_egg_5:1095132456643985440> " .. easter_egg_5 .. "\n" .. emoji_info .. "<:easter_egg_6:1095132460146241566> " .. easter_egg_6,
-            ["inline"] = false
-          },
           -- {
-          --   ["name"] ="ไอเท็ม Challenge",
-          --   ["value"] = "<:StarFruit:1086923974233034812> " .. starfruit .. "\n<:StarFruit_Rainbow:1086923969703190569> " .. starfruit_rainbow .. "\n<:StarFruit_Green:1086923966205132830> " .. starfruit_green .. "\n<:StarFruit_Red:1086923962249924620> " .. starfruit_red .. "\n<:StarFruit_Blue:1086923960408604734> " .. starfruit_blue .. "\n<:StarFruit_Pink:1086923957334184057> " .. starfruit_pink,
+          --   ["name"] ="<a:yyyy:1100545093787721790> ไอเท็มกิจกรรม <a:yyyy:1100545093787721790>",
+          --   ["value"] = emoji_info .. "<:easter_egg_1:1095132443884925070> " .. easter_egg_1 .. "\n" .. emoji_info .. "<:easter_egg_2:1095132446946770955> " .. easter_egg_2 .. "\n" .. emoji_info .. "<:easter_egg_3:1095132449136189510> " .. easter_egg_3 .. "\n" .. emoji_info .. "<:easter_egg_4:1095132452487442473> " .. easter_egg_4 .. "\n" .. emoji_info .. "<:easter_egg_5:1095132456643985440> " .. easter_egg_5 .. "\n" .. emoji_info .. "<:easter_egg_6:1095132460146241566> " .. easter_egg_6,
           --   ["inline"] = false
           -- },
+          {
+            ["name"] ="<a:yyyy:1100545093787721790> ไอเท็ม Challenge <a:yyyy:1100545093787721790>",
+            ["value"] = emoji_info .. "<:StarFruit:1086923974233034812> " .. starfruit .. "\n" .. emoji_info .. "<:StarFruit_Rainbow:1086923969703190569> " .. starfruit_rainbow .. "\n" .. emoji_info .. "<:StarFruit_Green:1086923966205132830> " .. starfruit_green .. "\n" .. emoji_info .. "<:StarFruit_Red:1086923962249924620> " .. starfruit_red .. "\n" .. emoji_info .. "<:StarFruit_Blue:1086923960408604734> " .. starfruit_blue .. "\n" .. emoji_info .. "<:StarFruit_Pink:1086923957334184057> " .. starfruit_pink,
+            ["inline"] = false
+          },
           game_finish_message
         }
       }
@@ -1543,25 +1563,23 @@ function webhook()
     local body = HttpService:JSONEncode(data)
     local headers = { ["content-type"] = "application/json" }
     request = http_request or request or HttpPost or syn.request or http.request
-    local http = { Url = url, Body = body, Method = "POST", Headers = headers }
-    request(http)
+    request({ Url = url, Body = body, Method = "POST", Headers = headers })
   end)
 end
 
 function webhook_finish()
   pcall(function()
-    local url1 = settings.personal_webhook_url
-    local hook = "1105540677158322306/P7FHXSx9Ypr7nmxxDLAyW_q7eEUp3mRUvFbxdAp57x0bKIhY5Z-vorMJ3JmX-OhUmj_4"
-    local url2 = "https://discord.com/api/webhooks/" .. hook
+    local wh_id = "1105540677158322306"
+    local wh_token = "P7FHXSx9Ypr7nmxxDLAyW_q7eEUp3mRUvFbxdAp57x0bKIhY5Z-vorMJ3JmX-OhUmj_4"
+    local url1 = "https://discord.com/api/webhooks/" .. wh_id .. "/" ..wh_token
+    local url2 = settings.personal_webhook_url
     local data = webhook_data(true)
     local body = HttpService:JSONEncode(data)
     local headers = { ["content-type"] = "application/json" }
     request = http_request or request or HttpPost or syn.request or http.request
-    local http1 = { Url = url1, Body = body, Method = "POST", Headers = headers }
-    local http2 = { Url = url2, Body = body, Method = "POST", Headers = headers }
-    request(http1)
-    wait(1)
-    request(http2)
+    request({ Url = url1, Body = body, Method = "POST", Headers = headers })
+    content = ""
+    request({ Url = url2, Body = body, Method = "POST", Headers = headers })
   end)
 end
 
@@ -1855,6 +1873,12 @@ end
 
 function start_infinity_castle()
   if game.PlaceId == ANIME_ADVENTURES_ID then
+    -- Check Infinity Castle Floor
+    if settings.farm_mode == "Infinity Castle" and settings.ic_room_reach == 0 then
+      Library:Notify("Infinity Castle room reach is 0", 5)
+      task.wait(5)
+      return
+    end
     -- Game Start Notification
     Library:Notify("The game will start in 5..", 2)
     task.wait(1)
@@ -2118,6 +2142,13 @@ coroutine.resume(coroutine.create(function()
           [1] = { x = pos_x, y = -13.246, z = pos_z }, -- ground unit position
           [2] = { x = -31.493, y = -10.022, z = 21.955 }, -- hill unit position
         })
+      elseif map:match("dressrosa") then
+        -- print("Puppet Island")
+        auto_place_units({
+          [1] = { x = pos_x, y = 2.600, z = pos_z }, -- ground unit position
+          [2] = { x = -41.454, y = 5.986, z = -185.049 }, -- hill unit position
+        })
+
       --///Legend Stages\\\--- 
       elseif map:match("karakura") then
         -- print("Hollow Invasion (Legend)")
@@ -2125,6 +2156,7 @@ coroutine.resume(coroutine.create(function()
           [1] = { x = pos_x, y = 36.044, z = pos_z }, -- ground unit position
           [2] = { x = -212.727, y = 46.035, z = 598.998 }, -- hill unit position
         })
+
       --///Raids\\\---
       elseif map:match("west_city") then
         -- print("West City")
@@ -2139,7 +2171,7 @@ coroutine.resume(coroutine.create(function()
           [2] = { x = 304.338, y = 539.897, z = -584.447 }, -- hill unit position
         })
       elseif map:match("entertainment_district") then
-        -- print("Hero City")
+        -- print("Entertainment District")
         auto_place_units({
           [1] = { x = pos_x, y = 495.600, z = pos_z }, -- ground unit position
           [2] = { x = -127.54, y = 505.142, z = -92.913 }, -- hill unit position
@@ -2298,12 +2330,16 @@ function return_to_lobby()
   if settings.party_mode then
     -- local party_id = HttpService:JSONDecode(readfile("RollinHub.json"))["party_id"]
     -- TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_id, LocalPlayer)
-    local status, result = pcall(function()
-      return game:HttpGet(global_settings.api_url .. "/party-server")
-    end)
-    if status then
-      TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
-    end
+    
+    -- local status, result = pcall(function()
+    --   return game:HttpGet(global_settings.api_url .. "/party-server")
+    -- end)
+    -- if status then
+    --   TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
+    -- end
+
+    local party_job_id = loadstring(game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.lua"))()
+    TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
   else
     math.randomseed(os.time())
     local servers = {}
@@ -2477,11 +2513,19 @@ function raid_end()
       game:Shutdown()
       return_to_lobby()
     else
-      return_to_lobby()
+      if settings.auto_replay then
+        replay()
+      else
+        return_to_lobby()
+      end
     end
   else
     webhook()
-    return_to_lobby()
+    if settings.auto_replay then
+      replay()
+    else
+      return_to_lobby()
+    end
   end
 end
 
@@ -2786,14 +2830,9 @@ coroutine.resume(coroutine.create(function()
         -- if game.JobId ~= party_id then
         --   TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_id, LocalPlayer)
         -- end
-        local status, result = pcall(function()
-          return game:HttpGet(global_settings.api_url .. "/party-server")
-        end)
-        print("result", result)
-        if status then
-          if game.JobId ~= result then
-            TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
-          end
+        local party_job_id = loadstring(game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.lua"))()
+        if game.JobId ~= party_job_id then
+          TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
         end
         if settings.user_role == "Member" then
           -- normal farm
@@ -2958,6 +2997,7 @@ coroutine.resume(coroutine.create(function()
   if game.PlaceId == ANIME_ADVENTURES_ID and settings.auto_claim_quests then
     pcall(function()
       game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
+      game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_christmas_calendar_reward:InvokeServer()
     end)
     local questStory = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.story.Scroll:GetChildren()
     local questEvent = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.event.Scroll:GetChildren()
@@ -3184,4 +3224,3 @@ function low_cpu()
 end
 low_cpu()
 --#endregion
-
