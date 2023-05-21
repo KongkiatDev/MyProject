@@ -266,7 +266,7 @@ WorldConfigGroupbox:AddDropdown("SelectCategory", {
     elseif Value == "Raid Worlds" then
       settings.worlds = {"Entertainment District", "West City (Freezo's Invasion)", "Storm Hideout", "West City", "Infinity Train", "Shiganshinu District - Raid", "Hiddel Sand Village - Raid"}
     elseif Value == "Portals" then
-      settings.worlds = {"Alien Portals", "Zeldris Portals", "Demon Portals"}
+      settings.worlds = {"Alien Portals", "Zeldris Portals", "Demon Portals", "Dressrosa Portals"}
     end
     Options.SelectWorld:Refresh(settings.worlds)
     save_settings()
@@ -344,6 +344,8 @@ WorldConfigGroupbox:AddDropdown("SelectWorld", {
       settings.levels = {"portal_zeldris"}
     elseif Value == "Demon Portals" then
       settings.levels = {"april_portal_item"}
+    elseif Value == "Dressrosa Portals" then
+      settings.levels = {"portal_item__dressrosa"}
     end
     Options.SelectLevel:Refresh(settings.levels)
     save_settings()
