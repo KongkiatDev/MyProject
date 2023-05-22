@@ -131,8 +131,10 @@ screenGui.Enabled = settings.white_screen
 screenGui.Parent = PlayerGui
 
 local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+textLabel.Position = UDim2.new(0, 0, 0, 0)
+textLabel.Size = UDim2.new(1, 0, 0.125, 0)
+textLabel.BackgroundTransparency = 1
+-- textLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 textLabel.Font = Enum.Font.GothamSemibold
 carry_id = {"Rollin_Host", "lokikongxd", "Rollin_626404", "Rollin_477478", "Rollin_064532", "Rollin_685093", "Rollin_766829"}
 carry = false
@@ -160,7 +162,7 @@ textLabel.TextSize = 28
 textLabel.Parent = screenGui
 
 local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
+loadingRing.Size = UDim2.new(0, 960, 0, 960)
 loadingRing.BackgroundTransparency = 1
 loadingRing.Image = "rbxassetid://4965945816"
 loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -171,7 +173,7 @@ loadingRing.Parent = screenGui
 ReplicatedFirst:RemoveDefaultLoadingScreen()
 RunService:Set3dRenderingEnabled(not settings.white_screen)
 
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
+local tweenInfo = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
 local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
 tween:Play()
 
