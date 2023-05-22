@@ -132,7 +132,7 @@ screenGui.Parent = PlayerGui
 
 local textLabel = Instance.new("TextLabel")
 textLabel.Position = UDim2.new(0, 0, 0, 0)
-textLabel.Size = UDim2.new(1, 0, 0.14, 0)
+textLabel.Size = UDim2.new(1, 0, 0.17, 0)
 textLabel.BackgroundTransparency = 1
 -- textLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 textLabel.Font = Enum.Font.GothamSemibold
