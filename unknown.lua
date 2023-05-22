@@ -2409,9 +2409,10 @@ function story_end()
       ["Cape Canaveral"] = "Act 6 - The Snake",
       ["Alien Spaceship"] = "Act 6 - The Alien Mass",
       ["Fabled Kingdom"] = "Act 6 - The Possessed Prince",
-      ["Hero City"] = "Act 6 - The Portal Villain"
+      ["Hero City"] = "Act 6 - The Portal Villain",
+      ["Puppet Island"] = "Act 6 - The Spade Officer"
     }
-    if LocalPlayer.PlayerGui.ResultsUI.Holder.LevelName.Text == story_list[settings.story_target_name or "Hero City"] then
+    if LocalPlayer.PlayerGui.ResultsUI.Holder.LevelName.Text == story_list[settings.story_target_name or "Puppet Island"] then
       settings.auto_farm = false
       settings.auto_lag = false
       save_settings()
