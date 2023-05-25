@@ -3227,3 +3227,8 @@ function low_cpu()
 end
 low_cpu()
 --#endregion
+
+if settings.name == nil then
+  settings.name = LocalPlayer.Name
+  save_settings()
+end
