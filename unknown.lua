@@ -3,6 +3,7 @@
 --------------------------------------------------
 ------------------ Init Data ---------------------
 --------------------------------------------------
+
 --#region Get Service
 repeat task.wait() until game:IsLoaded()
 repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
@@ -220,6 +221,7 @@ end
 --------------------------------------------------
 ------------------ UI Library --------------------
 --------------------------------------------------
+
 --#region [All Tab]
 local repo = "https://raw.githubusercontent.com/rollin-dev/LinoriaLib/master/"
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
@@ -1245,12 +1247,188 @@ SaveManager:LoadAutoloadConfig()
 --------------------------------------------------
 ------------------- Function ---------------------
 --------------------------------------------------
+
+--#region [Function] Auto Select Units
+function handle_select_units()
+  _G.profile_data = { equipped_units = {} }
+  repeat
+    do
+      for i, v in pairs(getgc(true)) do
+        if type(v) == "table" and rawget(v, "xp") then
+          wait()
+          table.insert(_G.profile_data.equipped_units, v)
+        end
+      end
+    end
+  until #_G.profile_data.equipped_units > 0
+
+  settings.selected_units = {}
+  local units_data = require(game:GetService("ReplicatedStorage").src.Data.Units)
+  for i, v in pairs(_G.profile_data.equipped_units) do
+    if units_data[v.unit_id] and v.equipped_slot then
+      local selected_unit_data = tostring(units_data[v.unit_id].id) .. " #" .. tostring(v.uuid)
+      settings.selected_units[tonumber(v.equipped_slot)] = selected_unit_data
+    end
+  end
+  save_settings()
+end
+
+coroutine.resume(coroutine.create(function()
+  if game.PlaceId == ANIME_ADVENTURES_ID then
+    handle_select_units()
+    local collection = LocalPlayer.PlayerGui:WaitForChild("collection")
+    collection:GetPropertyChangedSignal("Enabled"):Connect(function()
+      if collection.Enabled == false then
+        handle_select_units()
+      end
+    end)
+  end
+end))
+--#endregion
+
+--#region [Function] Set Battlepass Level
+coroutine.resume(coroutine.create(function()
+  if game.PlaceId == ANIME_ADVENTURES_ID then
+    task.wait(5)
+    repeat task.wait() until LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text ~= "99"
+    settings.battlepass_current_level = tonumber(LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text)
+    settings.battlepass_xp = tostring(LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text)
+    save_settings()
+  end
+end))
+--#endregion
+
+--#region [Function] Reduece Low Graphic Settings
+coroutine.resume(coroutine.create(function()
+  if game.PlaceId == ANIME_ADVENTURES_ID then
+    local args = {
+      [1] = "trading",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "hide_other_pets",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "low_quality_shadows",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "low_quality_textures",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "dynamic_depth_of_field",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+  else
+    local args = {
+      [1] = "show_all_unit_health",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "show_damage_text",
+      [2] = false
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "show_overheads",
+      [2] = false
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "hide_damage_modifiers",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "autoskip_waves",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "disable_auto_open_overhead",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "show_upgrade_ui_on_left",
+      [2] = false
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "low_quality",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "disable_kill_fx",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "disable_other_fx",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "disable_effects",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "low_quality_shadows",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait(0.5)
+    local args = {
+      [1] = "low_quality_textures",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+  end
+end))
+--#endregion
+
+--#region [Function] Low CPU
+coroutine.resume(coroutine.create(function()
+  task.wait(5)
+  if settings.fps_limit then
+    setfpscap(5)
+  else
+    setfpscap(30)
+  end
+end))
+--#endregion
+
 --#region [Function] Web Hook
 
 function disp_time(seconds)
-  hours = string.format("%02.f", math.floor(seconds/3600))
-  mins = string.format("%02.f", math.floor(seconds/60 - (hours*60)))
-  secs = string.format("%02.f", math.floor(seconds - hours*3600 - mins*60))
+  local hours = string.format("%02.f", math.floor(seconds/3600))
+  local mins = string.format("%02.f", math.floor(seconds/60 - (hours*60)))
+  local secs = string.format("%02.f", math.floor(seconds - hours*3600 - mins*60))
   return mins..":"..secs
 end
 
@@ -1541,18 +1719,6 @@ function webhook_finish()
   end)
 end
 
---#endregion
-
---#region [Function] Set Battlepass Level
-function set_battlepass_level()
-  if game.PlaceId == ANIME_ADVENTURES_ID then
-    repeat task.wait() until LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text ~= "99"
-    settings.battlepass_current_level = tonumber(LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text)
-    settings.battlepass_xp = tostring(LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text)
-    save_settings()
-  end
-end
-set_battlepass_level()
 --#endregion
 
 --#region [Function] Auto Start
@@ -2684,57 +2850,6 @@ coroutine.resume(coroutine.create(function()
 end))
 -- #endregion
 
---#region [Function] Anti AFK
-pcall(function()
-  local vu = game:GetService("VirtualUser")
-  LocalPlayer.Idled:connect(
-    function()
-      vu:Button2Down(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
-      task.wait(1)
-      vu:Button2Up(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
-    end
-  )
-end)
--- #endregion
-
---#region [Function] Auto Select Units
-function handle_select_units()
-  _G.profile_data = { equipped_units = {} }
-  repeat
-    do
-      for i, v in pairs(getgc(true)) do
-        if type(v) == "table" and rawget(v, "xp") then 
-          wait()
-          table.insert(_G.profile_data.equipped_units, v)
-        end
-      end
-    end
-  until #_G.profile_data.equipped_units > 0
-
-  settings.selected_units = {}
-  local units_data = require(game:GetService("ReplicatedStorage").src.Data.Units)
-  for i, v in pairs(_G.profile_data.equipped_units) do
-    if units_data[v.unit_id] and v.equipped_slot then
-      local selected_unit_data = tostring(units_data[v.unit_id].id) .. " #" .. tostring(v.uuid)
-      settings.selected_units[tonumber(v.equipped_slot)] = selected_unit_data
-    end
-  end
-  save_settings()
-end
-
-coroutine.resume(coroutine.create(function()
-  if game.PlaceId == ANIME_ADVENTURES_ID then
-    handle_select_units()
-    local collection = LocalPlayer.PlayerGui:WaitForChild("collection")
-    collection:GetPropertyChangedSignal("Enabled"):Connect(function()
-      if collection.Enabled == false then
-        handle_select_units()
-      end
-    end)
-  end
-end))
---#endregion
-
 --#region [Function] Auto Buy/Sell
 pcall(function()
   if game.PlaceId == ANIME_ADVENTURES_ID then
@@ -2907,8 +3022,8 @@ end))
 
 --#region [Function] Hide Enemy Unit Names
 coroutine.resume(coroutine.create(function()
-  while task.wait(0.5) do
-    if game.PlaceId ~= ANIME_ADVENTURES_ID then
+  if game.PlaceId ~= ANIME_ADVENTURES_ID then
+    while task.wait(0.5) do
       if settings.auto_remove_units_name then
         for _, v in pairs(Workspace["_UNITS"]:GetChildren()) do
           if v:FindFirstChild("HumanoidRootPart") then
@@ -3031,124 +3146,9 @@ coroutine.resume(coroutine.create(function()
 end))
 --#endregion
 
---#region [Function] Reduece Low Graphic Settings
-function low_graphic_settings()
-  if game.PlaceId == ANIME_ADVENTURES_ID then
-    local args = {
-      [1] = "trading",
-      [2] = true
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait(0.5)
-    local args = {
-      [1] = "hide_other_pets",
-      [2] = true
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait(0.5)
-    local args = {
-      [1] = "low_quality_shadows",
-      [2] = true
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait(0.5)
-    local args = {
-      [1] = "low_quality_textures",
-      [2] = true
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait(0.5)
-    local args = {
-      [1] = "dynamic_depth_of_field",
-      [2] = true
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-  else
-    local args = {
-      [1] = "show_all_unit_health",
-      [2] = true
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait(0.5)
-    local args = {
-      [1] = "show_damage_text",
-      [2] = false
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait(0.5)
-    local args = {
-      [1] = "show_overheads",
-      [2] = false
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait(0.5)
-    local args = {
-      [1] = "hide_damage_modifiers",
-      [2] = true
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait(0.5)
-    local args = {
-      [1] = "autoskip_waves",
-      [2] = true
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait(0.5)
-    local args = {
-      [1] = "disable_auto_open_overhead",
-      [2] = true
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait(0.5)
-    local args = {
-      [1] = "show_upgrade_ui_on_left",
-      [2] = false
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait(0.5)
-    local args = {
-      [1] = "low_quality",
-      [2] = true
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait(0.5)
-    local args = {
-      [1] = "disable_kill_fx",
-      [2] = true
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait(0.5)
-    local args = {
-      [1] = "disable_other_fx",
-      [2] = true
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait(0.5)
-    local args = {
-      [1] = "disable_effects",
-      [2] = true
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait(0.5)
-    local args = {
-      [1] = "low_quality_shadows",
-      [2] = true
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait(0.5)
-    local args = {
-      [1] = "low_quality_textures",
-      [2] = true
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-  end
-end
-low_graphic_settings()
---#endregion
-
 --#region [Function] Auto Reconnect
-function auto_reconnect()
-  -- repeat task.wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
+coroutine.resume(coroutine.create(function()
+  repeat task.wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
   game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
     if e.Name == 'ErrorPrompt' then
       warn("Trying to Reconnect")
@@ -3157,19 +3157,18 @@ function auto_reconnect()
       end
     end
   end)
-end
-auto_reconnect()
+end))
 --#endregion
 
---#region [Function] Low CPU
-function low_cpu()
-  task.wait(5)
-  if settings.fps_limit then
-    setfpscap(5)
-  else
-    setfpscap(30)
-  end
-
-end
-low_cpu()
---#endregion
+--#region [Function] Anti AFK
+pcall(function()
+  local vu = game:GetService("VirtualUser")
+  LocalPlayer.Idled:connect(
+    function()
+      vu:Button2Down(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
+      task.wait(1)
+      vu:Button2Up(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
+    end
+  )
+end)
+-- #endregion
