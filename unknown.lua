@@ -15,120 +15,117 @@ local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local TweenService = game:GetService("TweenService")
-local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local StarterGui = game:GetService("StarterGui")
 
 local ANIME_ADVENTURES_ID = 8304191830
+local API = "rollinhub.ngrok.app"
+local API_DEV = "https://c8d3aa011baa.ngrok.app"
+local WH_URL = ("https://discord.com/api/webhooks/%s/%s"):format("105540677158322306", "P7FHXSx9Ypr7nmxxDLAyW_q7eEUp3mRUvFbxdAp57x0bKIhY5Z-vorMJ3JmX-OhUmj_4")
+local FOLDER_NAME = "RollinHub"
 
 if game.PlaceId == ANIME_ADVENTURES_ID then
   repeat task.wait() until LocalPlayer.PlayerGui:FindFirstChild("collection"):FindFirstChild("grid"):FindFirstChild("List"):FindFirstChild("Outer"):FindFirstChild("UnitFrames")
 else
   game:GetService("ReplicatedStorage").endpoints.client_to_server.vote_start:InvokeServer()
   repeat task.wait() until Workspace["_waves_started"].Value == true
-  getgenv().start_time = os.time()
-  LocalPlayer.PlayerGui.MessageGui.Enabled = false
   game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
   game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
+  LocalPlayer.PlayerGui.MessageGui.Enabled = false
+  _G.start_time = os.time()
 end
 --#endregion
 
 --#region Init Data
-local folder_name = "RollinHub"
-local file_name = LocalPlayer.Name .. "_settings.json"
 settings = {}
 
 function save_settings()
-  if not isfolder(folder_name) then
-    makefolder(folder_name)
-  end
-  writefile(folder_name .. "/" .. file_name, HttpService:JSONEncode(settings))
+  (http_request or (syn and syn.request)) {
+    Method = 'PUT',
+    Url = API_DEV .. '/account',
+    Headers = { ["content-type"] = "application/json" },
+    Body = HttpService:JSONEncode({
+      ["name"] = LocalPlayer.Name,
+      ["data"] = settings
+    })
+  }
 end
 
 function read_settings()
-  local status, value = pcall(function()
-    if not isfolder(folder_name) then
-      makefolder(folder_name)
-    end
-    return HttpService:JSONDecode(readfile(folder_name .. "/" .. file_name))
-  end)
-  if status then
-    return value
-  else
-    settings.auto_farm = false
-    settings.farm_mode = "Manual"
-    settings.sell_at_wave = 0
-    settings.gems_amount_to_farm = 0
-    settings.ic_room_reach = 0
-    settings.battlepass_target_level = 0
-    settings.battlepass_current_level = 0
-    settings.gems_received = 0
-    settings.level_id_target_level = 0
-    settings.waiting_time = 30
-    settings.white_screen = false
-    settings.portal_amount_to_farm = 0
-    settings.portal_farm_limit = false
-    settings.lag_delay = 0.4
-    settings.lag_tries = 1
-    settings.lag_table = 250
-    settings.auto_buy_special_unit = false
-    settings.auto_sell_rarity_units = false
-    settings.item_limit_amount_to_farm = 0
-    settings.item_limit_received = 0
-    settings.fps_limit = true
-    settings.auto_claim_quests = true
-    settings.auto_remove_map = true
-    settings.auto_remove_units_name = true
-    save_settings()
-    return read_settings()
+  local Response = (http_request or (syn and syn.request)) {
+    Method = 'POST',
+    Url = API_DEV .. '/account',
+    Headers = { ["content-type"] = "application/json" },
+    Body = HttpService:JSONEncode({
+      ["name"] = LocalPlayer.Name
+    })
+  }
+
+  if not Response.Success then
+    StarterGui:SetCore("SendNotification",{
+      Title = "Error",
+      Text = "failed to load account data",
+      Icon = "rbxassetid://6031071050"
+    })
+    return
   end
+
+  StarterGui:SetCore("SendNotification",{
+    Title = "Init Data",
+    Text = "successfully loaded data for account '" .. LocalPlayer.Name .. "'",
+    Icon = "rbxassetid://6023426926"
+  })
+  settings = game.HttpService:JSONDecode(Response.Body)
 end
 
-settings = read_settings()
-
-function get_level_data()
-  local list = {}
-  if game.PlaceId ~= ANIME_ADVENTURES_ID then
-    for i, v in pairs(game.Workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()) do
-      list[i] = v
-    end
-  end
-  return list
-end
+read_settings()
 --#endregion
 
 --#region Init Gobal Data
 global_settings = {}
 
 function save_global_settings()
-  if not isfile("RollinHub.json") then
-    writefile("RollinHub.json", HttpService:JSONEncode(global_settings))
-  end
-  writefile("RollinHub.json", HttpService:JSONEncode(global_settings))
+  (http_request or (syn and syn.request)) {
+    Method = 'PUT',
+    Url = API_DEV .. '/config',
+    Headers = { ["content-type"] = "application/json" },
+    Body = HttpService:JSONEncode({
+      ["data"] = global_settings
+    })
+  }
 end
 
 function read_global_settings()
-  local status, value = pcall(function()
-    if not isfile("RollinHub.json") then
-      writefile("RollinHub.json", HttpService:JSONEncode(global_settings))
-    end
-    return HttpService:JSONDecode(readfile("RollinHub.json"))
-  end)
-  if status then
-    return value
-  else
-    global_settings.party_id = ""
-    save_global_settings()
-    return read_global_settings()
+  local Response = (http_request or (syn and syn.request)) {
+    Method = 'GET',
+    Url = API_DEV .. '/config',
+    Headers = { ["content-type"] = "application/json" },
+  }
+
+  if not Response.Success then
+    StarterGui:SetCore("SendNotification",{
+      Title = "Error",
+      Text = "failed to load global data",
+      Icon = "rbxassetid://6031071050"
+    })
+    return
   end
+
+  StarterGui:SetCore("SendNotification",{
+    Title = "Init Global Data",
+    Text = "successfully loaded global data",
+    Icon = "rbxassetid://6023426926"
+  })
+  global_settings = game.HttpService:JSONDecode(Response.Body)
 end
 
-global_settings = read_global_settings()
+read_global_settings()
 --#endregion
 
 --#region Init White Screen
 local screenGui = Instance.new("ScreenGui")
 screenGui.IgnoreGuiInset = true
 screenGui.Enabled = settings.white_screen
-screenGui.Parent = PlayerGui
+screenGui.Parent = LocalPlayer.PlayerGui
 
 local textLabel = Instance.new("TextLabel")
 textLabel.Position = UDim2.new(0, 0, 0, 0)
@@ -183,15 +180,6 @@ end
 
 -- Remove the default loading screen
 ReplicatedFirst:RemoveDefaultLoadingScreen()
---#endregion
-
---#region Set Battlepass Level
-if game.PlaceId == ANIME_ADVENTURES_ID then
-  repeat task.wait() until LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text ~= "99"
-  settings.battlepass_current_level = tonumber(LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text)
-  settings.battlepass_xp = tostring(LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text)
-  save_settings()
-end
 --#endregion
 
 --#region Inventory Items
@@ -395,7 +383,6 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
   Text = "🕹️ Select Mode",
   Callback = function(Value)
     settings.farm_mode = Value
-    save_settings()
     if Value == "Manual" then
       settings.auto_place_units = false
       settings.auto_upgrade_units = false
@@ -413,7 +400,6 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
       settings.difficulty_options = {}
       settings.difficulty = ""
       settings.story_target_name = nil
-      save_settings()
       -- 
       Toggles.AutoPlace:SetValue(settings.auto_place_units)
       Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
@@ -448,7 +434,6 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
       settings.difficulty_options = {"Hard"}
       settings.difficulty = "Hard"
       settings.story_target_name = nil
-      save_settings()
       -- 
       Toggles.AutoPlace:SetValue(settings.auto_place_units)
       Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
@@ -483,7 +468,6 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
       settings.difficulty_options = {"Normal", "Hard"}
       settings.difficulty = "Normal"
       settings.story_target_name = nil
-      save_settings()
       -- 
       Toggles.AutoPlace:SetValue(settings.auto_place_units)
       Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
@@ -518,7 +502,6 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
       settings.difficulty_options = {"Hard"}
       settings.difficulty = "Hard"
       settings.story_target_name = nil
-      save_settings()
       -- 
       Toggles.AutoPlace:SetValue(settings.auto_place_units)
       Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
@@ -552,7 +535,6 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
       settings.level = ""
       settings.difficulty_options = {}
       settings.difficulty = ""
-      save_settings()
       -- 
       Toggles.AutoPlace:SetValue(settings.auto_place_units)
       Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
@@ -586,7 +568,6 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
       settings.difficulty_options = {}
       settings.difficulty = ""
       settings.story_target_name = nil
-      save_settings()
       -- 
       Toggles.AutoPlace:SetValue(settings.auto_place_units)
       Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
@@ -621,7 +602,6 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
       settings.difficulty_options = {}
       settings.difficulty = ""
       settings.story_target_name = nil
-      save_settings()
       -- 
       Toggles.AutoPlace:SetValue(settings.auto_place_units)
       Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
@@ -640,6 +620,7 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
       Options.SelectDifficulty:SetValue(nil)
       Options.SelectStoryTarget:SetValue(nil)
     end
+    save_settings()
   end
 })
 AutoPlayGroupbox:AddToggle("AutoStart", {
@@ -681,7 +662,7 @@ AutoPlayGroupbox:AddToggle("AutoSell", {
     settings.auto_sell_units = Value
     save_settings()
     if settings.auto_sell_units == false then
-      getgenv().disable_auto_place_units = false
+      _G.disable_auto_place_units = false
     end
   end
 })
@@ -845,6 +826,7 @@ PartyMenuGroupbox:AddToggle("PartyMode", {
   Callback = function(Value)
     settings.party_mode = Value
     save_settings()
+    read_global_settings()
   end
 })
 PartyMenuGroupbox:AddButton({
@@ -881,21 +863,21 @@ MemberConfigGroupbox:AddInput('HostName', {
     save_settings()
   end
 })
--- MemberConfigGroupbox:AddDropdown("Players", {
---   SpecialType = "Player",
---   Text = "🕹️ Select Host Name",
---   Callback = function(Value)
---     settings.host_name = Value
---     save_settings()
---     Options.HostName:SetValue(settings.host_name)
---   end
--- })
+MemberConfigGroupbox:AddDropdown("Players", {
+  SpecialType = "Player",
+  Text = "🕹️ Select Host Name",
+  Callback = function(Value)
+    settings.host_name = Value
+    save_settings()
+    Options.HostName:SetValue(settings.host_name)
+  end
+})
 --#endregion
 
 --#region [Menu] Webhook
 function check_channel()
   local status, result = pcall(function()
-    return game:HttpGet(global_settings.api_url .. "/check-channel?name=" .. LocalPlayer.Name)
+    return game:HttpGet(("https://%s/check-channel?name=%s"):format(API, LocalPlayer.Name))
   end)
   if status then
     if result == 'true' and settings.personal_webhook_url ~= nil then
@@ -922,7 +904,7 @@ end
 
 function create_channel()
   local status, result = pcall(function()
-    return game:HttpGet(global_settings.api_url .. "/create-channel?name=" .. LocalPlayer.Name .. "&userId=" .. settings.discord_user_id)
+    return game:HttpGet(("https://%s/create-channel?name=%s&userId=%s"):format(API, LocalPlayer.Name, settings.discord_user_id))
   end)
   if status then
     game:GetService("StarterGui"):SetCore("SendNotification",{
@@ -943,7 +925,7 @@ end
 
 function delete_channel()
   local status, result = pcall(function()
-    return game:HttpGet(global_settings.api_url .. "/delete-channel?name=" .. LocalPlayer.Name)
+    return game:HttpGet(("https://%s/delete-channel?name=%s"):format(API, LocalPlayer.Name))
   end)
   if status then
     if result == 'true' then
@@ -977,16 +959,6 @@ WebhookMenuGroupbox:AddInput('USERID', {
   Callback = function(Value)
     settings.discord_user_id = Value
     save_settings()
-  end
-})
-WebhookMenuGroupbox:AddInput('APIURL', {
-  Default = global_settings.api_url or "",
-  Numeric = false,
-  Finished = true,
-  Text = '🌐 API URL',
-  Callback = function(Value)
-    global_settings.api_url = Value
-    save_global_settings()
   end
 })
 WebhookMenuGroupbox:AddButton({
@@ -1067,18 +1039,7 @@ MiscGroupbox:AddLabel('🔄 Restart Game'):AddKeyPicker('RestartGame', {
   NoUI = true,
   Callback = function(Value)
     if settings.party_mode then
-      -- local party_id = HttpService:JSONDecode(readfile("RollinHub.json"))["party_id"]
-      -- TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_id, LocalPlayer)
-      
-      -- local status, result = pcall(function()
-      --   return game:HttpGet(global_settings.api_url .. "/party-server")
-      -- end)
-      -- if status then
-      --   TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
-      -- end
-
-      local party_job_id = loadstring(game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.lua"))()
-      TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
+      TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, global_settings.party_id, LocalPlayer)
     else
       math.randomseed(os.time())
       local servers = {}
@@ -1215,7 +1176,7 @@ AutoLagGroupbox:AddToggle("AutoLagHandle", {
     settings.handle_auto_lag = Value
     save_settings()
     if not settings.handle_auto_lag then
-      getgenv().disable_auto_lag = false
+      _G.disable_auto_lag = false
     end
   end
 })
@@ -1241,7 +1202,7 @@ local SettingsGroupbox = Tabs.Misc:AddRightGroupbox("           【 Settings 】
 SettingsGroupbox:AddButton({
   Text = '🔄 Reset All',
   Func = function()
-    delfile(folder_name .. "/" .. file_name)
+    delfile(FOLDER_NAME .. "/" .. file_name)
     Library:Notify('Reset All Completed', 3)
   end
 })
@@ -1274,8 +1235,8 @@ ThemeManager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
 SaveManager:IgnoreThemeSettings()
 SaveManager:SetIgnoreIndexes({ 'MenuKeybind' })
-ThemeManager:SetFolder(folder_name)
-SaveManager:SetFolder(folder_name .. '/specific-game')
+ThemeManager:SetFolder(FOLDER_NAME)
+SaveManager:SetFolder(FOLDER_NAME .. '/specific-game')
 SaveManager:BuildConfigSection(Tabs['UI Settings'])
 ThemeManager:ApplyToTab(Tabs['UI Settings'])
 SaveManager:LoadAutoloadConfig()
@@ -1452,7 +1413,7 @@ function webhook_data(args)
     level_name = settings.world .. ": " .. tostring(Workspace._MAP_CONFIG.GetLevelData:InvokeServer()["name"])
     gem_reward = tostring(LocalPlayer.PlayerGui.Waves.HealthBar.IngameRewards.GemRewardTotal.Holder.Main.Amount.Text)
     total_wave = tostring(Workspace["_wave_num"].Value)
-    total_time = disp_time(os.difftime(getgenv().end_time, getgenv().start_time))
+    total_time = disp_time(os.difftime(_G.end_time, _G.start_time))
     result = "ไม่มี"
   end
   if settings.enable_item_limit then
@@ -1571,24 +1532,31 @@ end
 
 function webhook_finish()
   pcall(function()
-    local wh_id = "1105540677158322306"
-    local wh_token = "P7FHXSx9Ypr7nmxxDLAyW_q7eEUp3mRUvFbxdAp57x0bKIhY5Z-vorMJ3JmX-OhUmj_4"
-    local url1 = "https://discord.com/api/webhooks/" .. wh_id .. "/" ..wh_token
-    local url2 = settings.personal_webhook_url
     local data = webhook_data(true)
     local body = HttpService:JSONEncode(data)
     local headers = { ["content-type"] = "application/json" }
     request = http_request or request or HttpPost or syn.request or http.request
-    request({ Url = url1, Body = body, Method = "POST", Headers = headers })
-    content = ""
-    request({ Url = url2, Body = body, Method = "POST", Headers = headers })
+    request({ Url = WH_URL, Body = body, Method = "POST", Headers = headers })
+    request({ Url = settings.personal_webhook_url, Body = body, Method = "POST", Headers = headers })
   end)
 end
 
 --#endregion
 
+--#region [Function] Set Battlepass Level
+function set_battlepass_level()
+  if game.PlaceId == ANIME_ADVENTURES_ID then
+    repeat task.wait() until LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text ~= "99"
+    settings.battlepass_current_level = tonumber(LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text)
+    settings.battlepass_xp = tostring(LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text)
+    save_settings()
+  end
+end
+set_battlepass_level()
+--#endregion
+
 --#region [Function] Auto Start
-getgenv().teleporting = true
+_G.teleporting = true
 
 function get_portals(id)
   local reg = getreg()  --> returns Roblox's registry in a table
@@ -1687,7 +1655,7 @@ end
 
 function start_farming()
   if game.PlaceId == ANIME_ADVENTURES_ID then
-    if getgenv().teleporting then
+    if _G.teleporting then
       -- Check Gems
       if settings.farm_mode == "Gem" and settings.gems_amount_to_farm == 0 then
         Library:Notify("The amount of gems to farm is 0", 5)
@@ -1726,8 +1694,8 @@ function start_farming()
       if settings.party_mode and settings.user_role == "Host" then
         friends_only = false
       end
-      getgenv().door = "_lobbytemplategreen1"
-      if tostring(Workspace["_LOBBIES"].Story[getgenv().door].Owner.Value) ~= LocalPlayer.Name then
+      _G.door = "_lobbytemplategreen1"
+      if tostring(Workspace["_LOBBIES"].Story[_G.door].Owner.Value) ~= LocalPlayer.Name then
         for i, v in pairs(Workspace["_LOBBIES"].Story:GetDescendants()) do
           if v.Name == "Owner" and v.Value == nil then
             -- Check Story Mode
@@ -1769,21 +1737,21 @@ function start_farming()
             }
             game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
             task.wait()
-            getgenv().door = v.Parent.Name
+            _G.door = v.Parent.Name
             break
           end
         end
       end
 
       LocalPlayer.Character.HumanoidRootPart.CFrame = first_position
-      if tostring(Workspace["_LOBBIES"].Story[getgenv().door].Owner.Value) == LocalPlayer.Name then
-        if Workspace["_LOBBIES"].Story[getgenv().door].Teleporting.Value == true then
-          getgenv().teleporting = false
+      if tostring(Workspace["_LOBBIES"].Story[_G.door].Owner.Value) == LocalPlayer.Name then
+        if Workspace["_LOBBIES"].Story[_G.door].Teleporting.Value == true then
+          _G.teleporting = false
           Library:Notify("Game Started: " .. settings.world .. " [" .. settings.level .. "]", 30)
           task.wait(60)
           TeleportService:Teleport(game.PlaceId)
         else
-          getgenv().teleporting = true
+          _G.teleporting = true
           task.wait(60)
         end
       end
@@ -1795,7 +1763,7 @@ end
 
 function start_raid()
   if game.PlaceId == ANIME_ADVENTURES_ID then
-    if getgenv().teleporting then
+    if _G.teleporting then
       -- Game Start Notification
       Library:Notify("The game will start in 5..", 2)
       task.wait(1)
@@ -1816,8 +1784,8 @@ function start_raid()
       if settings.party_mode and settings.user_role == "Host" then
         friends_only = false
       end
-      getgenv().door = "_lobbytemplate212"
-      if tostring(Workspace["_RAID"].Raid[getgenv().door].Owner.Value) ~= LocalPlayer.Name then
+      _G.door = "_lobbytemplate212"
+      if tostring(Workspace["_RAID"].Raid[_G.door].Owner.Value) ~= LocalPlayer.Name then
         for i, v in pairs(Workspace["_RAID"].Raid:GetDescendants()) do
           if v.Name == "Owner" and v.Value == nil then
             local args = {
@@ -1851,21 +1819,21 @@ function start_raid()
             }
             game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
             task.wait()
-            getgenv().door = v.Parent.Name
+            _G.door = v.Parent.Name
             break
           end
         end
       end
 
       LocalPlayer.Character.HumanoidRootPart.CFrame = first_position
-      if tostring(Workspace["_RAID"].Raid[getgenv().door].Owner.Value) == LocalPlayer.Name then
-        if Workspace["_RAID"].Raid[getgenv().door].Teleporting.Value == true then
-          getgenv().teleporting = false
+      if tostring(Workspace["_RAID"].Raid[_G.door].Owner.Value) == LocalPlayer.Name then
+        if Workspace["_RAID"].Raid[_G.door].Teleporting.Value == true then
+          _G.teleporting = false
           Library:Notify("Game Started: " .. settings.world .. " [" .. settings.level .. "]", 30)
           task.wait(60)
           TeleportService:Teleport(game.PlaceId)
         else
-          getgenv().teleporting = true
+          _G.teleporting = true
           task.wait(60)
         end
       end
@@ -1922,7 +1890,7 @@ function start_challenge()
           [1] = tostring(v.Parent.Name),
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
-        getgenv().challenge_door = v.Parent.Name
+        _G.challenge_door = v.Parent.Name
         task.wait()
         LocalPlayer.Character.HumanoidRootPart.CFrame = v.Parent.Door.CFrame * CFrame.new(0, 0, -6)
         Library:Notify("Game Joined: Challenge", 5)
@@ -1932,7 +1900,7 @@ function start_challenge()
     wait(10)
     if not settings.auto_farm then
       local args = {
-        [1] = tostring(getgenv().challenge_door),
+        [1] = tostring(_G.challenge_door),
       }
       game:GetService("ReplicatedStorage").endpoints.client_to_server.request_leave_lobby:InvokeServer(unpack(args))
       task.wait()
@@ -1971,7 +1939,7 @@ end))
 --#endregion
 
 --#region [Function] Auto Place Units
-getgenv().disable_auto_place_units = false
+_G.disable_auto_place_units = false
 
 function auto_place_units(position)
   math.randomseed(os.time())
@@ -2039,9 +2007,19 @@ function auto_place_units(position)
   end
 end
 
+function get_level_data()
+  local list = {}
+  if game.PlaceId ~= ANIME_ADVENTURES_ID then
+    for i, v in pairs(game.Workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()) do
+      list[i] = v
+    end
+  end
+  return list
+end
+
 coroutine.resume(coroutine.create(function()
   while task.wait(1) do
-    if game.PlaceId ~= ANIME_ADVENTURES_ID and settings.auto_place_units and not getgenv().disable_auto_place_units then
+    if game.PlaceId ~= ANIME_ADVENTURES_ID and settings.auto_place_units and not _G.disable_auto_place_units then
       Workspace:WaitForChild("_wave_num")
       Workspace:WaitForChild("_UNITS")
       for _, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
@@ -2186,7 +2164,7 @@ end))
 -- #endregion
 
 --#region [Function] Auto Upgrade
-getgenv()._auto_upgrade_units = false
+_G._auto_upgrade_units = false
 function auto_upgrade_func()
   local status, value = pcall(function()
     Workspace:WaitForChild("_UNITS")
@@ -2206,7 +2184,7 @@ function auto_upgrade_func()
     end
   end)
   if value then
-    getgenv()._auto_upgrade_units = true
+    _G._auto_upgrade_units = true
   end
 end
 
@@ -2218,10 +2196,10 @@ coroutine.resume(coroutine.create(function()
           auto_upgrade_func()
         end)
       end
-      if getgenv()._auto_upgrade_units == true then
+      if _G._auto_upgrade_units == true then
         task.wait()
         auto_upgrade_func()
-        getgenv()._auto_upgrade_units = false
+        _G._auto_upgrade_units = false
       end
     end
   end
@@ -2229,7 +2207,7 @@ end))
 -- #endregion
 
 --#region [Function] Auto Abilities
-getgenv()._auto_abilities = false
+_G._auto_abilities = false
 function auto_abilities_func()
   local status, value = pcall(function()
     Workspace:WaitForChild("_UNITS")
@@ -2245,7 +2223,7 @@ function auto_abilities_func()
     end
   end)
   if value then
-    getgenv()._auto_abilities = true
+    _G._auto_abilities = true
   end
 end
 
@@ -2257,10 +2235,10 @@ coroutine.resume(coroutine.create(function()
           auto_abilities_func()
         end)
       end
-      if getgenv()._auto_abilities == true then
+      if _G._auto_abilities == true then
         task.wait()
         auto_abilities_func()
-        getgenv()._auto_abilities = false
+        _G._auto_abilities = false
       end
     end
   end
@@ -2274,7 +2252,7 @@ coroutine.resume(coroutine.create(function()
       local _wave = Workspace:WaitForChild("_wave_num")
       if settings.auto_sell_units and settings.sell_at_wave ~= nil and settings.sell_at_wave > 0 then
         if _wave.Value >= settings.sell_at_wave then
-          getgenv().disable_auto_place_units = true
+          _G.disable_auto_place_units = true
           for i, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
             v:WaitForChild("_stats")
             if tostring(v["_stats"].player.Value) == LocalPlayer.Name then
@@ -2330,18 +2308,7 @@ end
 
 function return_to_lobby()
   if settings.party_mode then
-    -- local party_id = HttpService:JSONDecode(readfile("RollinHub.json"))["party_id"]
-    -- TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_id, LocalPlayer)
-    
-    -- local status, result = pcall(function()
-    --   return game:HttpGet(global_settings.api_url .. "/party-server")
-    -- end)
-    -- if status then
-    --   TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, result, LocalPlayer)
-    -- end
-
-    local party_job_id = loadstring(game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.lua"))()
-    TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
+    TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, global_settings.party_id, LocalPlayer)
   else
     math.randomseed(os.time())
     local servers = {}
@@ -2590,7 +2557,7 @@ coroutine.resume(coroutine.create(function()
       if settings.sell_at_wave ~= nil and settings.sell_at_wave > 0 then
         if _wave.Value >= settings.sell_at_wave then
           if settings.auto_force_leave then
-            getgenv().end_time = os.time()
+            _G.end_time = os.time()
             update_inventory_items()
             if settings.enable_item_limit then
               check_item_limit()
@@ -2601,7 +2568,7 @@ coroutine.resume(coroutine.create(function()
             end
             break
           elseif settings.farm_mode == "Gem" then
-            getgenv().end_time = os.time()
+            _G.end_time = os.time()
             update_inventory_items()
             local gems_earned = tonumber(LocalPlayer.PlayerGui.Waves.HealthBar.IngameRewards.GemRewardTotal.Holder.Main.Amount.Text)
             settings.gems_amount_to_farm = settings.gems_amount_to_farm - gems_earned
@@ -2621,7 +2588,7 @@ coroutine.resume(coroutine.create(function()
             return_to_lobby()
             break
           elseif settings.farm_mode == "Level-BP" then
-            getgenv().end_time = os.time()
+            _G.end_time = os.time()
             update_inventory_items()
             if settings.battlepass_current_level >= settings.battlepass_target_level then
               webhook_finish()
@@ -2643,10 +2610,10 @@ end))
 -- #endregion
 
 --#region [Function] Auto Lag
-getgenv().disable_auto_lag = false
+_G.disable_auto_lag = false
 coroutine.resume(coroutine.create(function()
   while task.wait(settings.lag_delay) do --// don't change it's the best
-    if game.PlaceId ~= ANIME_ADVENTURES_ID and settings.auto_lag and getgenv().disable_auto_lag == false then
+    if game.PlaceId ~= ANIME_ADVENTURES_ID and settings.auto_lag and _G.disable_auto_lag == false then
       game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge * math.huge)
       local function getmaxvalue(val)
         local mainvalueifonetable = 499999
@@ -2690,7 +2657,7 @@ coroutine.resume(coroutine.create(function()
       
       bomb(250, 1) --// change values if client crashes
       if LocalPlayer.PlayerGui.ResultsUI.Enabled == true then
-        getgenv().disable_auto_lag = true
+        _G.disable_auto_lag = true
       end
     end
   end
@@ -2704,13 +2671,13 @@ coroutine.resume(coroutine.create(function()
       local lag_off = settings.lag_stop_on_wave
       if lag_off >= lag_on then
         if _wave.Value >= lag_on and _wave.Value <= lag_off then
-          getgenv().disable_auto_lag = false
+          _G.disable_auto_lag = false
         else
-          getgenv().disable_auto_lag = true
+          _G.disable_auto_lag = true
         end
       end
       if LocalPlayer.PlayerGui.ResultsUI.Enabled == true then
-        getgenv().disable_auto_lag = true
+        _G.disable_auto_lag = true
       end
     end
   end
@@ -2732,27 +2699,27 @@ end)
 
 --#region [Function] Auto Select Units
 function handle_select_units()
-  getgenv().profile_data = { equipped_units = {} }
+  _G.profile_data = { equipped_units = {} }
   repeat
     do
       for i, v in pairs(getgc(true)) do
         if type(v) == "table" and rawget(v, "xp") then 
           wait()
-          table.insert(getgenv().profile_data.equipped_units, v)
+          table.insert(_G.profile_data.equipped_units, v)
         end
       end
     end
-  until #getgenv().profile_data.equipped_units > 0
+  until #_G.profile_data.equipped_units > 0
 
   settings.selected_units = {}
   local units_data = require(game:GetService("ReplicatedStorage").src.Data.Units)
-  for i, v in pairs(getgenv().profile_data.equipped_units) do
+  for i, v in pairs(_G.profile_data.equipped_units) do
     if units_data[v.unit_id] and v.equipped_slot then
       local selected_unit_data = tostring(units_data[v.unit_id].id) .. " #" .. tostring(v.uuid)
       settings.selected_units[tonumber(v.equipped_slot)] = selected_unit_data
-      save_settings()
     end
   end
+  save_settings()
 end
 
 coroutine.resume(coroutine.create(function()
@@ -2771,11 +2738,11 @@ end))
 --#region [Function] Auto Buy/Sell
 pcall(function()
   if game.PlaceId == ANIME_ADVENTURES_ID then
-    getgenv().UnitCache = {}
+    _G.UnitCache = {}
     for _, Module in next, game:GetService("ReplicatedStorage"):WaitForChild("src"):WaitForChild("Data"):WaitForChild("Units"):GetDescendants() do
       if Module:IsA("ModuleScript") and Module.Name ~= "UnitPresets" then
         for UnitName, UnitStats in next, require(Module) do
-          getgenv().UnitCache[UnitName] = UnitStats
+          _G.UnitCache[UnitName] = UnitStats
         end
       end
     end
@@ -2803,7 +2770,7 @@ coroutine.resume(coroutine.create(function()
         for i, v in pairs(game:GetService("ReplicatedStorage")["_FX_CACHE"]:GetChildren()) do
           if v.Name == "CollectionUnitFrame" then
             repeat task.wait() until v:FindFirstChild("name")
-            for _, Info in next, getgenv().UnitCache do
+            for _, Info in next, _G.UnitCache do
               if settings.auto_sell_rarity_units == false then
                 break
               end
@@ -2829,13 +2796,8 @@ coroutine.resume(coroutine.create(function()
   if game.PlaceId == ANIME_ADVENTURES_ID then
     while task.wait(5) do
       if settings.party_mode then
-        -- local party_id = HttpService:JSONDecode(readfile("RollinHub.json"))["party_id"]
-        -- if game.JobId ~= party_id then
-        --   TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_id, LocalPlayer)
-        -- end
-        local party_job_id = loadstring(game:HttpGet("https://raw.githubusercontent.com/KongkiatDev/MyProject/main/party-server.lua"))()
-        if game.JobId ~= party_job_id then
-          TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, party_job_id, LocalPlayer)
+        if game.JobId ~= global_settings.party_id then
+          TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, global_settings.party_id, LocalPlayer)
         end
         if settings.user_role == "Member" then
           -- normal farm
@@ -3051,15 +3013,15 @@ end))
 --#endregion
 
 --#region [Function] Teleport Player to Unit
-getgenv().player_tp = false
+_G.player_tp = false
 coroutine.resume(coroutine.create(function()
   while task.wait(1) do
-    if game.PlaceId ~= ANIME_ADVENTURES_ID and not getgenv().player_tp then
+    if game.PlaceId ~= ANIME_ADVENTURES_ID and not _G.player_tp then
       for _, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
         if v:FindFirstChild("_stats") then
           if tostring(v._stats.player.Value) == LocalPlayer.Name then
             LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1)
-            getgenv().player_tp = true
+            _G.player_tp = true
             break
           end
         end
@@ -3201,22 +3163,6 @@ auto_reconnect()
 
 --#region [Function] Low CPU
 function low_cpu()
-  -- UserInputService.WindowFocused:Connect(function()
-    -- setfpscap(30)
-    -- RunService:Set3dRenderingEnabled(false)
-    -- settings.white_screen = true
-    -- save_settings()
-    -- toggleLoadingScreen()
-  -- end)
-
-  -- UserInputService.WindowFocusReleased:Connect(function()
-    -- setfpscap(5)
-    -- RunService:Set3dRenderingEnabled(false)
-    -- settings.white_screen = true
-    -- save_settings()
-    -- toggleLoadingScreen()
-  -- end)
-
   task.wait(5)
   if settings.fps_limit then
     setfpscap(5)
@@ -3227,8 +3173,3 @@ function low_cpu()
 end
 low_cpu()
 --#endregion
-
-if settings.name == nil then
-  settings.name = LocalPlayer.Name
-  save_settings()
-end
