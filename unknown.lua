@@ -258,7 +258,7 @@ WorldConfigGroupbox:AddDropdown("SelectCategory", {
     elseif Value == "Raid Worlds" then
       settings.worlds = {"Entertainment District", "West City (Freezo's Invasion)", "Storm Hideout", "West City", "Infinity Train", "Shiganshinu District - Raid", "Hiddel Sand Village - Raid"}
     elseif Value == "Portals" then
-      settings.worlds = {"Alien Portals", "Zeldris Portals", "Demon Portals", "Dressrosa Portals"}
+      settings.worlds = {"Alien Portals", "Zeldris Portals", "Dressrosa Portals", "Madoka Portals"}
     end
     Options.SelectWorld:Refresh(settings.worlds)
     save_settings()
@@ -334,10 +334,10 @@ WorldConfigGroupbox:AddDropdown("SelectWorld", {
       settings.levels = {"portal_boros_g"}
     elseif Value == "Zeldris Portals" then
       settings.levels = {"portal_zeldris"}
-    elseif Value == "Demon Portals" then
-      settings.levels = {"april_portal_item"}
     elseif Value == "Dressrosa Portals" then
       settings.levels = {"portal_item__dressrosa"}
+    elseif Value == "Madoka Portals" then
+      settings.levels = {"portal_item__madoka"}
     end
     Options.SelectLevel:Refresh(settings.levels)
     save_settings()
@@ -780,7 +780,7 @@ FarmConfigGroupbox:AddInput("PortalLimitAmount", {
 
 local ItemLimitConfigGroupbox = Tabs.Main:AddRightGroupbox("     【 Item Limit Config 】")
 ItemLimitConfigGroupbox:AddDropdown("ItemLimitCategory", {
-  Values = { "Alien Scouter", "Demon Academy Symbol", "Relic Shard", "Rikugan Eye", "Tomoe", "Wisteria Bloom" },
+  Values = { "Grief Seed", "Wisteria Bloom", "Alien Scouter", "Tomoe", "Relic Shard", "Rikugan Eye",},
   Default = settings.item_limit_selected or "",
   Multi = false,
   Text = "🎁 Select Item",
@@ -1112,7 +1112,7 @@ MiscGroupbox:AddToggle("HideEnemyUnitNames", {
 MiscGroupbox:AddButton({
   Text = '🎀 Redeem Codes',
   Func = function()
-    local codes = {"DRESSROSA", "BILLION", "ENTERTAINMENT", "HAPPYEASTER", "VIGILANTE", "GOLDENSHUTDOWN", "GOLDEN", "SINS2", "SINS", "UCHIHA", "CLOUD", "HERO", "CHAINSAW", "NEWYEAR2023", "kingluffy", "toadboigaming", "noclypso", "fictionthefirst", "subtomaokuma", "subtokelvingts", "subtoblamspot"}
+    local codes = {"MADOKA", "DRESSROSA", "BILLION", "ENTERTAINMENT", "HAPPYEASTER", "VIGILANTE", "GOLDENSHUTDOWN", "GOLDEN", "SINS2", "SINS", "UCHIHA", "CLOUD", "HERO", "CHAINSAW", "NEWYEAR2023", "kingluffy", "toadboigaming", "noclypso", "fictionthefirst", "subtomaokuma", "subtokelvingts", "subtoblamspot"}
     for _, code in pairs(codes) do
       local args = {
         [1] = code
@@ -1202,10 +1202,30 @@ ServerGroupbox:AddButton({
 
 local SettingsGroupbox = Tabs.Misc:AddRightGroupbox("           【 Settings 】")
 SettingsGroupbox:AddButton({
-  Text = '🔄 Reset All',
+  Text = '🔄 Reset Settings',
   Func = function()
-    delfile(FOLDER_NAME .. "/" .. file_name)
-    Library:Notify('Reset All Completed', 3)
+    local Response = (http_request or (syn and syn.request)) {
+      Method = 'DELETE',
+      Url = API_DEV .. '/account',
+      Headers = { ["content-type"] = "application/json" },
+      Body = HttpService:JSONEncode({
+        ["name"] = LocalPlayer.Name
+      })
+    }
+    if not Response.Success then
+      StarterGui:SetCore("SendNotification",{
+        Title = "Error",
+        Text = "failed to delete account",
+        Icon = "rbxassetid://6031071050"
+      })
+      return
+    end
+  
+    StarterGui:SetCore("SendNotification",{
+      Title = "Delete",
+      Text = "successfully deleted data for account '" .. LocalPlayer.Name .. "'",
+      Icon = "rbxassetid://6023426926"
+    })
   end
 })
 local ItemsGroupbox = Tabs.Misc:AddRightGroupbox("           【 Items 】")
@@ -1525,16 +1545,10 @@ function webhook_data(args)
   starfruit_pink = tostring(Table_All_Items_New_data["StarFruitPink"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["StarFruitPink"]['Count'] or 0)
   alien_portal = tostring(Table_All_Items_New_data["portal_boros_g"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["portal_boros_g"]['Count'] or 0)
   zeldris_portal = tostring(Table_All_Items_New_data["portal_zeldris"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["portal_zeldris"]['Count'] or 0)
-  demon_academy_portal = tostring(Table_All_Items_New_data["april_portal_item"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["april_portal_item"]['Count'] or 0)
-  demon_academy_symbol = tostring(Table_All_Items_New_data["april_symbol"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["april_symbol"]['Count'] or 0)
-  easter_egg_1 = tostring(Table_All_Items_New_data["easter_egg_1"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["easter_egg_1"]['Count'] or 0)
-  easter_egg_2 = tostring(Table_All_Items_New_data["easter_egg_2"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["easter_egg_2"]['Count'] or 0)
-  easter_egg_3 = tostring(Table_All_Items_New_data["easter_egg_3"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["easter_egg_3"]['Count'] or 0)
-  easter_egg_4 = tostring(Table_All_Items_New_data["easter_egg_4"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["easter_egg_4"]['Count'] or 0)
-  easter_egg_5 = tostring(Table_All_Items_New_data["easter_egg_5"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["easter_egg_5"]['Count'] or 0)
-  easter_egg_6 = tostring(Table_All_Items_New_data["easter_egg_6"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["easter_egg_6"]['Count'] or 0)
+  madoka_portal = tostring(Table_All_Items_New_data["portal_item__madoka"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["portal_item__madoka"]['Count'] or 0)
   rikugan_eye = tostring(Table_All_Items_New_data["six_eyes"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["six_eyes"]['Count'] or 0)
   entertainment_district_item = tostring(Table_All_Items_New_data["entertainment_district_item"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["entertainment_district_item"]['Count'] or 0)
+  grief_seed = tostring(Table_All_Items_New_data["grief_seed"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["grief_seed"]['Count'] or 0)
   if gem_reward == "+99999" then gem_reward = "+0" end
   if xp_reward == "+99999" then xp_reward = "+0" end
   if trophy_reward == "+99999" then trophy_reward = "+0" end
@@ -1613,12 +1627,6 @@ function webhook_data(args)
         tomoe = tostring(Table_All_Items_New_data["uchiha_item"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["uchiha_item"]['Count'] or 0) .. " (+" .. settings.item_limit_received .. ")"
       end
     end
-    if settings.item_limit_selected == "Demon Academy Symbol" then
-      demon_academy_symbol = tostring(Table_All_Items_New_data["april_symbol"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["april_symbol"]['Count'] or 0) .. " [" .. settings.item_limit_received .. "/" .. settings.item_limit_received + settings.item_limit_amount_to_farm  .. "]"
-      if settings.item_limit_amount_to_farm == 0 then
-        demon_academy_symbol = tostring(Table_All_Items_New_data["april_symbol"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["april_symbol"]['Count'] or 0) .. " (+" .. settings.item_limit_received .. ")"
-      end
-    end
     if settings.item_limit_selected == "Rikugan Eye" then
       rikugan_eye = tostring(Table_All_Items_New_data["six_eyes"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["six_eyes"]['Count'] or 0) .. " [" .. settings.item_limit_received .. "/" .. settings.item_limit_received + settings.item_limit_amount_to_farm  .. "]"
       if settings.item_limit_amount_to_farm == 0 then
@@ -1629,6 +1637,12 @@ function webhook_data(args)
       entertainment_district_item = tostring(Table_All_Items_New_data["entertainment_district_item"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["entertainment_district_item"]['Count'] or 0) .. " [" .. settings.item_limit_received .. "/" .. settings.item_limit_received + settings.item_limit_amount_to_farm  .. "]"
       if settings.item_limit_amount_to_farm == 0 then
         entertainment_district_item = tostring(Table_All_Items_New_data["entertainment_district_item"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["entertainment_district_item"]['Count'] or 0) .. " (+" .. settings.item_limit_received .. ")"
+      end
+    end
+    if settings.item_limit_selected == "Grief Seed" then
+      grief_seed = tostring(Table_All_Items_New_data["grief_seed"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["grief_seed"]['Count'] or 0) .. " [" .. settings.item_limit_received .. "/" .. settings.item_limit_received + settings.item_limit_amount_to_farm  .. "]"
+      if settings.item_limit_amount_to_farm == 0 then
+        grief_seed = tostring(Table_All_Items_New_data["grief_seed"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["grief_seed"]['Count'] or 0) .. " (+" .. settings.item_limit_received .. ")"
       end
     end
   end
@@ -1672,12 +1686,12 @@ function webhook_data(args)
           },
           {
             ["name"] ="<a:yyyy:1100545093787721790> ไอเท็มฟาร์ม <a:yyyy:1100545093787721790>",
-            ["value"] = emoji_info .. "<:Wisteria_Bloom:1099264528853770271> " .. entertainment_district_item .. "\n" .. emoji_info .. "<:Demon_Academy_Symbol:1094172735552376883> " .. demon_academy_symbol .. "\n" .. emoji_info .. "<:Relic_Shard:1087158655822090380> " .. relic_shard .. "\n" .. emoji_info .. "<:Alien_Scouter:1086919543034753114> " .. alien_scouter .. "\n" .. emoji_info .. "<:Tomoe:1086919541092790362> " .. tomoe .. "\n" .. emoji_info .. "<:Rikugan_Eye:1096869167002550282> " .. rikugan_eye,
+            ["value"] = emoji_info .. "<:Grief_Seed:1111838652247592980>  " .. grief_seed .. "\n" .. emoji_info .. "<:Wisteria_Bloom:1099264528853770271> " .. entertainment_district_item .. "\n" .. emoji_info .. "<:Alien_Scouter:1086919543034753114> " .. alien_scouter .. "\n" .. emoji_info .. "<:Tomoe:1086919541092790362> " .. tomoe .. "\n" .. emoji_info .. "<:Relic_Shard:1087158655822090380> " .. relic_shard .. "\n" .. emoji_info .. "<:Rikugan_Eye:1096869167002550282> " .. rikugan_eye,
             ["inline"] = false
           },
           {
             ["name"] ="<a:yyyy:1100545093787721790> ไอเท็มประตู <a:yyyy:1100545093787721790>",
-            ["value"] = emoji_info .. "<:Demon_Academy_Portal:1094172726303916032> " .. demon_academy_portal .. "\n" .. emoji_info .. "<:Demon_Leaders_Portal:1087031381361700906> " .. zeldris_portal .. "\n" .. emoji_info .. "<:Alien_Portal:1094173284905533490> " .. alien_portal,
+            ["value"] = emoji_info .. "<:Madoka_Portal:1111835881804943450> " .. madoka_portal .. "\n" .. emoji_info .. "<:Demon_Leaders_Portal:1087031381361700906> " .. zeldris_portal .. "\n" .. emoji_info .. "<:Alien_Portal:1094173284905533490> " .. alien_portal,
             ["inline"] = false
           },
           -- {
