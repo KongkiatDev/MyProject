@@ -7,7 +7,7 @@
 --#region Get Service
 repeat task.wait() until game:IsLoaded()
 repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
-task.wait(10)
+wait(10)
 
 local HttpService = game:GetService("HttpService")
 local Workspace = game:GetService("Workspace")
