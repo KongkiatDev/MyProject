@@ -1684,7 +1684,7 @@ function webhook_data(args)
         ["fields"] = {
           {
             ["name"] ="<a:yyyy:1100545093787721790> ข้อมูลลูกค้า <a:yyyy:1100545093787721790>",
-            ["value"] = emoji_info .. "<:account:1100597293113167944> ID: " .. tostring(LocalPlayer.Name) .. "\n" .. emoji_info .. "<:Gold:1100584913369059509> ทอง: " .. total_gold .. "\n" .. emoji_info .. "<:Gems:1086812238607822959> เพชร: " .. total_gems .. "\n" .. emoji_info .. "<:Level:1086831024421474324> เลเวล: " .. user_level:split(" ")[2] .. " " .. user_level:split(" ")[3] .. "\n" .. emoji_info .. "<:Battlepass:1099343337586171924> แบทเทิลพาส: " .. settings.battlepass_current_level .. " [" .. settings.battlepass_xp .. "]",
+            ["value"] = emoji_info .. "<:account:1100597293113167944> ID: " .. tostring(LocalPlayer.Name) .. "\n" .. emoji_info .. "<:Gold:1100584913369059509> ทอง: " .. total_gold .. "\n" .. emoji_info .. "<:Gems:1086812238607822959> เพชร: " .. total_gems .. "\n" .. emoji_info .. "<:Level:1086831024421474324> เลเวล: " .. user_level:split(" ")[2] .. " " .. user_level:split(" ")[3] .. "\n" .. emoji_info .. "<:Battlepass:1112553595557130341> แบทเทิลพาส: " .. settings.battlepass_current_level .. " [" .. settings.battlepass_xp .. "]",
             ["inline"] = false
           },
           {
