@@ -3170,15 +3170,15 @@ end))
 
 --#region [Function] Auto Reconnect
 coroutine.resume(coroutine.create(function()
-  -- repeat task.wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
-  -- game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
-  --   if e.Name == 'ErrorPrompt' then
-  --     warn("Trying to Reconnect")
-  --     while task.wait(10) do
-  --       TeleportService:Teleport(game.PlaceId)
-  --     end
-  --   end
-  -- end)
+  repeat task.wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
+  game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
+    if e.Name == 'ErrorPrompt' then
+      warn("Trying to Reconnect")
+      while task.wait(10) do
+        TeleportService:Teleport(game.PlaceId)
+      end
+    end
+  end)
 end))
 --#endregion
 
@@ -3199,67 +3199,68 @@ end))
 
 --#region [Function] Auto Buy Event Items
 coroutine.resume(coroutine.create(function()
-  if game.PlaceId == ANIME_ADVENTURES_ID and settings.auto_buy_grief_seed then
-    pcall(function()
-      local args = {
-        [1] = "grief_seed",
-        [2] = "100"
-      }
-      game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-      task.wait()
-      local args = {
-        [1] = "grief_seed",
-        [2] = "100"
-      }
-      game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-      task.wait()
-      local args = {
-        [1] = "grief_seed",
-        [2] = "10"
-      }
-      game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-      task.wait()
-      local args = {
-        [1] = "grief_seed",
-        [2] = "10"
-      }
-      game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-      task.wait()
-      local args = {
-        [1] = "grief_seed",
-        [2] = "10"
-      }
-      game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-      task.wait()
-      local args = {
-        [1] = "grief_seed",
-        [2] = "10"
-      }
-      game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-      task.wait()
-      local args = {
-        [1] = "grief_seed",
-        [2] = "10"
-      }
-      game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-    end)
-  end
-end))
---#endregion
-
---#region [Function] Auto Buy Event Items
-coroutine.resume(coroutine.create(function()
-  if game.PlaceId == ANIME_ADVENTURES_ID and settings.auto_buy_star_remnant then
-    if Workspace["travelling_merchant"]["is_open"].Value == true then
-      for i, v in pairs(Workspace["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
-        if v.Name:match("star_remnant") then
-          local args = {
-            [1] = "star_remnant"
-          }
-          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_travelling_merchant_item:InvokeServer(unpack(args))
+  if game.PlaceId == ANIME_ADVENTURES_ID then
+    for i, v in pairs(settings.auto_buy_items) do
+      if v == "star_remnant" then
+        if Workspace["travelling_merchant"]["is_open"].Value == true then
+          for _, x in pairs(Workspace["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
+            if x.Name:match("star_remnant") then
+              local args = {
+                [1] = "star_remnant"
+              }
+              game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_travelling_merchant_item:InvokeServer(unpack(args))
+            end
+          end
         end
+      end
+
+      if v == "grief_seed" then
+        pcall(function()
+          local args = {
+            [1] = "grief_seed",
+            [2] = "100"
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+          task.wait()
+          local args = {
+            [1] = "grief_seed",
+            [2] = "100"
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+          task.wait()
+          local args = {
+            [1] = "grief_seed",
+            [2] = "10"
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+          task.wait()
+          local args = {
+            [1] = "grief_seed",
+            [2] = "10"
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+          task.wait()
+          local args = {
+            [1] = "grief_seed",
+            [2] = "10"
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+          task.wait()
+          local args = {
+            [1] = "grief_seed",
+            [2] = "10"
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+          task.wait()
+          local args = {
+            [1] = "grief_seed",
+            [2] = "10"
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+        end)
       end
     end
   end
 end))
 --#endregion
+
