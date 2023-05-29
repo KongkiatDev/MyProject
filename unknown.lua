@@ -1311,7 +1311,6 @@ end))
 --#region [Function] Set Battlepass Level
 coroutine.resume(coroutine.create(function()
   if game.PlaceId == ANIME_ADVENTURES_ID then
-    task.wait(5)
     repeat task.wait() until LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text ~= "99"
     settings.battlepass_current_level = tonumber(LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text)
     settings.battlepass_xp = tostring(LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text)
@@ -1323,35 +1322,35 @@ end))
 --#region [Function] Reduece Low Graphic Settings
 coroutine.resume(coroutine.create(function()
   if game.PlaceId == ANIME_ADVENTURES_ID then
-    -- local args = {
-    --   [1] = "trading",
-    --   [2] = true
-    -- }
-    -- game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    -- task.wait(0.5)
-    -- local args = {
-    --   [1] = "hide_other_pets",
-    --   [2] = true
-    -- }
-    -- game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    -- task.wait(0.5)
-    -- local args = {
-    --   [1] = "low_quality_shadows",
-    --   [2] = true
-    -- }
-    -- game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    -- task.wait(0.5)
-    -- local args = {
-    --   [1] = "low_quality_textures",
-    --   [2] = true
-    -- }
-    -- game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    -- task.wait(0.5)
-    -- local args = {
-    --   [1] = "dynamic_depth_of_field",
-    --   [2] = true
-    -- }
-    -- game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    local args = {
+      [1] = "trading",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
+    local args = {
+      [1] = "hide_other_pets",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
+    local args = {
+      [1] = "low_quality_shadows",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
+    local args = {
+      [1] = "low_quality_textures",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
+    local args = {
+      [1] = "dynamic_depth_of_field",
+      [2] = true
+    }
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
   else
     Workspace:WaitForChild("_UNITS")
     local args = {
@@ -2931,6 +2930,7 @@ coroutine.resume(coroutine.create(function()
         if game.JobId ~= global_settings.party_id then
           TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, global_settings.party_id, LocalPlayer)
         end
+
         if settings.user_role == "Member" then
           -- normal farm
           for i, v in pairs(Workspace["_LOBBIES"].Story:GetDescendants()) do
@@ -2997,19 +2997,15 @@ end))
 --#endregion
 
 --#region [Function] Click To Teleport
-pcall(function()
-  function click_teleport(pos)
-    if LocalPlayer.Character then
-      LocalPlayer.Character:MoveTo(pos)
-    end
-  end
-
+coroutine.resume(coroutine.create(function()
   UserInputService.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 and UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then
-      click_teleport(LocalPlayer:GetMouse().Hit.p)
+      if LocalPlayer.Character then
+        LocalPlayer.Character:MoveTo(LocalPlayer:GetMouse().Hit.p)
+      end
     end
   end)
-end)
+end))
 --#endregion
 
 --#region [Function] Auto Remove Map
@@ -3021,6 +3017,7 @@ coroutine.resume(coroutine.create(function()
         for i, v in pairs(maps) do
           v:Destroy()
         end
+
         local terrain = Workspace["_terrain"].terrain:GetChildren()
         for i, v in pairs(terrain) do
           if v:IsA("Model") then
@@ -3030,6 +3027,7 @@ coroutine.resume(coroutine.create(function()
             v:Destroy()
           end
         end
+
         break
       end
     end
@@ -3040,7 +3038,7 @@ end))
 --#region [Function] Hide Enemy Unit Names
 coroutine.resume(coroutine.create(function()
   if game.PlaceId ~= ANIME_ADVENTURES_ID then
-    while task.wait(0.5) do
+    while task.wait() do
       if settings.auto_remove_units_name then
         for _, v in pairs(Workspace["_UNITS"]:GetChildren()) do
           if v:FindFirstChild("HumanoidRootPart") then
@@ -3063,26 +3061,27 @@ coroutine.resume(coroutine.create(function()
           end
         end
       else
-        for _, v in pairs(Workspace["_UNITS"]:GetChildren()) do
-          if v:FindFirstChild("HumanoidRootPart") then
-            if v.HumanoidRootPart:FindFirstChild("_overhead") then
-              if v.HumanoidRootPart._overhead:FindFirstChild("tds") then
-                if v.HumanoidRootPart._overhead.tds.NameLabel.Visible == false then
-                  v.HumanoidRootPart._overhead.tds.NameLabel.Visible = true
-                end
-              end
-            end
-          end
-          if v:FindFirstChild("HumanoidRootPart_Fake") then
-            if v.HumanoidRootPart_Fake:FindFirstChild("_overhead") then
-              if v.HumanoidRootPart_Fake._overhead:FindFirstChild("tds") then
-                if v.HumanoidRootPart_Fake._overhead.tds.NameLabel.Visible == false then
-                  v.HumanoidRootPart_Fake._overhead.tds.NameLabel.Visible = true
-                end
-              end
-            end
-          end
-        end
+        break
+        -- for _, v in pairs(Workspace["_UNITS"]:GetChildren()) do
+        --   if v:FindFirstChild("HumanoidRootPart") then
+        --     if v.HumanoidRootPart:FindFirstChild("_overhead") then
+        --       if v.HumanoidRootPart._overhead:FindFirstChild("tds") then
+        --         if v.HumanoidRootPart._overhead.tds.NameLabel.Visible == false then
+        --           v.HumanoidRootPart._overhead.tds.NameLabel.Visible = true
+        --         end
+        --       end
+        --     end
+        --   end
+        --   if v:FindFirstChild("HumanoidRootPart_Fake") then
+        --     if v.HumanoidRootPart_Fake:FindFirstChild("_overhead") then
+        --       if v.HumanoidRootPart_Fake._overhead:FindFirstChild("tds") then
+        --         if v.HumanoidRootPart_Fake._overhead.tds.NameLabel.Visible == false then
+        --           v.HumanoidRootPart_Fake._overhead.tds.NameLabel.Visible = true
+        --         end
+        --       end
+        --     end
+        --   end
+        -- end
       end
     end
   end
@@ -3094,7 +3093,9 @@ coroutine.resume(coroutine.create(function()
   if game.PlaceId == ANIME_ADVENTURES_ID and settings.auto_claim_quests then
     pcall(function()
       game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
+      task.wait()
       game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_christmas_calendar_reward:InvokeServer()
+      task.wait()
     end)
     local questStory = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.story.Scroll:GetChildren()
     local questEvent = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.event.Scroll:GetChildren()
@@ -3107,6 +3108,7 @@ coroutine.resume(coroutine.create(function()
             [1] = tostring(v.Name)
           }
           game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
+          task.wait()
         end)
       end
     end
@@ -3117,6 +3119,7 @@ coroutine.resume(coroutine.create(function()
             [1] = tostring(v.Name)
           }
           game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
+          task.wait()
         end)
       end
     end
@@ -3127,6 +3130,7 @@ coroutine.resume(coroutine.create(function()
             [1] = tostring(v.Name)
           }
           game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
+          task.wait()
         end)
       end
     end
@@ -3137,6 +3141,7 @@ coroutine.resume(coroutine.create(function()
             [1] = tostring(v.Name)
           }
           game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
+          task.wait()
         end)
       end
     end
@@ -3147,7 +3152,7 @@ end))
 --#region [Function] Teleport Player to Unit
 _G.player_tp = false
 coroutine.resume(coroutine.create(function()
-  while task.wait(1) do
+  while task.wait() do
     if game.PlaceId ~= ANIME_ADVENTURES_ID and not _G.player_tp then
       for _, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
         if v:FindFirstChild("_stats") then
@@ -3165,27 +3170,96 @@ end))
 
 --#region [Function] Auto Reconnect
 coroutine.resume(coroutine.create(function()
-  repeat task.wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
-  game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
-    if e.Name == 'ErrorPrompt' then
-      warn("Trying to Reconnect")
-      while task.wait(10) do
-        TeleportService:Teleport(game.PlaceId)
-      end
-    end
-  end)
+  -- repeat task.wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
+  -- game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
+  --   if e.Name == 'ErrorPrompt' then
+  --     warn("Trying to Reconnect")
+  --     while task.wait(10) do
+  --       TeleportService:Teleport(game.PlaceId)
+  --     end
+  --   end
+  -- end)
 end))
 --#endregion
 
 --#region [Function] Anti AFK
-pcall(function()
-  local vu = game:GetService("VirtualUser")
-  LocalPlayer.Idled:connect(
-    function()
-      vu:Button2Down(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
-      task.wait(1)
-      vu:Button2Up(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
-    end
-  )
-end)
+coroutine.resume(coroutine.create(function()
+  if game.PlaceId == ANIME_ADVENTURES_ID then
+    local vu = game:GetService("VirtualUser")
+    LocalPlayer.Idled:connect(
+      function()
+        vu:Button2Down(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
+        task.wait(1)
+        vu:Button2Up(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
+      end
+    )
+  end
+end))
 -- #endregion
+
+--#region [Function] Auto Buy Event Items
+coroutine.resume(coroutine.create(function()
+  if game.PlaceId == ANIME_ADVENTURES_ID and settings.auto_buy_grief_seed then
+    pcall(function()
+      local args = {
+        [1] = "grief_seed",
+        [2] = "100"
+      }
+      game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+      task.wait()
+      local args = {
+        [1] = "grief_seed",
+        [2] = "100"
+      }
+      game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+      task.wait()
+      local args = {
+        [1] = "grief_seed",
+        [2] = "10"
+      }
+      game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+      task.wait()
+      local args = {
+        [1] = "grief_seed",
+        [2] = "10"
+      }
+      game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+      task.wait()
+      local args = {
+        [1] = "grief_seed",
+        [2] = "10"
+      }
+      game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+      task.wait()
+      local args = {
+        [1] = "grief_seed",
+        [2] = "10"
+      }
+      game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+      task.wait()
+      local args = {
+        [1] = "grief_seed",
+        [2] = "10"
+      }
+      game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+    end)
+  end
+end))
+--#endregion
+
+--#region [Function] Auto Buy Event Items
+coroutine.resume(coroutine.create(function()
+  if game.PlaceId == ANIME_ADVENTURES_ID and settings.auto_buy_star_remnant then
+    if Workspace["travelling_merchant"]["is_open"].Value == true then
+      for i, v in pairs(Workspace["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
+        if v.Name:match("star_remnant") then
+          local args = {
+            [1] = "star_remnant"
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_travelling_merchant_item:InvokeServer(unpack(args))
+        end
+      end
+    end
+  end
+end))
+--#endregion
