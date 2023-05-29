@@ -1550,6 +1550,7 @@ function webhook_data(args)
   rikugan_eye = tostring(Table_All_Items_New_data["six_eyes"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["six_eyes"]['Count'] or 0)
   entertainment_district_item = tostring(Table_All_Items_New_data["entertainment_district_item"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["entertainment_district_item"]['Count'] or 0)
   grief_seed = tostring(Table_All_Items_New_data["grief_seed"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["grief_seed"]['Count'] or 0)
+  star_remnant = tostring(Table_All_Items_New_data["star_remnant"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["star_remnant"]['Count'] or 0)
   if gem_reward == "+99999" then gem_reward = "+0" end
   if xp_reward == "+99999" then xp_reward = "+0" end
   if trophy_reward == "+99999" then trophy_reward = "+0" end
@@ -1686,8 +1687,8 @@ function webhook_data(args)
             ["inline"] = false
           },
           {
-            ["name"] ="<a:yyyy:1100545093787721790> ไอเท็มฟาร์ม <a:yyyy:1100545093787721790>",
-            ["value"] = emoji_info .. "<:Grief_Seed:1111838652247592980>  " .. grief_seed .. "\n" .. emoji_info .. "<:Wisteria_Bloom:1099264528853770271> " .. entertainment_district_item .. "\n" .. emoji_info .. "<:Alien_Scouter:1086919543034753114> " .. alien_scouter .. "\n" .. emoji_info .. "<:Tomoe:1086919541092790362> " .. tomoe .. "\n" .. emoji_info .. "<:Relic_Shard:1087158655822090380> " .. relic_shard .. "\n" .. emoji_info .. "<:Rikugan_Eye:1096869167002550282> " .. rikugan_eye,
+            ["name"] ="<a:yyyy:1100545093787721790> ไอเท็มทั่วไป <a:yyyy:1100545093787721790>",
+            ["value"] = emoji_info .. "<:Grief_Seed:1111838652247592980>  " .. grief_seed .. "\n" .. emoji_info .. "<:Wisteria_Bloom:1099264528853770271> " .. entertainment_district_item .. "\n" .. emoji_info .. "<:Alien_Scouter:1086919543034753114> " .. alien_scouter .. "\n" .. emoji_info .. "<:Tomoe:1086919541092790362> " .. tomoe .. "\n" .. emoji_info .. "<:Relic_Shard:1087158655822090380> " .. relic_shard .. "\n" .. emoji_info .. "<:Rikugan_Eye:1096869167002550282> " .. rikugan_eye .. "\n" .. emoji_info .. "<:Star_Remnant:1112744970546323456> " .. star_remnant,
             ["inline"] = false
           },
           {
@@ -1701,7 +1702,7 @@ function webhook_data(args)
           --   ["inline"] = false
           -- },
           {
-            ["name"] ="<a:yyyy:1100545093787721790> ไอเท็ม Challenge <a:yyyy:1100545093787721790>",
+            ["name"] ="<a:yyyy:1100545093787721790> ไอเท็มชาเลนจ์ <a:yyyy:1100545093787721790>",
             ["value"] = emoji_info .. "<:StarFruit:1086923974233034812> " .. starfruit .. "\n" .. emoji_info .. "<:StarFruit_Rainbow:1086923969703190569> " .. starfruit_rainbow .. "\n" .. emoji_info .. "<:StarFruit_Green:1086923966205132830> " .. starfruit_green .. "\n" .. emoji_info .. "<:StarFruit_Red:1086923962249924620> " .. starfruit_red .. "\n" .. emoji_info .. "<:StarFruit_Blue:1086923960408604734> " .. starfruit_blue .. "\n" .. emoji_info .. "<:StarFruit_Pink:1086923957334184057> " .. starfruit_pink,
             ["inline"] = false
           },
