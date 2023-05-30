@@ -3214,6 +3214,19 @@ coroutine.resume(coroutine.create(function()
         end
       end
 
+      if v == "starfruit" then
+        if Workspace["travelling_merchant"]["is_open"].Value == true then
+          for _, x in pairs(Workspace["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
+            if x.Name:match("StarFruit") then
+              local args = {
+                [1] = x.Name
+              }
+              game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_travelling_merchant_item:InvokeServer(unpack(args))
+            end
+          end
+        end
+      end
+
       if v == "grief_seed" then
         pcall(function()
           local args = {
