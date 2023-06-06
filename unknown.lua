@@ -3183,7 +3183,7 @@ end))
 --#endregion
 
 --#region [Function] Anti AFK
-coroutine.resume(coroutine.create(function()
+pcall(function ()
   if game.PlaceId == ANIME_ADVENTURES_ID then
     local vu = game:GetService("VirtualUser")
     LocalPlayer.Idled:connect(
@@ -3194,12 +3194,13 @@ coroutine.resume(coroutine.create(function()
       end
     )
   end
-end))
+end)
 -- #endregion
 
 --#region [Function] Auto Buy Event Items
 coroutine.resume(coroutine.create(function()
   if game.PlaceId == ANIME_ADVENTURES_ID and settings.auto_buy_items ~= nil then
+    task.wait(10)
     for i, v in pairs(settings.auto_buy_items) do
       if v == "star_remnant" then
         if Workspace["travelling_merchant"]["is_open"].Value == true then
