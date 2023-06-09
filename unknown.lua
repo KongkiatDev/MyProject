@@ -40,9 +40,9 @@ end
 
 --#region [Function] Anti AFK
 LocalPlayer.Idled:connect(function()
-  VirtualUser:Button2Down(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
-  wait(1)
-  VirtualUser:Button2Up(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
+  VirtualUser:CaptureController()
+  VirtualUser:ClickButton2(Vector2.new())
+  wait(2)
 end)
 -- #endregion
 
