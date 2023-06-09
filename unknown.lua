@@ -18,6 +18,7 @@ local RunService = game:GetService("RunService")
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local TweenService = game:GetService("TweenService")
 local StarterGui = game:GetService("StarterGui")
+local VirtualUser = game:GetService("VirtualUser")
 
 local ANIME_ADVENTURES_ID = 8304191830
 local API = "rollinhub.ngrok.app"
@@ -38,15 +39,10 @@ end
 --#endregion
 
 --#region [Function] Anti AFK
-pcall(function (...)
-  local vu = game:GetService("VirtualUser")
-  LocalPlayer.Idled:connect(
-    function()
-      vu:Button2Down(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
-      task.wait(1)
-      vu:Button2Up(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
-    end
-  )
+LocalPlayer.Idled:connect(function()
+  VirtualUser:Button2Down(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
+  wait(1)
+  VirtualUser:Button2Up(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
 end)
 -- #endregion
 
@@ -183,7 +179,7 @@ loadingRing.Parent = screenGui
 
 -- Remove the default loading screen
 ReplicatedFirst:RemoveDefaultLoadingScreen()
-RunService:Set3dRenderingEnabled(not settings.white_screen)
+-- RunService:Set3dRenderingEnabled(not settings.white_screen)
 
 local tweenInfo = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
 local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
@@ -1025,7 +1021,7 @@ MiscGroupbox:AddLabel('🖥️ White Screen'):AddKeyPicker('WhiteScreen', {
   NoUI = true,
   Callback = function(Value)
     pcall(function ()
-      RunService:Set3dRenderingEnabled(settings.white_screen)
+      -- RunService:Set3dRenderingEnabled(settings.white_screen)
       settings.white_screen = not settings.white_screen
       save_settings()
       toggleLoadingScreen()
