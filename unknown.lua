@@ -919,6 +919,10 @@ function check_channel()
 end
 
 function create_channel()
+  game:GetService("StarterGui"):SetCore("SendNotification",{
+    Title = "Create Channel",
+    Icon = "rbxassetid://6023426926"
+  })
   local status, result = pcall(function()
     return game:HttpGet(("https://%s/create-channel?name=%s&userId=%s"):format(API, LocalPlayer.Name, settings.discord_user_id))
   end)
