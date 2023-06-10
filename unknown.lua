@@ -2135,6 +2135,7 @@ _G.disable_auto_place_units = false
 
 function auto_place_units(position)
   math.randomseed(os.time())
+  local map = get_level_data().map
   for i, v in pairs(settings.selected_units) do
     local unit_name = v:split(" #")[1]
     local unit_id = v:split(" #")[2]
@@ -2146,7 +2147,7 @@ function auto_place_units(position)
           [2] = CFrame.new(position[2].x + (math.random() + math.random(-3, 3)), position[2].y, position[2].z + (math.random() + math.random(-3, 3))) * CFrame.Angles(0, -0, -0)
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-        wait(0.5)
+        tasl.wait()
       end)
     elseif
       not unit_name:match("speedwagon")
@@ -2160,7 +2161,7 @@ function auto_place_units(position)
           [2] = CFrame.new(position[2].x + (math.random() + math.random(-3, 3)), position[1].y, position[2].z + (math.random() + math.random(-3, 3))) * CFrame.Angles(0, -0, -0)
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-        wait(0.5)
+        tasl.wait()
       else
         -- hill unit position
         local args = {
@@ -2168,7 +2169,7 @@ function auto_place_units(position)
           [2] = CFrame.new(position[2].x + (math.random() + math.random(-3, 3)), position[2].y, position[2].z + (math.random() + math.random(-3, 3))) * CFrame.Angles(0, -0, -0)
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-        wait(0.5)
+        tasl.wait()
       end
     elseif unit_name:match("nami") then
       local args = {
@@ -2176,7 +2177,7 @@ function auto_place_units(position)
         [2] = CFrame.new(position[1].x, position[1].y, position[1].z) * CFrame.Angles(0, -0, -0)
       }
       game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-      wait(0.5)
+      tasl.wait()
     else
       if random_number == 1 then
         -- ground unit position
@@ -2185,7 +2186,7 @@ function auto_place_units(position)
           [2] = CFrame.new(position[1].x + (math.random() + math.random(-3, 3)), position[1].y, position[1].z + (math.random() + math.random(-3, 3))) * CFrame.Angles(0, -0, -0)
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-        wait(0.5)
+        tasl.wait()
       else
         -- hill unit position
         local args = {
@@ -2193,7 +2194,7 @@ function auto_place_units(position)
           [2] = CFrame.new(position[2].x + (math.random() + math.random(-3, 3)), position[2].y, position[2].z + (math.random() + math.random(-3, 3))) * CFrame.Angles(0, -0, -0)
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-        wait(0.5)
+        tasl.wait()
       end
     end
   end
