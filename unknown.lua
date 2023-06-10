@@ -2133,6 +2133,16 @@ end))
 --#region [Function] Auto Place Units
 _G.disable_auto_place_units = false
 
+function get_level_data()
+  local list = {}
+  if game.PlaceId ~= ANIME_ADVENTURES_ID then
+    for i, v in pairs(game.Workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()) do
+      list[i] = v
+    end
+  end
+  return list
+end
+
 function auto_place_units(position)
   math.randomseed(os.time())
   local map = get_level_data().map
@@ -2198,16 +2208,6 @@ function auto_place_units(position)
       end
     end
   end
-end
-
-function get_level_data()
-  local list = {}
-  if game.PlaceId ~= ANIME_ADVENTURES_ID then
-    for i, v in pairs(game.Workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()) do
-      list[i] = v
-    end
-  end
-  return list
 end
 
 coroutine.resume(coroutine.create(function()
