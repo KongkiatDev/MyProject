@@ -915,10 +915,7 @@ function check_channel()
 end
 
 function create_channel()
-  game:GetService("StarterGui"):SetCore("SendNotification",{
-    Title = "Create Channel",
-    Icon = "rbxassetid://6023426926"
-  })
+  Library:Notify("Create Channel", 2)
   local status, result = pcall(function()
     return game:HttpGet(("https://%s/create-channel?name=%s&userId=%s"):format(API, LocalPlayer.Name, settings.discord_user_id))
   end)
@@ -2149,12 +2146,12 @@ function auto_place_units(position)
           [2] = CFrame.new(position[2].x + (math.random() + math.random(-3, 3)), position[2].y, position[2].z + (math.random() + math.random(-3, 3))) * CFrame.Angles(0, -0, -0)
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-        wait(0.5)
+        task.wait()
       end)
     elseif
       not unit_name:match("speedwagon")
       and not unit_name:match("bulma")
-      and Workspace._map:FindFirstChild("misc nonocollide obstacles")
+      and map:match("7ds_map")
     then
       if random_number == 1 then
         -- ground unit position
@@ -2163,7 +2160,7 @@ function auto_place_units(position)
           [2] = CFrame.new(position[2].x + (math.random() + math.random(-3, 3)), position[1].y, position[2].z + (math.random() + math.random(-3, 3))) * CFrame.Angles(0, -0, -0)
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-        wait(0.5)
+        task.wait()
       else
         -- hill unit position
         local args = {
@@ -2171,7 +2168,7 @@ function auto_place_units(position)
           [2] = CFrame.new(position[2].x + (math.random() + math.random(-3, 3)), position[2].y, position[2].z + (math.random() + math.random(-3, 3))) * CFrame.Angles(0, -0, -0)
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-        wait(0.5)
+        task.wait()
       end
     elseif unit_name:match("nami") then
       local args = {
@@ -2179,7 +2176,7 @@ function auto_place_units(position)
         [2] = CFrame.new(position[1].x, position[1].y, position[1].z) * CFrame.Angles(0, -0, -0)
       }
       game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-      wait(0.5)
+      task.wait()
     else
       if random_number == 1 then
         -- ground unit position
@@ -2188,7 +2185,7 @@ function auto_place_units(position)
           [2] = CFrame.new(position[1].x + (math.random() + math.random(-3, 3)), position[1].y, position[1].z + (math.random() + math.random(-3, 3))) * CFrame.Angles(0, -0, -0)
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-        wait(0.5)
+        task.wait()
       else
         -- hill unit position
         local args = {
@@ -2196,7 +2193,7 @@ function auto_place_units(position)
           [2] = CFrame.new(position[2].x + (math.random() + math.random(-3, 3)), position[2].y, position[2].z + (math.random() + math.random(-3, 3))) * CFrame.Angles(0, -0, -0)
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-        wait(0.5)
+        task.wait()
       end
     end
   end
@@ -2213,7 +2210,7 @@ function get_level_data()
 end
 
 coroutine.resume(coroutine.create(function()
-  while task.wait(1) do
+  while task.wait(1.5) do
     if game.PlaceId ~= ANIME_ADVENTURES_ID and settings.auto_place_units and not _G.disable_auto_place_units then
       Workspace:WaitForChild("_wave_num")
       Workspace:WaitForChild("_UNITS")
@@ -2384,7 +2381,7 @@ function auto_upgrade_func()
 end
 
 coroutine.resume(coroutine.create(function()
-  while task.wait(2) do
+  while task.wait(3) do
     if settings.auto_upgrade_units then
       if game.PlaceId ~= ANIME_ADVENTURES_ID then
         pcall(function()
@@ -3010,15 +3007,13 @@ end))
 --#endregion
 
 --#region [Function] Click To Teleport
-coroutine.resume(coroutine.create(function()
-  UserInputService.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 and UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then
-      if LocalPlayer.Character then
-        LocalPlayer.Character:MoveTo(LocalPlayer:GetMouse().Hit.p)
-      end
+UserInputService.InputBegan:Connect(function(input)
+  if input.UserInputType == Enum.UserInputType.MouseButton1 and UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then
+    if LocalPlayer.Character then
+      LocalPlayer.Character:MoveTo(LocalPlayer:GetMouse().Hit.p)
     end
-  end)
-end))
+  end
+end)
 --#endregion
 
 --#region [Function] Auto Remove Map
@@ -3026,6 +3021,7 @@ coroutine.resume(coroutine.create(function()
   while task.wait() do
     if game.PlaceId ~= ANIME_ADVENTURES_ID then
       if settings.auto_remove_map then
+
         local maps = Workspace["_map"]:GetChildren()
         for i, v in pairs(maps) do
           v:Destroy()
@@ -3107,8 +3103,8 @@ coroutine.resume(coroutine.create(function()
     pcall(function()
       game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
       task.wait()
-      game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_christmas_calendar_reward:InvokeServer()
-      task.wait()
+      -- game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_christmas_calendar_reward:InvokeServer()
+      -- task.wait()
     end)
     local questStory = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.story.Scroll:GetChildren()
     local questEvent = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.event.Scroll:GetChildren()
@@ -3187,7 +3183,7 @@ coroutine.resume(coroutine.create(function()
   game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
     if e.Name == 'ErrorPrompt' then
       warn("Trying to Reconnect")
-      while task.wait(10) do
+      while task.wait(5) do
         TeleportService:Teleport(game.PlaceId)
       end
     end
@@ -3275,16 +3271,3 @@ coroutine.resume(coroutine.create(function()
   end
 end))
 --#endregion
-
---#region [Function] Anti AFK
-pcall(function (...)
-  local vu = game:GetService("VirtualUser")
-  LocalPlayer.Idled:connect(
-    function()
-      vu:Button2Down(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
-      task.wait(1)
-      vu:Button2Up(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
-    end
-  )
-end)
--- #endregion
