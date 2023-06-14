@@ -3101,13 +3101,13 @@ end
 --#region [Function] Teleport Player to Unit
 function teleport_player_to_unit()
   task.spawn(function()
-    while task.wait(1) do
-      for _, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
-        if v:FindFirstChild("_stats") then
-          if tostring(v._stats.player.Value) == LocalPlayer.Name then
-            LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1)
-            break
-          end
+    Workspace:WaitForChild("_wave_num")
+    Workspace:WaitForChild("_UNITS")
+    for _, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
+      if v:FindFirstChild("_stats") then
+        if tostring(v._stats.player.Value) == LocalPlayer.Name then
+          LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1)
+          break
         end
       end
     end
