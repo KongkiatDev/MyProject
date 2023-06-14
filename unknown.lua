@@ -1,4 +1,4 @@
----@diagnostic disable: undefined-global
+---@diagnostic disable: undefined-global, lowercase-global
 
 --------------------------------------------------
 ------------------ Init Data ---------------------
@@ -6,31 +6,31 @@
 
 --#region Get Service
 repeat task.wait() until game:IsLoaded()
-repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
-wait(20)
-
-local HttpService = game:GetService("HttpService")
-local Workspace = game:GetService("Workspace")
-local LocalPlayer = game:GetService("Players").LocalPlayer
-local TeleportService = game:GetService("TeleportService")
-local UserInputService = game:GetService("UserInputService")
-local RunService = game:GetService("RunService")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-local StarterGui = game:GetService("StarterGui")
-local VirtualUser = game:GetService("VirtualUser")
+game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
+wait(10)
 
 local ANIME_ADVENTURES_ID = 8304191830
 local API = "rollinhub.ngrok.app"
 local API_DEV = "https://43cd841ebb8e.ngrok.app"
 local WH_URL = ("https://discord.com/api/webhooks/%s/%s"):format("1105540677158322306", "P7FHXSx9Ypr7nmxxDLAyW_q7eEUp3mRUvFbxdAp57x0bKIhY5Z-vorMJ3JmX-OhUmj_4")
 local FOLDER_NAME = "RollinHub"
+local HttpService = game:GetService("HttpService")
+local Workspace = game:GetService("Workspace")
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local TeleportService = game:GetService("TeleportService")
+local UserInputService = game:GetService("UserInputService")
+-- local RunService = game:GetService("RunService")
+-- local ReplicatedFirst = game:GetService("ReplicatedFirst")
+-- local TweenService = game:GetService("TweenService")
+local StarterGui = game:GetService("StarterGui")
+local VirtualUser = game:GetService("VirtualUser")
 
 if game.PlaceId == ANIME_ADVENTURES_ID then
-  repeat task.wait() until LocalPlayer.PlayerGui:FindFirstChild("collection"):FindFirstChild("grid"):FindFirstChild("List"):FindFirstChild("Outer"):FindFirstChild("UnitFrames")
+  game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("collection"):WaitForChild("grid"):WaitForChild("List"):WaitForChild("Outer"):WaitForChild("UnitFrames")
+  repeat task.wait() until LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text ~= "99"
 else
   game:GetService("ReplicatedStorage").endpoints.client_to_server.vote_start:InvokeServer()
-  repeat task.wait() until Workspace["_waves_started"].Value == true
+  repeat task.wait() until game:GetService("Workspace")["_waves_started"].Value == true
   game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
   game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
   LocalPlayer.PlayerGui.MessageGui.Enabled = false
@@ -38,13 +38,30 @@ else
 end
 --#endregion
 
---#region [Function] Anti AFK
-LocalPlayer.Idled:connect(function()
-  VirtualUser:CaptureController()
-  VirtualUser:ClickButton2(Vector2.new())
-  wait(2)
-end)
--- #endregion
+--#region TextLabel Screen
+function textlabel_screen()
+  local gui = Instance.new("ScreenGui")
+  gui.Parent = game.Players.LocalPlayer.PlayerGui
+
+  local textLabel = Instance.new("TextLabel")
+  textLabel.Size = UDim2.new(0, 200, 0, 50)
+  textLabel.Position = UDim2.new(0.5, 0, 0.5, -225)
+  textLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+  textLabel.BackgroundTransparency = 1
+  textLabel.Font = Enum.Font.SourceSansBold
+  textLabel.TextSize = 60
+  textLabel.Text = game.Players.LocalPlayer.Name
+  if game.PlaceId == ANIME_ADVENTURES_ID then
+    textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+  else
+    textLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+  end
+
+  textLabel.Parent = gui
+end
+
+textlabel_screen()
+--#endregion
 
 --#region Init Data
 settings = {}
@@ -89,6 +106,7 @@ function read_settings()
 end
 
 read_settings()
+wait(1)
 --#endregion
 
 --#region Init Gobal Data
@@ -130,97 +148,42 @@ function read_global_settings()
 end
 
 read_global_settings()
---#endregion
-
---#region Init White Screen
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Enabled = settings.white_screen
-screenGui.Parent = LocalPlayer.PlayerGui
-
-local textLabel = Instance.new("TextLabel")
-textLabel.Position = UDim2.new(0, 0, 0, 0)
-textLabel.Size = UDim2.new(1, 0, 0.25, 0)
-textLabel.BackgroundTransparency = 1
--- textLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-textLabel.Font = Enum.Font.GothamSemibold
-carry_id = {"Rollin_Host", "lokikongxd", "Rollin_626404", "Rollin_477478", "Rollin_064532", "Rollin_685093", "Rollin_766829"}
-carry = false
-for i = 1, #carry_id do
-  if carry_id[i] == LocalPlayer.Name then
-    carry = true
-    break
-  end
-end
-if game.PlaceId == ANIME_ADVENTURES_ID then
-  if carry then
-    textLabel.TextColor3 = Color3.fromRGB(0, 255, 70)
-  else
-    textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-  end
-else
-  if carry then
-    textLabel.TextColor3 = Color3.fromRGB(158, 0, 255)
-  else
-    textLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-  end
-end
-textLabel.Text = LocalPlayer.Name
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 960, 0, 960)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
--- Remove the default loading screen
-ReplicatedFirst:RemoveDefaultLoadingScreen()
--- RunService:Set3dRenderingEnabled(not settings.white_screen)
-
-local tweenInfo = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-function toggleLoadingScreen()
-  screenGui.Enabled = settings.white_screen
-end
-
--- Remove the default loading screen
-ReplicatedFirst:RemoveDefaultLoadingScreen()
+wait(1)
 --#endregion
 
 --#region Inventory Items
-local v5 = require(game.ReplicatedStorage.src.Loader)
-local v19 = v5.load_client_service(script, "ItemInventoryServiceClient")
-function get_inventory_items_unique_items()
-	return v19["session"]['inventory']['inventory_profile_data']['unique_items']
-end
-function get_inventory_items()
-	return v19["session"]["inventory"]['inventory_profile_data']['normal_items']
-end
-local Count_Portal_list = 0
+local services = require(game.ReplicatedStorage.src.Loader)
+local ItemInventoryServiceClient = services.load_client_service(script, "ItemInventoryServiceClient")
 local Table_All_Items_Old_data = {}
 local Table_All_Items_New_data = {}
+local Count_Portal_list = 0
+
+function get_inventory_unique_items()
+  return ItemInventoryServiceClient["session"]['inventory']['inventory_profile_data']['unique_items']
+end
+
+function get_inventory_items()
+  return ItemInventoryServiceClient["session"]["inventory"]['inventory_profile_data']['normal_items']
+end
+
 for v2, v3 in pairs(game:GetService("ReplicatedStorage").src.Data.Items:GetDescendants()) do
-	if v3:IsA("ModuleScript") then
-		for v4, v5 in pairs(require(v3)) do
+  if v3:IsA("ModuleScript") then
+    for v4, v5 in pairs(require(v3)) do
       Table_All_Items_Old_data[v4] = {}
-			Table_All_Items_Old_data[v4]['Name'] = v5['name']
+      Table_All_Items_Old_data[v4]['Name'] = v5['name']
       Table_All_Items_Old_data[v4]['Count'] = 0
-			Table_All_Items_New_data[v4] = {}
-			Table_All_Items_New_data[v4]['Name'] = v5['name']
-			Table_All_Items_New_data[v4]['Count'] = 0
-		end
-	end
+      Table_All_Items_New_data[v4] = {}
+      Table_All_Items_New_data[v4]['Name'] = v5['name']
+      Table_All_Items_New_data[v4]['Count'] = 0
+    end
+  end
 end
+
 for i,v in pairs(get_inventory_items()) do
-	Table_All_Items_Old_data[i]['Count'] = v
+  Table_All_Items_Old_data[i]['Count'] = v
 end
-for i,v in pairs(get_inventory_items_unique_items()) do
+
+for i,v in pairs(get_inventory_unique_items()) do
   if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
     Count_Portal_list = Count_Portal_list + 1
     Table_All_Items_Old_data[v['item_id']]['Count'] = Table_All_Items_Old_data[v['item_id']]['Count'] + 1
@@ -986,12 +949,6 @@ WebhookMenuGroupbox:AddButton({
     create_channel()
   end
 })
--- WebhookMenuGroupbox:AddButton({
---   Text = '📤 Delete Channel',
---   Func = function()
---     delete_channel()
---   end
--- })
 WebhookMenuGroupbox:AddButton({
   Text = '🔔 Test Webhook',
   Func = function()
@@ -1286,7 +1243,6 @@ function handle_select_units()
     do
       for i, v in pairs(getgc(true)) do
         if type(v) == "table" and rawget(v, "xp") then
-          wait()
           table.insert(_G.profile_data.equipped_units, v)
         end
       end
@@ -1304,8 +1260,8 @@ function handle_select_units()
   save_settings()
 end
 
-coroutine.resume(coroutine.create(function()
-  if game.PlaceId == ANIME_ADVENTURES_ID then
+function auto_select_units()
+  task.spawn(function ()
     handle_select_units()
     local collection = LocalPlayer.PlayerGui:WaitForChild("collection")
     collection:GetPropertyChangedSignal("Enabled"):Connect(function()
@@ -1313,48 +1269,41 @@ coroutine.resume(coroutine.create(function()
         handle_select_units()
       end
     end)
-  end
-end))
+  end)
+end
 --#endregion
 
 --#region [Function] Set Battlepass Level
-coroutine.resume(coroutine.create(function()
-  if game.PlaceId == ANIME_ADVENTURES_ID then
-    repeat task.wait() until LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text ~= "99"
-    settings.battlepass_current_level = tonumber(LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text)
-    settings.battlepass_xp = tostring(LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text)
-    save_settings()
-  end
-end))
+function set_battlepass_level()
+  settings.battlepass_current_level = tonumber(LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text)
+  settings.battlepass_xp = tostring(LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text)
+  save_settings()
+end
 --#endregion
 
---#region [Function] Reduece Low Graphic Settings
-coroutine.resume(coroutine.create(function()
+--#region [Function] Auto Low Graphic Settings
+function auto_low_graphic_settings()
   if game.PlaceId == ANIME_ADVENTURES_ID then
     local args = {
       [1] = "trading",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait()
     local args = {
       [1] = "hide_other_pets",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait()
     local args = {
       [1] = "low_quality_shadows",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait()
     local args = {
       [1] = "low_quality_textures",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait()
     local args = {
       [1] = "dynamic_depth_of_field",
       [2] = true
@@ -1367,91 +1316,78 @@ coroutine.resume(coroutine.create(function()
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait()
     local args = {
       [1] = "show_damage_text",
       [2] = false
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait()
     local args = {
       [1] = "show_overheads",
       [2] = false
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait()
     local args = {
       [1] = "hide_damage_modifiers",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait()
     local args = {
       [1] = "autoskip_waves",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait()
     local args = {
       [1] = "disable_auto_open_overhead",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait()
     local args = {
       [1] = "show_upgrade_ui_on_left",
       [2] = false
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait()
     local args = {
       [1] = "low_quality",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait()
     local args = {
       [1] = "disable_kill_fx",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait()
     local args = {
       [1] = "disable_other_fx",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait()
     local args = {
       [1] = "disable_effects",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait()
     local args = {
       [1] = "low_quality_shadows",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
-    task.wait()
     local args = {
       [1] = "low_quality_textures",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
   end
-end))
+end
 --#endregion
 
---#region [Function] Low CPU
-coroutine.resume(coroutine.create(function()
-  task.wait(5)
+--#region [Function] Set FPS Cap
+function set_fps_cap()
   if settings.fps_limit then
     setfpscap(5)
   else
     setfpscap(30)
   end
-end))
+end
 --#endregion
 
 --#region [Function] Web Hook
@@ -1502,7 +1438,7 @@ function update_inventory_items()
   for i,v in pairs(get_inventory_items()) do
     Table_All_Items_New_data[i]['Count'] = v
   end
-  for i,v in pairs(get_inventory_items_unique_items()) do
+  for i,v in pairs(get_inventory_unique_items()) do
     if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
       Table_All_Items_New_data[v['item_id']]['Count'] = Table_All_Items_New_data[v['item_id']]['Count'] + 1
     end
@@ -2102,32 +2038,34 @@ function start_challenge()
   end
 end
 
-coroutine.resume(coroutine.create(function()
-  while task.wait() do
-    if game.PlaceId == ANIME_ADVENTURES_ID and settings.auto_farm then
-      local manual = settings.farm_mode == "Manual"
-      local gems = settings.farm_mode == "Gem"
-      local story = settings.farm_mode == "Story"
-      local level_id = settings.farm_mode == "Level-ID"
-      local level_bp = settings.farm_mode == "Level-BP"
-      local portal = settings.farm_mode == "Portal"
-      local raid = settings.farm_mode == "Raid"
-      local infinite_castle = settings.farm_mode == "Infinity Castle"
-      local challenge = settings.farm_mode == "Challenge"
-      if manual or gems or story or level_id or level_bp then
-        start_farming()
-      elseif portal then
-        start_portal()
-      elseif raid then
-        start_raid()
-      elseif infinite_castle then
-        start_infinity_castle()
-      elseif challenge then
-        start_challenge()
+function auto_start()
+  task.spawn(function()
+    while task.wait() do
+      if settings.auto_farm then
+        local manual = settings.farm_mode == "Manual"
+        local gems = settings.farm_mode == "Gem"
+        local story = settings.farm_mode == "Story"
+        local level_id = settings.farm_mode == "Level-ID"
+        local level_bp = settings.farm_mode == "Level-BP"
+        local portal = settings.farm_mode == "Portal"
+        local raid = settings.farm_mode == "Raid"
+        local infinite_castle = settings.farm_mode == "Infinity Castle"
+        local challenge = settings.farm_mode == "Challenge"
+        if manual or gems or story or level_id or level_bp then
+          start_farming()
+        elseif portal then
+          start_portal()
+        elseif raid then
+          start_raid()
+        elseif infinite_castle then
+          start_infinity_castle()
+        elseif challenge then
+          start_challenge()
+        end
       end
     end
-  end
-end))
+  end)
+end
 --#endregion
 
 --#region [Function] Auto Place Units
@@ -2143,12 +2081,12 @@ function get_level_data()
   return list
 end
 
-function auto_place_units(position)
-  math.randomseed(os.time())
+function place_units(position)
   local map = get_level_data().map
   for i, v in pairs(settings.selected_units) do
     local unit_name = v:split(" #")[1]
     local unit_id = v:split(" #")[2]
+    math.randomseed(os.time())
     local random_number = math.random(1, 2)
     if unit_name == "metal_knight_evolved" then
       task.spawn(function()
@@ -2210,238 +2148,230 @@ function auto_place_units(position)
   end
 end
 
-coroutine.resume(coroutine.create(function()
-  while task.wait(1.5) do
-    if game.PlaceId ~= ANIME_ADVENTURES_ID and settings.auto_place_units and not _G.disable_auto_place_units then
-      Workspace:WaitForChild("_wave_num")
-      Workspace:WaitForChild("_UNITS")
-      for _, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
-        if v:FindFirstChild("_stats") then
-          if v._stats.player.Value == nil then
-            pos_x = v.HumanoidRootPart.Position.X
-            pos_z = v.HumanoidRootPart.Position.Z
-            break
-          end
-        end
-      end
-      local map = get_level_data().map
-      if map:match("namek_cartoon") then
-        -- print("Planet Namak")
-        auto_place_units({
-          [1] = { x = pos_x, y = 91.80, z = pos_z }, -- ground unit position
-          [2] = { x = -2957.349, y = 94.532, z = -696.295 }, -- hill unit position
-        })
-      elseif map:match("aot") then
-        -- print("Shiganshinu District")
-        auto_place_units({
-          [1] = { x = pos_x, y = 33.74, z = pos_z }, -- ground unit position
-          [2] = { x = -3024.567, y = 38.415, z = -676.646 }, -- hill unit position
-        })
-      elseif map:match("demonslayer") then
-        -- print("Snowy Town")
-        auto_place_units({
-          [1] = { x = pos_x, y = 34.34, z = pos_z }, -- ground unit position
-          [2] = { x = -2877.026, y = 40.375, z = -122.473 }, -- hill unit position
-        })
-      elseif map:match("naruto") then
-        -- print("Hidden Sand Village")
-        auto_place_units({
-          [1] = { x = pos_x, y = 25.28, z = pos_z }, -- ground unit position
-          [2] = { x = -894.389, y = 29.568, z = 321.249 }, -- hill unit position
-        })
-      elseif map:match("marineford") then
-        -- print("Marine's Ford")
-        auto_place_units({
-          [1] = { x = pos_x, y = 25.21, z = pos_z }, -- ground unit position
-          [2] = { x = -2537.202, y = 28.057, z = -49.016 }, -- hill unit position
-        })
-      elseif map:match("tokyo_ghoul") then
-        -- print("Ghoul City")
-        auto_place_units({
-          [1] = { x = pos_x, y = 58.58, z = pos_z }, -- ground unit position
-          [2] = { x = -2958.325, y = 62.821, z = -47.757 }, -- hill unit position
-        })
-      elseif map:match("hueco") then
-        -- print("Hollow World")
-        auto_place_units({
-          [1] = { x = pos_x, y = 132.664, z = pos_z }, -- ground unit position
-          [2] = { x = -184.191, y = 136.340, z = -763.578 }, -- hill unit position
-        })
-      elseif map:match("hxhant") then
-        -- print("Ant Kingdom")
-        auto_place_units({
-          [1] = { x = pos_x, y = 23.012, z = pos_z }, -- ground unit position
-          [2] = { x = -188.529, y = 27.207, z = 2952.264 }, -- hill unit position
-        })
-      elseif map:match("magnolia") then
-        -- print("Magic Town")
-        auto_place_units({
-          [1] = { x = pos_x, y = 6.744, z = pos_z }, -- ground unit position
-          [2] = { x = -591.005, y = 14.584, z = -828.894 }, -- hill unit position
-        })
-      elseif map:match("jjk") then
-        -- print("Cursed Academy")
-        auto_place_units({
-          [1] = { x = pos_x, y = 122.061, z = pos_z }, -- ground unit position
-          [2] = { x = 390.698, y = 124.442, z = -79.022 }, -- hill unit position
-        })
-      elseif map:match("hage") then
-        -- print("Clover Kingdom")
-        auto_place_units({
-          [1] = { x = pos_x, y = 1.233, z = pos_z }, -- ground unit position
-          [2] = { x = -167.163, y = 5.032, z = -37.188 }, -- hill unit position
-        })
-      elseif map:match("space_center") then
-        -- print("Cape Canaveral")
-        auto_place_units({
-          [1] = { x = pos_x, y = 15.255, z = pos_z }, -- ground unit position
-          [2] = { x = -110.315, y = 19.621, z = -528.211 }, -- hill unit position
-        })
-      elseif map:match("boros_ship") then
-        -- print("Alien Spaceship")
-        auto_place_units({
-          [1] = { x = pos_x, y = 361.211, z = pos_z }, -- ground unit position
-          [2] = { x = -332.029, y = 365.262, z = 1393.841 }, -- hill unit position
-        })
-      elseif map:match("7ds_map") then
-        -- print("Fabled Kingdom")
-        auto_place_units({
-          [1] = { x = pos_x, y = 212.961, z = pos_z }, -- ground unit position
-          [2] = { x = -101.678, y = 219.209, z = -205.345 }, -- hill unit position
-        })
-      elseif map:match("mha_city") then
-        -- print("Hero City")
-        auto_place_units({
-          [1] = { x = pos_x, y = -13.246, z = pos_z }, -- ground unit position
-          [2] = { x = -31.493, y = -10.022, z = 21.955 }, -- hill unit position
-        })
-      elseif map:match("dressrosa") then
-        -- print("Puppet Island")
-        auto_place_units({
-          [1] = { x = pos_x, y = 2.600, z = pos_z }, -- ground unit position
-          [2] = { x = -41.454, y = 5.986, z = -185.049 }, -- hill unit position
-        })
-
-      --///Legend Stages\\\--- 
-      elseif map:match("karakura") then
-        -- print("Hollow Invasion (Legend)")
-        auto_place_units({
-          [1] = { x = pos_x, y = 36.044, z = pos_z }, -- ground unit position
-          [2] = { x = -212.727, y = 46.035, z = 598.998 }, -- hill unit position
-        })
-
-      --///Raids\\\---
-      elseif map:match("west_city") then
-        -- print("West City")
-        auto_place_units({
-          [1] = { x = pos_x, y = 19.763, z = pos_z }, -- ground unit position
-          [2] = { x = -2347.344, y = 32.036, z = -89.022 }, -- hill unit position
-        })
-      elseif map:match("uchiha_hideout") then
-        -- print("Storm Hideout")
-        auto_place_units({
-          [1] = { x = pos_x, y = 536.89, z = pos_z }, -- ground unit position
-          [2] = { x = 304.338, y = 539.897, z = -584.447 }, -- hill unit position
-        })
-      elseif map:match("entertainment_district") then
-        -- print("Entertainment District")
-        auto_place_units({
-          [1] = { x = pos_x, y = 495.600, z = pos_z }, -- ground unit position
-          [2] = { x = -127.54, y = 505.142, z = -92.913 }, -- hill unit position
-          -- [2] = { x = -110.546, y = 505.219, z = -75.522 }, -- hill unit position
-        })
-      end
-    end
-  end
-end))
--- #endregion
-
---#region [Function] Auto Upgrade
-_G._auto_upgrade_units = false
-function auto_upgrade_func()
-  local status, value = pcall(function()
-    Workspace:WaitForChild("_UNITS")
-    local _wave = Workspace:WaitForChild("_wave_num")
-    for i, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
-      if v:FindFirstChild("_stats") then
-        if tostring(v["_stats"].player.Value) == LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
-          if _wave.Value >= 6 then
-            if v.Name:match("wendy") or v.Name:match("emilia") then
-              -- Don't Upgrade
-            else
-              game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
+function auto_place_units()
+  task.spawn(function()
+    while task.wait(1.5) do
+      if settings.auto_place_units and not _G.disable_auto_place_units then
+        Workspace:WaitForChild("_wave_num")
+        Workspace:WaitForChild("_UNITS")
+        for _, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
+          if v:FindFirstChild("_stats") then
+            if v._stats.player.Value == nil then
+              pos_x = v.HumanoidRootPart.Position.X
+              pos_z = v.HumanoidRootPart.Position.Z
+              break
             end
           end
         end
-      end
-    end
-  end)
-  if value then
-    _G._auto_upgrade_units = true
-  end
-end
-
-coroutine.resume(coroutine.create(function()
-  while task.wait(3) do
-    if settings.auto_upgrade_units then
-      if game.PlaceId ~= ANIME_ADVENTURES_ID then
-        pcall(function()
-          auto_upgrade_func()
-        end)
-      end
-      if _G._auto_upgrade_units == true then
-        task.wait()
-        auto_upgrade_func()
-        _G._auto_upgrade_units = false
-      end
-    end
-  end
-end))
--- #endregion
-
---#region [Function] Auto Abilities
-_G._auto_abilities = false
-function auto_abilities_func()
-  local status, value = pcall(function()
-    Workspace:WaitForChild("_UNITS")
-    for i, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
-      if v:FindFirstChild("_stats") then
-        if v._stats:FindFirstChild("player") and v._stats:FindFirstChild("xp") then
-          if tostring(v["_stats"].player.Value) == LocalPlayer.Name and v["_stats"].xp.Value > 0 then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-          end
+        local map = get_level_data().map
+        if map:match("namek_cartoon") then
+          -- print("Planet Namak")
+          place_units({
+            [1] = { x = pos_x, y = 91.80, z = pos_z }, -- ground unit position
+            [2] = { x = -2957.349, y = 94.532, z = -696.295 }, -- hill unit position
+          })
+        elseif map:match("aot") then
+          -- print("Shiganshinu District")
+          place_units({
+            [1] = { x = pos_x, y = 33.74, z = pos_z }, -- ground unit position
+            [2] = { x = -3024.567, y = 38.415, z = -676.646 }, -- hill unit position
+          })
+        elseif map:match("demonslayer") then
+          -- print("Snowy Town")
+          place_units({
+            [1] = { x = pos_x, y = 34.34, z = pos_z }, -- ground unit position
+            [2] = { x = -2877.026, y = 40.375, z = -122.473 }, -- hill unit position
+          })
+        elseif map:match("naruto") then
+          -- print("Hidden Sand Village")
+          place_units({
+            [1] = { x = pos_x, y = 25.28, z = pos_z }, -- ground unit position
+            [2] = { x = -894.389, y = 29.568, z = 321.249 }, -- hill unit position
+          })
+        elseif map:match("marineford") then
+          -- print("Marine's Ford")
+          place_units({
+            [1] = { x = pos_x, y = 25.21, z = pos_z }, -- ground unit position
+            [2] = { x = -2537.202, y = 28.057, z = -49.016 }, -- hill unit position
+          })
+        elseif map:match("tokyo_ghoul") then
+          -- print("Ghoul City")
+          place_units({
+            [1] = { x = pos_x, y = 58.58, z = pos_z }, -- ground unit position
+            [2] = { x = -2958.325, y = 62.821, z = -47.757 }, -- hill unit position
+          })
+        elseif map:match("hueco") then
+          -- print("Hollow World")
+          place_units({
+            [1] = { x = pos_x, y = 132.664, z = pos_z }, -- ground unit position
+            [2] = { x = -184.191, y = 136.340, z = -763.578 }, -- hill unit position
+          })
+        elseif map:match("hxhant") then
+          -- print("Ant Kingdom")
+          place_units({
+            [1] = { x = pos_x, y = 23.012, z = pos_z }, -- ground unit position
+            [2] = { x = -188.529, y = 27.207, z = 2952.264 }, -- hill unit position
+          })
+        elseif map:match("magnolia") then
+          -- print("Magic Town")
+          place_units({
+            [1] = { x = pos_x, y = 6.744, z = pos_z }, -- ground unit position
+            [2] = { x = -591.005, y = 14.584, z = -828.894 }, -- hill unit position
+          })
+        elseif map:match("jjk") then
+          -- print("Cursed Academy")
+          place_units({
+            [1] = { x = pos_x, y = 122.061, z = pos_z }, -- ground unit position
+            [2] = { x = 390.698, y = 124.442, z = -79.022 }, -- hill unit position
+          })
+        elseif map:match("hage") then
+          -- print("Clover Kingdom")
+          place_units({
+            [1] = { x = pos_x, y = 1.233, z = pos_z }, -- ground unit position
+            [2] = { x = -167.163, y = 5.032, z = -37.188 }, -- hill unit position
+          })
+        elseif map:match("space_center") then
+          -- print("Cape Canaveral")
+          place_units({
+            [1] = { x = pos_x, y = 15.255, z = pos_z }, -- ground unit position
+            [2] = { x = -110.315, y = 19.621, z = -528.211 }, -- hill unit position
+          })
+        elseif map:match("boros_ship") then
+          -- print("Alien Spaceship")
+          place_units({
+            [1] = { x = pos_x, y = 361.211, z = pos_z }, -- ground unit position
+            [2] = { x = -332.029, y = 365.262, z = 1393.841 }, -- hill unit position
+          })
+        elseif map:match("7ds_map") then
+          -- print("Fabled Kingdom")
+          place_units({
+            [1] = { x = pos_x, y = 212.961, z = pos_z }, -- ground unit position
+            [2] = { x = -101.678, y = 219.209, z = -205.345 }, -- hill unit position
+          })
+        elseif map:match("mha_city") then
+          -- print("Hero City")
+          place_units({
+            [1] = { x = pos_x, y = -13.246, z = pos_z }, -- ground unit position
+            [2] = { x = -31.493, y = -10.022, z = 21.955 }, -- hill unit position
+          })
+        elseif map:match("dressrosa") then
+          -- print("Puppet Island")
+          place_units({
+            [1] = { x = pos_x, y = 2.600, z = pos_z }, -- ground unit position
+            [2] = { x = -41.454, y = 5.986, z = -185.049 }, -- hill unit position
+          })
+  
+        --///Legend Stages\\\--- 
+        elseif map:match("karakura") then
+          -- print("Hollow Invasion (Legend)")
+          place_units({
+            [1] = { x = pos_x, y = 36.044, z = pos_z }, -- ground unit position
+            [2] = { x = -212.727, y = 46.035, z = 598.998 }, -- hill unit position
+          })
+  
+        --///Raids\\\---
+        elseif map:match("west_city") then
+          -- print("West City")
+          place_units({
+            [1] = { x = pos_x, y = 19.763, z = pos_z }, -- ground unit position
+            [2] = { x = -2347.344, y = 32.036, z = -89.022 }, -- hill unit position
+          })
+        elseif map:match("uchiha_hideout") then
+          -- print("Storm Hideout")
+          place_units({
+            [1] = { x = pos_x, y = 536.89, z = pos_z }, -- ground unit position
+            [2] = { x = 304.338, y = 539.897, z = -584.447 }, -- hill unit position
+          })
+        elseif map:match("entertainment_district") then
+          -- print("Entertainment District")
+          place_units({
+            [1] = { x = pos_x, y = 495.600, z = pos_z }, -- ground unit position
+            [2] = { x = -127.54, y = 505.142, z = -92.913 }, -- hill unit position
+            -- [2] = { x = -110.546, y = 505.219, z = -75.522 }, -- hill unit position
+          })
         end
       end
     end
   end)
-  if value then
-    _G._auto_abilities = true
-  end
 end
+-- #endregion
 
-coroutine.resume(coroutine.create(function()
-  while task.wait(2) do
-    if settings.auto_abilities then
-      if game.PlaceId ~= ANIME_ADVENTURES_ID then
-        pcall(function()
-          auto_abilities_func()
-        end)
-      end
-      if _G._auto_abilities == true then
-        task.wait()
-        auto_abilities_func()
-        _G._auto_abilities = false
+--#region [Function] Auto Upgrade
+function auto_upgrade()
+  task.spawn(function()
+    Workspace:WaitForChild("_UNITS")
+    while task.wait(2) do
+      if settings.auto_upgrade_units then
+        for i, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
+          pcall(function()
+            if v:FindFirstChild("_stats") then
+              local _wave = Workspace:WaitForChild("_wave_num")
+              if tostring(v["_stats"].player.Value) == LocalPlayer.Name and v["_stats"].xp.Value >= 0 and _wave.Value >= 6 then
+                if not v.Name:match("wendy") or not v.Name:match("emilia") then
+                  game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
+                end
+              end
+            end
+          end)
+        end
       end
     end
-  end
-end))
+  end)
+end
+-- #endregion
+
+--#region [Function] Auto Abilities
+function auto_abilities()
+  task.spawn(function()
+    Workspace:WaitForChild("_UNITS")
+    while task.wait(2) do
+      if settings.auto_abilities then
+        for i, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
+          pcall(function()
+            if v:FindFirstChild("_stats") then
+              if v._stats:FindFirstChild("player") then
+                if tostring(v._stats.player.Value) == LocalPlayer.Name then
+  
+                  -- Execute Skill if Wendy and recast every 21 seconds
+                  if v._stats.id.Value == "wendy" then
+                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                    task.wait(21)
+                
+                  -- Execute Skill if Erwin and recast every 21 seconds
+                  elseif v._stats.id.Value == "erwin" then
+                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                    task.wait(21)
+                      
+                  -- Execute Skill if Gojo and recast every 60 seconds    
+                  elseif v._stats.id.Value == "gojo_evolved" then
+                    if v._stats.state.Value == "attack" then
+                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                    end
+                  
+                  -- Execute Skill if Not Wendy, Erwin, Gojo and Puchi    
+                  else
+                    if v._stats.state.Value == "attack" then
+                      if v._stats.active_attack.Value ~= "nil" then
+                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end)
+        end
+      end
+    end
+  end)
+end
+
 -- #endregion
 
 --#region [Function] Auto Sell
-coroutine.resume(coroutine.create(function()
-  while task.wait() do
-    if game.PlaceId ~= ANIME_ADVENTURES_ID then
+function auto_sell_units()
+  task.spawn(function()
+    while task.wait(1) do
       local _wave = Workspace:WaitForChild("_wave_num")
       if settings.auto_sell_units and settings.sell_at_wave ~= nil and settings.sell_at_wave > 0 then
         if _wave.Value >= settings.sell_at_wave then
@@ -2449,15 +2379,15 @@ coroutine.resume(coroutine.create(function()
           for i, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
             v:WaitForChild("_stats")
             if tostring(v["_stats"].player.Value) == LocalPlayer.Name then
-              v:WaitForChild("_stats"):WaitForChild("upgrade")
+              v["_stats"]:WaitForChild("upgrade")
               game:GetService("ReplicatedStorage").endpoints.client_to_server.sell_unit_ingame:InvokeServer(v)
             end
           end
         end
       end
     end
-  end
-end))
+  end)
+end
 -- endregion
 
 --#region [Function] Game Finished
@@ -2697,8 +2627,8 @@ function challenge_end()
   return_to_lobby()
 end
 
-coroutine.resume(coroutine.create(function()
-  if game.PlaceId ~= ANIME_ADVENTURES_ID then
+function game_finished()
+  task.spawn(function()
     local game_finished = Workspace["_DATA"]:WaitForChild("GameFinished")
     game_finished:GetPropertyChangedSignal("Value"):Connect(function()
       if game_finished.Value == true then
@@ -2738,14 +2668,14 @@ coroutine.resume(coroutine.create(function()
         end
       end
     end)
-  end
-end))
+  end)
+end
 -- #endregion
 
 --#region [Function] Auto Force Leave
-coroutine.resume(coroutine.create(function()
-  while task.wait(1) do
-    if game.PlaceId ~= ANIME_ADVENTURES_ID then
+function auto_force_leave()
+  task.spawn(function()
+    while task.wait(5) do
       local _wave = Workspace:WaitForChild("_wave_num")
       if settings.sell_at_wave ~= nil and settings.sell_at_wave > 0 then
         if _wave.Value >= settings.sell_at_wave then
@@ -2798,236 +2728,246 @@ coroutine.resume(coroutine.create(function()
         end
       end
     end
-  end
-end))
+  end)
+end
 -- #endregion
 
---#region [Function] Auto Lag
+--#region [Function] Auto Lag & lag handle
 _G.disable_auto_lag = false
-coroutine.resume(coroutine.create(function()
-  while task.wait(settings.lag_delay) do --// don't change it's the best
-    if game.PlaceId ~= ANIME_ADVENTURES_ID and settings.auto_lag and _G.disable_auto_lag == false then
-      game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge * math.huge)
-      local function getmaxvalue(val)
-        local mainvalueifonetable = 499999
-        if type(val) ~= "number" then
-          return nil
+function auto_lag()
+  task.spawn(function()
+    while task.wait(settings.lag_delay) do --// don't change it's the best
+      if settings.auto_lag and _G.disable_auto_lag == false then
+        game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge * math.huge)
+        local function getmaxvalue(val)
+          local mainvalueifonetable = 499999
+          if type(val) ~= "number" then
+            return nil
+          end
+          local calculateperfectval = (mainvalueifonetable/(val+2))
+          return calculateperfectval
         end
-        local calculateperfectval = (mainvalueifonetable/(val+2))
-        return calculateperfectval
-      end
-
-      local function bomb(tableincrease, tries)
-        local maintable = {}
-        local spammedtable = {}
-        
-        table.insert(spammedtable, {})
-        z = spammedtable[1]
-        
-        for i = 1, tableincrease do
-          local tableins = {}
-          table.insert(z, tableins)
-          z = tableins
+  
+        local function bomb(tableincrease, tries)
+          local maintable = {}
+          local spammedtable = {}
+          
+          table.insert(spammedtable, {})
+          z = spammedtable[1]
+          
+          for i = 1, tableincrease do
+            local tableins = {}
+            table.insert(z, tableins)
+            z = tableins
+          end
+          
+          local calculatemax = getmaxvalue(tableincrease)
+          local maximum
+          
+          if calculatemax then
+            maximum = calculatemax
+            else
+            maximum = 999999
+          end
+          
+          for i = 1, maximum do
+            table.insert(maintable, spammedtable)
+          end
+          
+          for i = 1, tries do
+            game:GetService("RobloxReplicatedStorage").SetPlayerBlockList:FireServer(maintable)
+          end
         end
         
-        local calculatemax = getmaxvalue(tableincrease)
-        local maximum
-        
-        if calculatemax then
-          maximum = calculatemax
-          else
-          maximum = 999999
-        end
-        
-        for i = 1, maximum do
-          table.insert(maintable, spammedtable)
-        end
-        
-        for i = 1, tries do
-          game:GetService("RobloxReplicatedStorage").SetPlayerBlockList:FireServer(maintable)
-        end
-      end
-      
-      bomb(250, 1) --// change values if client crashes
-      if LocalPlayer.PlayerGui.ResultsUI.Enabled == true then
-        _G.disable_auto_lag = true
-      end
-    end
-  end
-end))
-
-coroutine.resume(coroutine.create(function()
-  while task.wait() do
-    if game.PlaceId ~= ANIME_ADVENTURES_ID and settings.auto_lag and settings.handle_auto_lag then
-      local _wave = Workspace:WaitForChild("_wave_num")
-      local lag_on = settings.lag_start_on_wave
-      local lag_off = settings.lag_stop_on_wave
-      if lag_off >= lag_on then
-        if _wave.Value >= lag_on and _wave.Value <= lag_off then
-          _G.disable_auto_lag = false
-        else
+        bomb(250, 1) --// change values if client crashes
+        if LocalPlayer.PlayerGui.ResultsUI.Enabled == true then
           _G.disable_auto_lag = true
         end
       end
-      if LocalPlayer.PlayerGui.ResultsUI.Enabled == true then
-        _G.disable_auto_lag = true
+    end
+  end)
+end
+
+function lag_handle()
+  task.spawn(function()
+    while task.wait(1) do
+      if settings.auto_lag and settings.handle_auto_lag then
+        local _wave = Workspace:WaitForChild("_wave_num")
+        local lag_on = settings.lag_start_on_wave
+        local lag_off = settings.lag_stop_on_wave
+        if lag_off >= lag_on then
+          if _wave.Value >= lag_on and _wave.Value <= lag_off then
+            _G.disable_auto_lag = false
+          else
+            _G.disable_auto_lag = true
+          end
+        end
+        if LocalPlayer.PlayerGui.ResultsUI.Enabled == true then
+          _G.disable_auto_lag = true
+        end
       end
     end
-  end
-end))
+  end)
+end
 -- #endregion
 
 --#region [Function] Auto Buy/Sell
-pcall(function()
-  if game.PlaceId == ANIME_ADVENTURES_ID then
-    _G.UnitCache = {}
-    for _, Module in next, game:GetService("ReplicatedStorage"):WaitForChild("src"):WaitForChild("Data"):WaitForChild("Units"):GetDescendants() do
-      if Module:IsA("ModuleScript") and Module.Name ~= "UnitPresets" then
-        for UnitName, UnitStats in next, require(Module) do
-          _G.UnitCache[UnitName] = UnitStats
-        end
-      end
-    end
-  end
-end)
+-- pcall(function()
+--   if game.PlaceId == ANIME_ADVENTURES_ID then
+--     _G.UnitCache = {}
+--     for _, Module in next, game:GetService("ReplicatedStorage"):WaitForChild("src"):WaitForChild("Data"):WaitForChild("Units"):GetDescendants() do
+--       if Module:IsA("ModuleScript") and Module.Name ~= "UnitPresets" then
+--         for UnitName, UnitStats in next, require(Module) do
+--           _G.UnitCache[UnitName] = UnitStats
+--         end
+--       end
+--     end
+--   end
+-- end)
 
-coroutine.resume(coroutine.create(function()
-  while task.wait() do
-    if game.PlaceId == ANIME_ADVENTURES_ID then
-      if settings.auto_buy_special_unit then
-        local args = {
-          [1] = "EventClover",
-          [2] = "gems10",
-        }
-        game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_from_banner:InvokeServer(unpack(args))
-      end
-    end
-  end
-end))
+-- coroutine.resume(coroutine.create(function()
+--   while task.wait() do
+--     if game.PlaceId == ANIME_ADVENTURES_ID then
+--       if settings.auto_buy_special_unit then
+--         local args = {
+--           [1] = "EventClover",
+--           [2] = "gems10",
+--         }
+--         game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_from_banner:InvokeServer(unpack(args))
+--       end
+--     end
+--   end
+-- end))
 
-coroutine.resume(coroutine.create(function()
-	while task.wait() do
-		if game.PlaceId == ANIME_ADVENTURES_ID then
-      if settings.auto_sell_rarity_units then
-        for i, v in pairs(game:GetService("ReplicatedStorage")["_FX_CACHE"]:GetChildren()) do
-          if v.Name == "CollectionUnitFrame" then
-            repeat task.wait() until v:FindFirstChild("name")
-            for _, Info in next, _G.UnitCache do
-              if settings.auto_sell_rarity_units == false then
-                break
-              end
-              if Info.name == v.name.Text and Info.rarity == "Rare" or Info.name == v.name.Text and Info.rarity == "Epic" then
-                local args = {
-                  [1] = {
-                    [1] = tostring(v._uuid.Value),
-                  }
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.sell_units:InvokeServer(unpack(args))
-              end
-            end
-          end
-        end
-      end
-    end
-	end
-end))
+-- coroutine.resume(coroutine.create(function()
+-- 	while task.wait() do
+-- 		if game.PlaceId == ANIME_ADVENTURES_ID then
+--       if settings.auto_sell_rarity_units then
+--         for i, v in pairs(game:GetService("ReplicatedStorage")["_FX_CACHE"]:GetChildren()) do
+--           if v.Name == "CollectionUnitFrame" then
+--             repeat task.wait() until v:FindFirstChild("name")
+--             for _, Info in next, _G.UnitCache do
+--               if settings.auto_sell_rarity_units == false then
+--                 break
+--               end
+--               if Info.name == v.name.Text and Info.rarity == "Rare" or Info.name == v.name.Text and Info.rarity == "Epic" then
+--                 local args = {
+--                   [1] = {
+--                     [1] = tostring(v._uuid.Value),
+--                   }
+--                 }
+--                 game:GetService("ReplicatedStorage").endpoints.client_to_server.sell_units:InvokeServer(unpack(args))
+--               end
+--             end
+--           end
+--         end
+--       end
+--     end
+-- 	end
+-- end))
 --#endregion
 
 --#region [Function] Party Mode
-coroutine.resume(coroutine.create(function()
-  if game.PlaceId == ANIME_ADVENTURES_ID then
-    while task.wait(5) do
-      if settings.party_mode then
-        if game.JobId ~= global_settings.party_id then
-          TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, global_settings.party_id, LocalPlayer)
-        end
-
-        if settings.user_role == "Member" then
-          -- normal farm
-          for i, v in pairs(Workspace["_LOBBIES"].Story:GetDescendants()) do
-            if v.Name == "Owner" and tostring(v.Value) == settings.host_name then
-              local args = {
-                [1] = tostring(v.Parent.Name)
-              }
-              game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
-              task.wait()
-              break
-            end
+function party_mode()
+  task.spawn(function()
+    if game.PlaceId == ANIME_ADVENTURES_ID then
+      while task.wait(5) do
+        if settings.party_mode then
+          if game.JobId ~= global_settings.party_id then
+            TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, global_settings.party_id, LocalPlayer)
           end
-          -- raid
-          for i, v in pairs(Workspace["_RAID"].Raid:GetDescendants()) do
-            if v.Name == "Owner" and tostring(v.Value) == settings.host_name then
-              local args = {
-                [1] = tostring(v.Parent.Name)
-              }
-              game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
-              task.wait()
-              break
+  
+          if settings.user_role == "Member" then
+            -- normal farm
+            for i, v in pairs(Workspace["_LOBBIES"].Story:GetDescendants()) do
+              if v.Name == "Owner" and tostring(v.Value) == settings.host_name then
+                local args = {
+                  [1] = tostring(v.Parent.Name)
+                }
+                game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
+                task.wait()
+                break
+              end
             end
-          end
-          -- portal
-          for i, v in pairs(Workspace["_PORTALS"].Lobbies:GetDescendants()) do
-            if v.Name == "Owner" and tostring(v.value) == settings.host_name then
-              local args = {
-                [1] = tostring(v.Parent.Name)
-              }
-              game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
-              task.wait()
-              break
+            -- raid
+            for i, v in pairs(Workspace["_RAID"].Raid:GetDescendants()) do
+              if v.Name == "Owner" and tostring(v.Value) == settings.host_name then
+                local args = {
+                  [1] = tostring(v.Parent.Name)
+                }
+                game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
+                task.wait()
+                break
+              end
+            end
+            -- portal
+            for i, v in pairs(Workspace["_PORTALS"].Lobbies:GetDescendants()) do
+              if v.Name == "Owner" and tostring(v.value) == settings.host_name then
+                local args = {
+                  [1] = tostring(v.Parent.Name)
+                }
+                game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
+                task.wait()
+                break
+              end
             end
           end
         end
       end
-    end
-  else
-    task.wait(10)
-    while task.wait(3) do
-      if game.PlaceId ~= ANIME_ADVENTURES_ID and settings.party_mode then
-        if LocalPlayer.PlayerGui.ResultsUI.Enabled == true then
-          break
-        end
-        local players = game:GetService("Players"):GetPlayers()
-        if #players == 1 then
-          return_to_lobby()
-        elseif settings.user_role == "Member" then
-          local host = 0
-          for _, v in pairs(players) do
-            if v.Name == settings.host_name then
-              host = 1
-              break
-            end
+    else
+      task.wait(10)
+      while task.wait(5) do
+        if game.PlaceId ~= ANIME_ADVENTURES_ID and settings.party_mode then
+          if LocalPlayer.PlayerGui.ResultsUI.Enabled == true then
+            break
           end
-          if host == 0 then
+          local players = game:GetService("Players"):GetPlayers()
+          if #players == 1 then
             return_to_lobby()
+          elseif settings.user_role == "Member" then
+            local host = 0
+            for _, v in pairs(players) do
+              if v.Name == settings.host_name then
+                host = 1
+                break
+              end
+            end
+            if host == 0 then
+              return_to_lobby()
+            end
           end
         end
       end
     end
-  end
-end))
+  end)
+end
 --#endregion
 
 --#region [Function] Click To Teleport
-UserInputService.InputBegan:Connect(function(input)
-  if input.UserInputType == Enum.UserInputType.MouseButton1 and UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then
-    if LocalPlayer.Character then
-      LocalPlayer.Character:MoveTo(LocalPlayer:GetMouse().Hit.p)
-    end
-  end
-end)
+function click_to_teleport()
+  task.spawn(function()
+    UserInputService.InputBegan:Connect(function(input)
+      if input.UserInputType == Enum.UserInputType.MouseButton1 and UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then
+        if LocalPlayer.Character then
+          LocalPlayer.Character:MoveTo(LocalPlayer:GetMouse().Hit.p)
+        end
+      end
+    end)
+  end)
+end
 --#endregion
 
 --#region [Function] Auto Remove Map
-coroutine.resume(coroutine.create(function()
-  while task.wait() do
-    if game.PlaceId ~= ANIME_ADVENTURES_ID then
+function auto_remove_map()
+  task.spawn(function()
+    while task.wait(1) do
       if settings.auto_remove_map then
-
+  
         local maps = Workspace["_map"]:GetChildren()
         for i, v in pairs(maps) do
           v:Destroy()
         end
-
+  
         local terrain = Workspace["_terrain"].terrain:GetChildren()
         for i, v in pairs(terrain) do
           if v:IsA("Model") then
@@ -3037,18 +2977,18 @@ coroutine.resume(coroutine.create(function()
             v:Destroy()
           end
         end
-
+  
         break
       end
     end
-  end
-end))
+  end)
+end
 --#endregion
 
 --#region [Function] Hide Enemy Unit Names
-coroutine.resume(coroutine.create(function()
-  if game.PlaceId ~= ANIME_ADVENTURES_ID then
-    while task.wait() do
+function hide_enemy_unit_names()
+  task.spawn(function()
+    while task.wait(1) do
       if settings.auto_remove_units_name then
         for _, v in pairs(Workspace["_UNITS"]:GetChildren()) do
           if v:FindFirstChild("HumanoidRootPart") then
@@ -3094,181 +3034,216 @@ coroutine.resume(coroutine.create(function()
         -- end
       end
     end
-  end
-end))
+  end)
+end
 --#endregion
 
 --#region [Function] Auto Claim Quests
-coroutine.resume(coroutine.create(function()
-  if game.PlaceId == ANIME_ADVENTURES_ID and settings.auto_claim_quests then
-    pcall(function()
-      game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
-      task.wait()
-      -- game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_christmas_calendar_reward:InvokeServer()
-      -- task.wait()
-    end)
-    local questStory = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.story.Scroll:GetChildren()
-    local questEvent = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.event.Scroll:GetChildren()
-    local questDaily = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.daily.Scroll:GetChildren()
-    local questInfinity = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.infinite.Scroll:GetChildren()
-    for i, v in pairs(questStory) do
-      if v.Name ~= "UIListLayout" and v.Name ~= "RefreshFrame" then
-        pcall(function()
-          local args = {
-            [1] = tostring(v.Name)
-          }
-          game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
-          task.wait()
-        end)
+function auto_claim_quests()
+  task.spawn(function()
+    if settings.auto_claim_quests then
+      pcall(function()
+        game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
+      end)
+
+      local questStory = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.story.Scroll:GetChildren()
+      for i, v in pairs(questStory) do
+        if v.Name ~= "UIListLayout" and v.Name ~= "RefreshFrame" then
+          pcall(function()
+            local args = {
+              [1] = tostring(v.Name)
+            }
+            game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
+          end)
+        end
+      end
+
+      local questEvent = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.event.Scroll:GetChildren()
+      for i, v in pairs(questEvent) do
+        if v.Name ~= "UIListLayout" and v.Name ~= "RefreshFrame" then
+          pcall(function()
+            local args = {
+              [1] = tostring(v.Name)
+            }
+            game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
+          end)
+        end
+      end
+
+      local questDaily = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.daily.Scroll:GetChildren()
+      for i, v in pairs(questDaily) do
+        if v.Name ~= "UIListLayout" and v.Name ~= "RefreshFrame" then
+          pcall(function()
+            local args = {
+              [1] = tostring(v.Name)
+            }
+            game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
+          end)
+        end
+      end
+
+      local questInfinity = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.infinite.Scroll:GetChildren()
+      for i , v in pairs(questInfinity) do
+        if v.Name ~= "UIListLayout" and v.Name ~= "RefreshFrame" then
+          pcall(function()
+            local args = {
+              [1] = tostring(v.Name)
+            }
+            game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
+          end)
+        end
       end
     end
-    for i, v in pairs(questEvent) do
-      if v.Name ~= "UIListLayout" and v.Name ~= "RefreshFrame" then
-        pcall(function()
-          local args = {
-            [1] = tostring(v.Name)
-          }
-          game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
-          task.wait()
-        end)
-      end
-    end
-    for i, v in pairs(questDaily) do
-      if v.Name ~= "UIListLayout" and v.Name ~= "RefreshFrame" then
-        pcall(function()
-          local args = {
-            [1] = tostring(v.Name)
-          }
-          game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
-          task.wait()
-        end)
-      end
-    end
-    for i , v in pairs(questInfinity) do
-      if v.Name ~= "UIListLayout" and v.Name ~= "RefreshFrame" then
-        pcall(function()
-          local args = {
-            [1] = tostring(v.Name)
-          }
-          game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
-          task.wait()
-        end)
-      end
-    end
-  end
-end))
+  end)
+end
 --#endregion
 
 --#region [Function] Teleport Player to Unit
-_G.player_tp = false
-coroutine.resume(coroutine.create(function()
-  while task.wait() do
-    if game.PlaceId ~= ANIME_ADVENTURES_ID and not _G.player_tp then
+function teleport_player_to_unit()
+  task.spawn(function()
+    while task.wait(1) do
       for _, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
         if v:FindFirstChild("_stats") then
           if tostring(v._stats.player.Value) == LocalPlayer.Name then
             LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1)
-            _G.player_tp = true
             break
           end
         end
       end
     end
-  end
-end))
+  end)
+end
 --#endregion
 
 --#region [Function] Auto Reconnect
-coroutine.resume(coroutine.create(function()
-  repeat task.wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
-  game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
-    if e.Name == 'ErrorPrompt' then
-      warn("Trying to Reconnect")
-      while task.wait(5) do
-        TeleportService:Teleport(game.PlaceId)
-      end
-    end
-  end)
-end))
+-- coroutine.resume(coroutine.create(function()
+--   repeat task.wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
+--   game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
+--     if e.Name == 'ErrorPrompt' then
+--       warn("Trying to Reconnect")
+--       while task.wait(5) do
+--         TeleportService:Teleport(game.PlaceId)
+--       end
+--     end
+--   end)
+-- end))
 --#endregion
 
---#region [Function] Auto Buy Event Items
-coroutine.resume(coroutine.create(function()
-  if game.PlaceId == ANIME_ADVENTURES_ID and settings.auto_buy_items ~= nil then
-    task.wait(5)
-    for i, v in pairs(settings.auto_buy_items) do
-      if v == "star_remnant" then
-        if Workspace["travelling_merchant"]["is_open"].Value == true then
-          for _, x in pairs(Workspace["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
-            if x.Name:match("star_remnant") then
-              local args = {
-                [1] = "star_remnant"
-              }
-              game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_travelling_merchant_item:InvokeServer(unpack(args))
+--#region [Function] Auto Buy Items
+function auto_buy_items()
+  if settings.auto_buy_items ~= nil then
+    task.spawn(function()
+      for i, v in pairs(settings.auto_buy_items) do
+        if v == "star_remnant" then
+          if Workspace["travelling_merchant"]["is_open"].Value == true then
+            for _, x in pairs(Workspace["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
+              if x.Name:match("star_remnant") then
+                local args = {
+                  [1] = "star_remnant"
+                }
+                game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_travelling_merchant_item:InvokeServer(unpack(args))
+              end
             end
           end
         end
-      end
-
-      if v == "starfruit" then
-        if Workspace["travelling_merchant"]["is_open"].Value == true then
-          for _, x in pairs(Workspace["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
-            if x.Name:match("StarFruit") then
-              local args = {
-                [1] = x.Name
-              }
-              game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_travelling_merchant_item:InvokeServer(unpack(args))
+  
+        if v == "starfruit" then
+          if Workspace["travelling_merchant"]["is_open"].Value == true then
+            for _, x in pairs(Workspace["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
+              if x.Name:match("StarFruit") then
+                local args = {
+                  [1] = x.Name
+                }
+                game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_travelling_merchant_item:InvokeServer(unpack(args))
+              end
             end
           end
         end
+  
+        if v == "grief_seed" then
+          pcall(function()
+            local args = {
+              [1] = "grief_seed",
+              [2] = "100"
+            }
+            game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+            task.wait()
+            local args = {
+              [1] = "grief_seed",
+              [2] = "100"
+            }
+            game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+            task.wait()
+            local args = {
+              [1] = "grief_seed",
+              [2] = "10"
+            }
+            game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+            task.wait()
+            local args = {
+              [1] = "grief_seed",
+              [2] = "10"
+            }
+            game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+            task.wait()
+            local args = {
+              [1] = "grief_seed",
+              [2] = "10"
+            }
+            game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+            task.wait()
+            local args = {
+              [1] = "grief_seed",
+              [2] = "10"
+            }
+            game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+            task.wait()
+            local args = {
+              [1] = "grief_seed",
+              [2] = "10"
+            }
+            game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+          end)
+        end
       end
-
-      if v == "grief_seed" then
-        pcall(function()
-          local args = {
-            [1] = "grief_seed",
-            [2] = "100"
-          }
-          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-          task.wait()
-          local args = {
-            [1] = "grief_seed",
-            [2] = "100"
-          }
-          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-          task.wait()
-          local args = {
-            [1] = "grief_seed",
-            [2] = "10"
-          }
-          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-          task.wait()
-          local args = {
-            [1] = "grief_seed",
-            [2] = "10"
-          }
-          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-          task.wait()
-          local args = {
-            [1] = "grief_seed",
-            [2] = "10"
-          }
-          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-          task.wait()
-          local args = {
-            [1] = "grief_seed",
-            [2] = "10"
-          }
-          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-          task.wait()
-          local args = {
-            [1] = "grief_seed",
-            [2] = "10"
-          }
-          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-        end)
-      end
-    end
+    end)
   end
-end))
+end
 --#endregion
+
+--#region [Function] Anti AFK
+function anti_afk()
+  task.spawn(function()
+    LocalPlayer.Idled:connect(function()
+      VirtualUser:CaptureController()
+      VirtualUser:ClickButton2(Vector2.new())
+      wait(2)
+    end)
+  end)
+end
+-- #endregion
+
+if game.PlaceId == ANIME_ADVENTURES_ID then
+  auto_claim_quests()
+  auto_buy_items()
+  set_battlepass_level()
+  auto_select_units()
+  auto_start()
+else
+  auto_place_units()
+  auto_upgrade()
+  auto_abilities()
+  auto_sell_units()
+  auto_force_leave()
+  game_finished()
+  auto_lag()
+  lag_handle()
+  teleport_player_to_unit()
+  auto_remove_map()
+  hide_enemy_unit_names()
+end
+auto_low_graphic_settings()
+party_mode()
+click_to_teleport()
+set_fps_cap()
+anti_afk()
