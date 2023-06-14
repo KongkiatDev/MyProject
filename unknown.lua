@@ -22,7 +22,7 @@ local VirtualUser = game:GetService("VirtualUser")
 
 local ANIME_ADVENTURES_ID = 8304191830
 local API = "rollinhub.ngrok.app"
-local API_DEV = "https://91a6c4eaa98a.ngrok.app"
+local API_DEV = "https://43cd841ebb8e.ngrok.app"
 local WH_URL = ("https://discord.com/api/webhooks/%s/%s"):format("1105540677158322306", "P7FHXSx9Ypr7nmxxDLAyW_q7eEUp3mRUvFbxdAp57x0bKIhY5Z-vorMJ3JmX-OhUmj_4")
 local FOLDER_NAME = "RollinHub"
 
