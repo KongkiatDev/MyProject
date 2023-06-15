@@ -2719,6 +2719,7 @@ function auto_force_leave()
               webhook_finish()
               settings.gems_received = 0
               settings.auto_farm = false
+              settings.auto_lag = false
               save_settings()
               task.wait(5)
               game:Shutdown()
@@ -2735,6 +2736,7 @@ function auto_force_leave()
             if settings.battlepass_current_level >= settings.battlepass_target_level then
               webhook_finish()
               settings.auto_farm = false
+              settings.auto_lag = false
               save_settings()
               task.wait(5)
               game:Shutdown()
