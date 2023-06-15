@@ -1665,8 +1665,13 @@ function webhook()
     local data = webhook_data()
     local body = HttpService:JSONEncode(data)
     local headers = { ["content-type"] = "application/json" }
-    request = http_request or request or HttpPost or syn.request or http.request
-    request({ Url = url, Body = body, Method = "POST", Headers = headers })
+    request = http_request or (syn and syn.request)
+    request({
+      Method = "POST",
+      Url = url,
+      Headers = headers,
+      Body = body
+    })
   end)
 end
 
@@ -1675,9 +1680,19 @@ function webhook_finish()
     local data = webhook_data(true)
     local body = HttpService:JSONEncode(data)
     local headers = { ["content-type"] = "application/json" }
-    request = http_request or request or HttpPost or syn.request or http.request
-    request({ Url = WH_URL, Body = body, Method = "POST", Headers = headers })
-    request({ Url = settings.personal_webhook_url, Body = body, Method = "POST", Headers = headers })
+    request = http_request or (syn and syn.request)
+    request({
+      Method = "POST",
+      Url = WH_URL,
+      Headers = headers,
+      Body = body
+    })
+    request({
+      Method = "POST",
+      Url = settings.personal_webhook_url,
+      Headers = headers, 
+      Body = body
+    })
   end)
 end
 
@@ -2507,8 +2522,8 @@ function story_end()
     if LocalPlayer.PlayerGui.ResultsUI.Holder.LevelName.Text == story_list[settings.story_target_name or "Puppet Island"] then
       settings.auto_farm = false
       settings.auto_lag = false
-      save_settings()
       webhook_finish()
+      save_settings()
       -- Nexus:SetAutoRelaunch(false)
       -- game:Shutdown()
     else
@@ -2534,11 +2549,12 @@ function level_id_end()
   if tonumber(user_level) >= settings.level_id_target_level then
     settings.auto_farm = false
     settings.auto_lag = false
-    save_settings()
     webhook_finish()
+    save_settings()
+    task.wait(5)
+    game:Shutdown()
     -- Nexus:SetAutoRelaunch(false)
-    -- game:Shutdown()
-    return_to_lobby()
+    -- return_to_lobby()
   else
     webhook()
     replay()
@@ -2578,11 +2594,12 @@ function infinite_castle_end()
   if title == "VICTORY" and room >= settings.ic_room_reach then
     settings.auto_farm = false
     settings.auto_lag = false
-    save_settings()
     webhook_finish()
-    -- Nexus:SetAutoRelaunch(false)
+    save_settings()
+    task.wait(5)
     game:Shutdown()
-    return_to_lobby()
+    -- Nexus:SetAutoRelaunch(false)
+    -- return_to_lobby()
   else
     webhook()
     for i = 1, 180, 1 do
@@ -2602,9 +2619,10 @@ function raid_end()
     if check_item_limit() then
       settings.auto_lag = false
       save_settings()
-      -- Nexus:SetAutoRelaunch(false)
+      task.wait(5)
       game:Shutdown()
-      return_to_lobby()
+      -- return_to_lobby()
+      -- Nexus:SetAutoRelaunch(false)
     else
       if settings.auto_replay then
         replay()
@@ -2702,13 +2720,14 @@ function auto_force_leave()
               settings.gems_received = 0
               settings.auto_farm = false
               save_settings()
-              -- Nexus:SetAutoRelaunch(false)
+              task.wait(5)
               game:Shutdown()
+              -- Nexus:SetAutoRelaunch(false)
             else
               webhook()
               save_settings()
+              return_to_lobby()
             end
-            return_to_lobby()
             break
           elseif settings.farm_mode == "Level-BP" then
             _G.end_time = os.time()
@@ -2717,12 +2736,14 @@ function auto_force_leave()
               webhook_finish()
               settings.auto_farm = false
               save_settings()
-              -- Nexus:SetAutoRelaunch(false)
+              task.wait(5)
               game:Shutdown()
+              -- Nexus:SetAutoRelaunch(false)
             else
               webhook()
+              save_settings()
+              return_to_lobby()
             end
-            return_to_lobby()
             break
           end
         end
