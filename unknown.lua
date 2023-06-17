@@ -3288,6 +3288,6 @@ anti_afk()
 set_fps_cap()
 
 task.spawn(function()
-  wait(60)
+  wait(30)
   RunService:Set3dRenderingEnabled(settings.white_screen)
 end)
