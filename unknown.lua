@@ -3159,17 +3159,18 @@ end
 --#endregion
 
 --#region [Function] Auto Reconnect
--- coroutine.resume(coroutine.create(function()
---   repeat task.wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
---   game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
---     if e.Name == 'ErrorPrompt' then
---       warn("Trying to Reconnect")
---       while task.wait(5) do
---         TeleportService:Teleport(game.PlaceId)
---       end
---     end
---   end)
--- end))
+function auto_reconnect()
+  task.spawn(function()
+    game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
+      print("test error ->", e.Name)
+      if e.Name == 'ErrorPrompt' then
+        while task.wait(5) do
+          TeleportService:Teleport(game.PlaceId)
+        end
+      end
+    end)
+  end)
+end
 --#endregion
 
 --#region [Function] Auto Buy Items
@@ -3283,4 +3284,5 @@ end
 click_to_teleport()
 party_mode()
 set_fps_cap()
+auto_reconnect()
 anti_afk()
