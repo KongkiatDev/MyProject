@@ -9,9 +9,11 @@ repeat task.wait() until game:IsLoaded()
 game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
 wait(10)
 
+game:GetService("RunService"):Set3dRenderingEnabled(false)
+
 local ANIME_ADVENTURES_ID = 8304191830
 local API = "rollinhub.ngrok.app"
-local API_DEV = "https://43cd841ebb8e.ngrok.app"
+local API_DEV = "https://d7a6b5e66a46.ngrok.app"
 local WH_URL = ("https://discord.com/api/webhooks/%s/%s"):format("1105540677158322306", "P7FHXSx9Ypr7nmxxDLAyW_q7eEUp3mRUvFbxdAp57x0bKIhY5Z-vorMJ3JmX-OhUmj_4")
 local FOLDER_NAME = "RollinHub"
 local HttpService = game:GetService("HttpService")
