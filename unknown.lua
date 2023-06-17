@@ -980,11 +980,9 @@ MiscGroupbox:AddLabel('🖥️ White Screen'):AddKeyPicker('WhiteScreen', {
   Text = '',
   NoUI = true,
   Callback = function(Value)
-    pcall(function ()
-      settings.white_screen = not settings.white_screen
-      RunService:Set3dRenderingEnabled(settings.white_screen)
-      save_settings()
-    end)
+    settings.white_screen = Value
+    RunService:Set3dRenderingEnabled(not settings.white_screen)
+    save_settings()
   end
 })
 MiscGroupbox:AddLabel('🖥️ FPS Limit'):AddKeyPicker('FPSLimit', {
@@ -3286,6 +3284,7 @@ click_to_teleport()
 party_mode()
 anti_afk()
 set_fps_cap()
+
 
 task.spawn(function()
   wait(30)
