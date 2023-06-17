@@ -149,7 +149,6 @@ end
 
 read_global_settings()
 wait(1)
-auto_reconnect()
 --#endregion
 
 --#region Inventory Items
@@ -3289,3 +3288,4 @@ click_to_teleport()
 party_mode()
 set_fps_cap()
 anti_afk()
+auto_reconnect()
