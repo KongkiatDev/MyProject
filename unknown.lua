@@ -3162,11 +3162,14 @@ end
 function auto_reconnect()
   task.spawn(function()
     game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
-      print("test error ->", e.Name)
       if e.Name == 'ErrorPrompt' then
-        while task.wait(5) do
-          TeleportService:Teleport(game.PlaceId)
-        end
+        StarterGui:SetCore("SendNotification",{
+          Title = "Reconnect",
+          Text = "the game will reconnect in 10 seconds.",
+          Icon = "rbxassetid://6031071050"
+        })
+        task.wait(10)
+        TeleportService:Teleport(game.PlaceId)
       end
     end)
   end)
