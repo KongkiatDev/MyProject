@@ -363,245 +363,247 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
   Multi = false,
   Text = "🕹️ Select Mode",
   Callback = function(Value)
-    settings.farm_mode = Value
-    if Value == "Manual" then
-      settings.auto_place_units = false
-      settings.auto_upgrade_units = false
-      settings.auto_abilities = false
-      settings.auto_sell_units = false
-      settings.sell_at_wave = 0
-      settings.auto_replay = false
-      settings.auto_leave = false
-      settings.auto_force_leave = false
-      settings.world_category = ""
-      settings.worlds = {}
-      settings.world = ""
-      settings.levels = {}
-      settings.level = ""
-      settings.difficulty_options = {}
-      settings.difficulty = ""
-      settings.story_target_name = nil
-      -- 
-      Toggles.AutoPlace:SetValue(settings.auto_place_units)
-      Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
-      Toggles.AutoAbilities:SetValue(settings.auto_abilities)
-      Toggles.AutoSell:SetValue(settings.auto_sell_units)
-      Options.SellWave:SetValue(settings.sell_at_wave)
-      Toggles.AutoReplay:SetValue(settings.auto_replay)
-      Toggles.AutoLeave:SetValue(settings.auto_leave)
-      Toggles.AutoInstantLeave:SetValue(settings.auto_force_leave)
-      Options.SelectCategory:SetValue(nil)
-      Options.SelectWorld:Refresh({""})
-      Options.SelectWorld:SetValue(nil)
-      Options.SelectLevel:Refresh({""})
-      Options.SelectLevel:SetValue(nil)
-      Options.SelectDifficulty:Refresh({""})
-      Options.SelectDifficulty:SetValue(nil)
-      Options.SelectStoryTarget:SetValue(nil)
-    elseif Value == "Gem" then
-      settings.auto_place_units = true
-      settings.auto_upgrade_units = true
-      settings.auto_abilities = true
-      settings.auto_sell_units = true
-      settings.sell_at_wave = 25
-      settings.auto_replay = false
-      settings.auto_leave = false
-      settings.auto_force_leave = false
-      settings.world_category = "Story Worlds"
-      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City", "Puppet Island"}
-      settings.world = "Planet Namak"
-      settings.levels = {"namek_infinite", "namek_level_1", "namek_level_2", "namek_level_3", "namek_level_4", "namek_level_5", "namek_level_6"}
-      settings.level = "namek_infinite"
-      settings.difficulty_options = {"Hard"}
-      settings.difficulty = "Hard"
-      settings.story_target_name = nil
-      -- 
-      Toggles.AutoPlace:SetValue(settings.auto_place_units)
-      Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
-      Toggles.AutoAbilities:SetValue(settings.auto_abilities)
-      Toggles.AutoSell:SetValue(settings.auto_sell_units)
-      Options.SellWave:SetValue(settings.sell_at_wave)
-      Toggles.AutoReplay:SetValue(settings.auto_replay)
-      Toggles.AutoLeave:SetValue(settings.auto_leave)
-      Toggles.AutoInstantLeave:SetValue(settings.auto_force_leave)
-      Options.SelectCategory:SetValue(settings.world_category)
-      Options.SelectWorld:Refresh(settings.worlds)
-      Options.SelectWorld:SetValue(settings.world)
-      Options.SelectLevel:Refresh(settings.levels)
-      Options.SelectLevel:SetValue(settings.level)
-      Options.SelectDifficulty:Refresh(settings.difficulty_options)
-      Options.SelectDifficulty:SetValue(settings.difficulty)
-      Options.SelectStoryTarget:SetValue(nil)
-    elseif Value == "Level-ID" then
-      settings.auto_place_units = true
-      settings.auto_upgrade_units = true
-      settings.auto_abilities = true
-      settings.auto_sell_units = false
-      settings.sell_at_wave = 0
-      settings.auto_replay = false
-      settings.auto_leave = false
-      settings.auto_force_leave = false
-      settings.world_category = "Story Worlds"
-      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City", "Puppet Island"}
-      settings.world = "Planet Namak"
-      settings.levels = {"namek_infinite", "namek_level_1", "namek_level_2", "namek_level_3", "namek_level_4", "namek_level_5", "namek_level_6"}
-      settings.level = "namek_level_1"
-      settings.difficulty_options = {"Normal", "Hard"}
-      settings.difficulty = "Normal"
-      settings.story_target_name = nil
-      -- 
-      Toggles.AutoPlace:SetValue(settings.auto_place_units)
-      Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
-      Toggles.AutoAbilities:SetValue(settings.auto_abilities)
-      Toggles.AutoSell:SetValue(settings.auto_sell_units)
-      Options.SellWave:SetValue(settings.sell_at_wave)
-      Toggles.AutoReplay:SetValue(settings.auto_replay)
-      Toggles.AutoLeave:SetValue(settings.auto_leave)
-      Toggles.AutoInstantLeave:SetValue(settings.auto_force_leave)
-      Options.SelectCategory:SetValue(settings.world_category)
-      Options.SelectWorld:Refresh(settings.worlds)
-      Options.SelectWorld:SetValue(settings.world)
-      Options.SelectLevel:Refresh(settings.levels)
-      Options.SelectLevel:SetValue(settings.level)
-      Options.SelectDifficulty:Refresh(settings.difficulty_options)
-      Options.SelectDifficulty:SetValue(settings.difficulty)
-      Options.SelectStoryTarget:SetValue(nil)
-    elseif Value == "Level-BP" then
-      settings.auto_place_units = true
-      settings.auto_upgrade_units = true
-      settings.auto_abilities = true
-      settings.auto_sell_units = true
-      settings.sell_at_wave = 50
-      settings.auto_replay = false
-      settings.auto_leave = false
-      settings.auto_force_leave = false
-      settings.world_category = "Story Worlds"
-      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City", "Puppet Island"}
-      settings.world = "Shiganshinu District"
-      settings.levels = {"aot_infinite", "aot_level_1", "aot_level_2", "aot_level_3", "aot_level_4","aot_level_5", "aot_level_6"}
-      settings.level = "aot_infinite"
-      settings.difficulty_options = {"Hard"}
-      settings.difficulty = "Hard"
-      settings.story_target_name = nil
-      -- 
-      Toggles.AutoPlace:SetValue(settings.auto_place_units)
-      Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
-      Toggles.AutoAbilities:SetValue(settings.auto_abilities)
-      Toggles.AutoSell:SetValue(settings.auto_sell_units)
-      Options.SellWave:SetValue(settings.sell_at_wave)
-      Toggles.AutoReplay:SetValue(settings.auto_replay)
-      Toggles.AutoLeave:SetValue(settings.auto_leave)
-      Toggles.AutoInstantLeave:SetValue(settings.auto_force_leave)
-      Options.SelectCategory:SetValue(settings.world_category)
-      Options.SelectWorld:Refresh(settings.worlds)
-      Options.SelectWorld:SetValue(settings.world)
-      Options.SelectLevel:Refresh(settings.levels)
-      Options.SelectLevel:SetValue(settings.level)
-      Options.SelectDifficulty:Refresh(settings.difficulty_options)
-      Options.SelectDifficulty:SetValue(settings.difficulty)
-      Options.SelectStoryTarget:SetValue(nil)
-    elseif Value == "Challenge" or Value == "Story" or Value == "Infinity Castle" or Value == "Story" then
-      settings.auto_place_units = true
-      settings.auto_upgrade_units = true
-      settings.auto_abilities = true
-      settings.auto_sell_units = false
-      settings.sell_at_wave = 0
-      settings.auto_replay = false
-      settings.auto_leave = false
-      settings.auto_force_leave = false
-      settings.world_category = ""
-      settings.worlds = {}
-      settings.world = ""
-      settings.levels = {}
-      settings.level = ""
-      settings.difficulty_options = {}
-      settings.difficulty = ""
-      -- 
-      Toggles.AutoPlace:SetValue(settings.auto_place_units)
-      Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
-      Toggles.AutoAbilities:SetValue(settings.auto_abilities)
-      Toggles.AutoSell:SetValue(settings.auto_sell_units)
-      Options.SellWave:SetValue(settings.sell_at_wave)
-      Toggles.AutoReplay:SetValue(settings.auto_replay)
-      Toggles.AutoLeave:SetValue(settings.auto_leave)
-      Toggles.AutoInstantLeave:SetValue(settings.auto_force_leave)
-      Options.SelectCategory:SetValue(nil)
-      Options.SelectWorld:Refresh({""})
-      Options.SelectWorld:SetValue(nil)
-      Options.SelectLevel:Refresh({""})
-      Options.SelectLevel:SetValue(nil)
-      Options.SelectDifficulty:Refresh({""})
-      Options.SelectDifficulty:SetValue(nil)
-    elseif Value == "Raid" then
-      settings.auto_place_units = true
-      settings.auto_upgrade_units = true
-      settings.auto_abilities = true
-      settings.auto_sell_units = false
-      settings.sell_at_wave = 0
-      settings.auto_replay = false
-      settings.auto_leave = false
-      settings.auto_force_leave = false
-      settings.world_category = "Raid Worlds"
-      settings.worlds = {"West City (Freezo's Invasion)", "Storm Hideout", "West City", "Infinity Train", "Shiganshinu District - Raid", "Hiddel Sand Village - Raid"}
-      settings.world = ""
-      settings.levels = {}
-      settings.level = ""
-      settings.difficulty_options = {}
-      settings.difficulty = ""
-      settings.story_target_name = nil
-      -- 
-      Toggles.AutoPlace:SetValue(settings.auto_place_units)
-      Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
-      Toggles.AutoAbilities:SetValue(settings.auto_abilities)
-      Toggles.AutoSell:SetValue(settings.auto_sell_units)
-      Options.SellWave:SetValue(settings.sell_at_wave)
-      Toggles.AutoReplay:SetValue(settings.auto_replay)
-      Toggles.AutoLeave:SetValue(settings.auto_leave)
-      Toggles.AutoInstantLeave:SetValue(settings.auto_force_leave)
-      Options.SelectCategory:SetValue(settings.world_category)
-      Options.SelectWorld:Refresh(settings.worlds)
-      Options.SelectWorld:SetValue(nil)
-      Options.SelectLevel:Refresh({""})
-      Options.SelectLevel:SetValue(nil)
-      Options.SelectDifficulty:Refresh({""})
-      Options.SelectDifficulty:SetValue(nil)
-      Options.SelectStoryTarget:SetValue(nil)
-    elseif Value == "Portal" then
-      settings.auto_place_units = true
-      settings.auto_upgrade_units = true
-      settings.auto_abilities = true
-      settings.auto_sell_units = false
-      settings.sell_at_wave = 0
-      settings.auto_replay = false
-      settings.auto_leave = false
-      settings.auto_force_leave = false
-      settings.world_category = "Portals"
-      settings.worlds = {"Alien Portals", "Demon Portals", "Zeldris Portals"}
-      settings.world = ""
-      settings.levels = {}
-      settings.level = ""
-      settings.difficulty_options = {}
-      settings.difficulty = ""
-      settings.story_target_name = nil
-      -- 
-      Toggles.AutoPlace:SetValue(settings.auto_place_units)
-      Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
-      Toggles.AutoAbilities:SetValue(settings.auto_abilities)
-      Toggles.AutoSell:SetValue(settings.auto_sell_units)
-      Options.SellWave:SetValue(settings.sell_at_wave)
-      Toggles.AutoReplay:SetValue(settings.auto_replay)
-      Toggles.AutoLeave:SetValue(settings.auto_leave)
-      Toggles.AutoInstantLeave:SetValue(settings.auto_force_leave)
-      Options.SelectCategory:SetValue(settings.world_category)
-      Options.SelectWorld:Refresh(settings.worlds)
-      Options.SelectWorld:SetValue(nil)
-      Options.SelectLevel:Refresh({""})
-      Options.SelectLevel:SetValue(nil)
-      Options.SelectDifficulty:Refresh({""})
-      Options.SelectDifficulty:SetValue(nil)
-      Options.SelectStoryTarget:SetValue(nil)
-    end
-    save_settings()
+    task.spawn(function()
+      settings.farm_mode = Value
+      if Value == "Manual" then
+        settings.auto_place_units = false
+        settings.auto_upgrade_units = false
+        settings.auto_abilities = false
+        settings.auto_sell_units = false
+        settings.sell_at_wave = 0
+        settings.auto_replay = false
+        settings.auto_leave = false
+        settings.auto_force_leave = false
+        settings.world_category = ""
+        settings.worlds = {}
+        settings.world = ""
+        settings.levels = {}
+        settings.level = ""
+        settings.difficulty_options = {}
+        settings.difficulty = ""
+        settings.story_target_name = nil
+        -- 
+        Toggles.AutoPlace:SetValue(settings.auto_place_units)
+        Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
+        Toggles.AutoAbilities:SetValue(settings.auto_abilities)
+        Toggles.AutoSell:SetValue(settings.auto_sell_units)
+        Options.SellWave:SetValue(settings.sell_at_wave)
+        Toggles.AutoReplay:SetValue(settings.auto_replay)
+        Toggles.AutoLeave:SetValue(settings.auto_leave)
+        Toggles.AutoInstantLeave:SetValue(settings.auto_force_leave)
+        Options.SelectCategory:SetValue(nil)
+        Options.SelectWorld:Refresh({""})
+        Options.SelectWorld:SetValue(nil)
+        Options.SelectLevel:Refresh({""})
+        Options.SelectLevel:SetValue(nil)
+        Options.SelectDifficulty:Refresh({""})
+        Options.SelectDifficulty:SetValue(nil)
+        Options.SelectStoryTarget:SetValue(nil)
+      elseif Value == "Gem" then
+        settings.auto_place_units = true
+        settings.auto_upgrade_units = true
+        settings.auto_abilities = true
+        settings.auto_sell_units = true
+        settings.sell_at_wave = 25
+        settings.auto_replay = false
+        settings.auto_leave = false
+        settings.auto_force_leave = false
+        settings.world_category = "Story Worlds"
+        settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City", "Puppet Island"}
+        settings.world = "Planet Namak"
+        settings.levels = {"namek_infinite", "namek_level_1", "namek_level_2", "namek_level_3", "namek_level_4", "namek_level_5", "namek_level_6"}
+        settings.level = "namek_infinite"
+        settings.difficulty_options = {"Hard"}
+        settings.difficulty = "Hard"
+        settings.story_target_name = nil
+        -- 
+        Toggles.AutoPlace:SetValue(settings.auto_place_units)
+        Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
+        Toggles.AutoAbilities:SetValue(settings.auto_abilities)
+        Toggles.AutoSell:SetValue(settings.auto_sell_units)
+        Options.SellWave:SetValue(settings.sell_at_wave)
+        Toggles.AutoReplay:SetValue(settings.auto_replay)
+        Toggles.AutoLeave:SetValue(settings.auto_leave)
+        Toggles.AutoInstantLeave:SetValue(settings.auto_force_leave)
+        Options.SelectCategory:SetValue(settings.world_category)
+        Options.SelectWorld:Refresh(settings.worlds)
+        Options.SelectWorld:SetValue(settings.world)
+        Options.SelectLevel:Refresh(settings.levels)
+        Options.SelectLevel:SetValue(settings.level)
+        Options.SelectDifficulty:Refresh(settings.difficulty_options)
+        Options.SelectDifficulty:SetValue(settings.difficulty)
+        Options.SelectStoryTarget:SetValue(nil)
+      elseif Value == "Level-ID" then
+        settings.auto_place_units = true
+        settings.auto_upgrade_units = true
+        settings.auto_abilities = true
+        settings.auto_sell_units = false
+        settings.sell_at_wave = 0
+        settings.auto_replay = false
+        settings.auto_leave = false
+        settings.auto_force_leave = false
+        settings.world_category = "Story Worlds"
+        settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City", "Puppet Island"}
+        settings.world = "Planet Namak"
+        settings.levels = {"namek_infinite", "namek_level_1", "namek_level_2", "namek_level_3", "namek_level_4", "namek_level_5", "namek_level_6"}
+        settings.level = "namek_level_1"
+        settings.difficulty_options = {"Normal", "Hard"}
+        settings.difficulty = "Normal"
+        settings.story_target_name = nil
+        -- 
+        Toggles.AutoPlace:SetValue(settings.auto_place_units)
+        Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
+        Toggles.AutoAbilities:SetValue(settings.auto_abilities)
+        Toggles.AutoSell:SetValue(settings.auto_sell_units)
+        Options.SellWave:SetValue(settings.sell_at_wave)
+        Toggles.AutoReplay:SetValue(settings.auto_replay)
+        Toggles.AutoLeave:SetValue(settings.auto_leave)
+        Toggles.AutoInstantLeave:SetValue(settings.auto_force_leave)
+        Options.SelectCategory:SetValue(settings.world_category)
+        Options.SelectWorld:Refresh(settings.worlds)
+        Options.SelectWorld:SetValue(settings.world)
+        Options.SelectLevel:Refresh(settings.levels)
+        Options.SelectLevel:SetValue(settings.level)
+        Options.SelectDifficulty:Refresh(settings.difficulty_options)
+        Options.SelectDifficulty:SetValue(settings.difficulty)
+        Options.SelectStoryTarget:SetValue(nil)
+      elseif Value == "Level-BP" then
+        settings.auto_place_units = true
+        settings.auto_upgrade_units = true
+        settings.auto_abilities = true
+        settings.auto_sell_units = true
+        settings.sell_at_wave = 50
+        settings.auto_replay = false
+        settings.auto_leave = false
+        settings.auto_force_leave = false
+        settings.world_category = "Story Worlds"
+        settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City", "Puppet Island"}
+        settings.world = "Shiganshinu District"
+        settings.levels = {"aot_infinite", "aot_level_1", "aot_level_2", "aot_level_3", "aot_level_4","aot_level_5", "aot_level_6"}
+        settings.level = "aot_infinite"
+        settings.difficulty_options = {"Hard"}
+        settings.difficulty = "Hard"
+        settings.story_target_name = nil
+        -- 
+        Toggles.AutoPlace:SetValue(settings.auto_place_units)
+        Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
+        Toggles.AutoAbilities:SetValue(settings.auto_abilities)
+        Toggles.AutoSell:SetValue(settings.auto_sell_units)
+        Options.SellWave:SetValue(settings.sell_at_wave)
+        Toggles.AutoReplay:SetValue(settings.auto_replay)
+        Toggles.AutoLeave:SetValue(settings.auto_leave)
+        Toggles.AutoInstantLeave:SetValue(settings.auto_force_leave)
+        Options.SelectCategory:SetValue(settings.world_category)
+        Options.SelectWorld:Refresh(settings.worlds)
+        Options.SelectWorld:SetValue(settings.world)
+        Options.SelectLevel:Refresh(settings.levels)
+        Options.SelectLevel:SetValue(settings.level)
+        Options.SelectDifficulty:Refresh(settings.difficulty_options)
+        Options.SelectDifficulty:SetValue(settings.difficulty)
+        Options.SelectStoryTarget:SetValue(nil)
+      elseif Value == "Challenge" or Value == "Story" or Value == "Infinity Castle" or Value == "Story" then
+        settings.auto_place_units = true
+        settings.auto_upgrade_units = true
+        settings.auto_abilities = true
+        settings.auto_sell_units = false
+        settings.sell_at_wave = 0
+        settings.auto_replay = false
+        settings.auto_leave = false
+        settings.auto_force_leave = false
+        settings.world_category = ""
+        settings.worlds = {}
+        settings.world = ""
+        settings.levels = {}
+        settings.level = ""
+        settings.difficulty_options = {}
+        settings.difficulty = ""
+        -- 
+        Toggles.AutoPlace:SetValue(settings.auto_place_units)
+        Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
+        Toggles.AutoAbilities:SetValue(settings.auto_abilities)
+        Toggles.AutoSell:SetValue(settings.auto_sell_units)
+        Options.SellWave:SetValue(settings.sell_at_wave)
+        Toggles.AutoReplay:SetValue(settings.auto_replay)
+        Toggles.AutoLeave:SetValue(settings.auto_leave)
+        Toggles.AutoInstantLeave:SetValue(settings.auto_force_leave)
+        Options.SelectCategory:SetValue(nil)
+        Options.SelectWorld:Refresh({""})
+        Options.SelectWorld:SetValue(nil)
+        Options.SelectLevel:Refresh({""})
+        Options.SelectLevel:SetValue(nil)
+        Options.SelectDifficulty:Refresh({""})
+        Options.SelectDifficulty:SetValue(nil)
+      elseif Value == "Raid" then
+        settings.auto_place_units = true
+        settings.auto_upgrade_units = true
+        settings.auto_abilities = true
+        settings.auto_sell_units = false
+        settings.sell_at_wave = 0
+        settings.auto_replay = false
+        settings.auto_leave = false
+        settings.auto_force_leave = false
+        settings.world_category = "Raid Worlds"
+        settings.worlds = {"West City (Freezo's Invasion)", "Storm Hideout", "West City", "Infinity Train", "Shiganshinu District - Raid", "Hiddel Sand Village - Raid"}
+        settings.world = ""
+        settings.levels = {}
+        settings.level = ""
+        settings.difficulty_options = {}
+        settings.difficulty = ""
+        settings.story_target_name = nil
+        -- 
+        Toggles.AutoPlace:SetValue(settings.auto_place_units)
+        Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
+        Toggles.AutoAbilities:SetValue(settings.auto_abilities)
+        Toggles.AutoSell:SetValue(settings.auto_sell_units)
+        Options.SellWave:SetValue(settings.sell_at_wave)
+        Toggles.AutoReplay:SetValue(settings.auto_replay)
+        Toggles.AutoLeave:SetValue(settings.auto_leave)
+        Toggles.AutoInstantLeave:SetValue(settings.auto_force_leave)
+        Options.SelectCategory:SetValue(settings.world_category)
+        Options.SelectWorld:Refresh(settings.worlds)
+        Options.SelectWorld:SetValue(nil)
+        Options.SelectLevel:Refresh({""})
+        Options.SelectLevel:SetValue(nil)
+        Options.SelectDifficulty:Refresh({""})
+        Options.SelectDifficulty:SetValue(nil)
+        Options.SelectStoryTarget:SetValue(nil)
+      elseif Value == "Portal" then
+        settings.auto_place_units = true
+        settings.auto_upgrade_units = true
+        settings.auto_abilities = true
+        settings.auto_sell_units = false
+        settings.sell_at_wave = 0
+        settings.auto_replay = false
+        settings.auto_leave = false
+        settings.auto_force_leave = false
+        settings.world_category = "Portals"
+        settings.worlds = {"Alien Portals", "Demon Portals", "Zeldris Portals"}
+        settings.world = ""
+        settings.levels = {}
+        settings.level = ""
+        settings.difficulty_options = {}
+        settings.difficulty = ""
+        settings.story_target_name = nil
+        -- 
+        Toggles.AutoPlace:SetValue(settings.auto_place_units)
+        Toggles.AutoUpgrade:SetValue(settings.auto_upgrade_units)
+        Toggles.AutoAbilities:SetValue(settings.auto_abilities)
+        Toggles.AutoSell:SetValue(settings.auto_sell_units)
+        Options.SellWave:SetValue(settings.sell_at_wave)
+        Toggles.AutoReplay:SetValue(settings.auto_replay)
+        Toggles.AutoLeave:SetValue(settings.auto_leave)
+        Toggles.AutoInstantLeave:SetValue(settings.auto_force_leave)
+        Options.SelectCategory:SetValue(settings.world_category)
+        Options.SelectWorld:Refresh(settings.worlds)
+        Options.SelectWorld:SetValue(nil)
+        Options.SelectLevel:Refresh({""})
+        Options.SelectLevel:SetValue(nil)
+        Options.SelectDifficulty:Refresh({""})
+        Options.SelectDifficulty:SetValue(nil)
+        Options.SelectStoryTarget:SetValue(nil)
+      end
+      save_settings()
+    end)
   end
 })
 AutoPlayGroupbox:AddToggle("AutoStart", {
