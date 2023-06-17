@@ -19,7 +19,7 @@ local Workspace = game:GetService("Workspace")
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local TeleportService = game:GetService("TeleportService")
 local UserInputService = game:GetService("UserInputService")
--- local RunService = game:GetService("RunService")
+local RunService = game:GetService("RunService")
 -- local ReplicatedFirst = game:GetService("ReplicatedFirst")
 -- local TweenService = game:GetService("TweenService")
 local StarterGui = game:GetService("StarterGui")
@@ -52,7 +52,7 @@ function textlabel_screen()
   textLabel.TextSize = 60
   textLabel.Text = game.Players.LocalPlayer.Name
   if game.PlaceId == ANIME_ADVENTURES_ID then
-    textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    textLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
   else
     textLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
   end
@@ -980,6 +980,7 @@ MiscGroupbox:AddLabel('🖥️ White Screen'):AddKeyPicker('WhiteScreen', {
   Text = '',
   NoUI = true,
   Callback = function(Value)
+    print(Value)
     settings.white_screen = Value
     RunService:Set3dRenderingEnabled(not settings.white_screen)
     save_settings()
@@ -1394,6 +1395,7 @@ function set_fps_cap()
   else
     setfpscap(30)
   end
+  RunService:Set3dRenderingEnabled(not settings.white_screen)
 end
 --#endregion
 
@@ -3252,12 +3254,10 @@ end
 
 --#region [Function] Anti AFK
 function anti_afk()
-  task.spawn(function()
-    LocalPlayer.Idled:connect(function()
-      VirtualUser:CaptureController()
-      VirtualUser:ClickButton2(Vector2.new())
-      wait(2)
-    end)
+  LocalPlayer.Idled:connect(function()
+    VirtualUser:Button2Down(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
+    wait(1)
+    VirtualUser:Button2Up(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
   end)
 end
 -- #endregion
@@ -3282,11 +3282,5 @@ else
 end
 click_to_teleport()
 party_mode()
-anti_afk()
 set_fps_cap()
-
-
-task.spawn(function()
-  wait(30)
-  RunService:Set3dRenderingEnabled(settings.white_screen)
-end)
+anti_afk()
