@@ -975,7 +975,7 @@ WebhookMenuGroupbox:AddButton({
 local MiscGroupbox = Tabs.Misc:AddLeftGroupbox("            【 Menu 】")
 MiscGroupbox:AddLabel('🖥️ White Screen'):AddKeyPicker('WhiteScreen', {
   Default = 'F1',
-  SyncToggleState = false,
+  SyncToggleState = true,
   Mode = 'Toggle',
   Text = '',
   NoUI = true,
@@ -1395,7 +1395,7 @@ function set_fps_cap()
   else
     setfpscap(30)
   end
-  RunService:Set3dRenderingEnabled(not settings.white_screen)
+  -- RunService:Set3dRenderingEnabled(not settings.white_screen)
 end
 --#endregion
 
