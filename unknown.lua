@@ -7,7 +7,7 @@
 --#region Get Service
 repeat task.wait() until game:IsLoaded()
 game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
-wait(10)
+wait(5)
 
 local ANIME_ADVENTURES_ID = 8304191830
 local API = "rollinhub.ngrok.app"
@@ -149,6 +149,7 @@ end
 
 read_global_settings()
 wait(1)
+auto_reconnect()
 --#endregion
 
 --#region Inventory Items
@@ -3287,5 +3288,4 @@ end
 click_to_teleport()
 party_mode()
 set_fps_cap()
-auto_reconnect()
 anti_afk()
