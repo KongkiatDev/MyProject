@@ -981,10 +981,9 @@ MiscGroupbox:AddLabel('🖥️ White Screen'):AddKeyPicker('WhiteScreen', {
   NoUI = true,
   Callback = function(Value)
     pcall(function ()
-      -- RunService:Set3dRenderingEnabled(settings.white_screen)
       settings.white_screen = not settings.white_screen
+      RunService:Set3dRenderingEnabled(settings.white_screen)
       save_settings()
-      toggleLoadingScreen()
     end)
   end
 })
@@ -3287,3 +3286,8 @@ click_to_teleport()
 party_mode()
 anti_afk()
 set_fps_cap()
+
+task.spawn(function()
+  wait(60)
+  RunService:Set3dRenderingEnabled(settings.white_screen)
+end)
