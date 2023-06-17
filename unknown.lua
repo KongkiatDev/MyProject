@@ -9,8 +9,6 @@ repeat task.wait() until game:IsLoaded()
 game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
 wait(10)
 
-game:GetService("RunService"):Set3dRenderingEnabled(false)
-
 local ANIME_ADVENTURES_ID = 8304191830
 local API = "rollinhub.ngrok.app"
 local API_DEV = "https://d7a6b5e66a46.ngrok.app"
