@@ -3277,7 +3277,7 @@ else
   auto_lag()
   lag_handle()
   teleport_player_to_unit()
-  -- auto_remove_map()
+  auto_remove_map()
   -- hide_enemy_unit_names()
 end
 click_to_teleport()
