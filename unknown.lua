@@ -2985,14 +2985,12 @@ end
 
 --#region [Function] Click To Teleport
 function click_to_teleport()
-  task.spawn(function()
-    UserInputService.InputBegan:Connect(function(input)
-      if input.UserInputType == Enum.UserInputType.MouseButton1 and UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then
-        if LocalPlayer.Character then
-          LocalPlayer.Character:MoveTo(LocalPlayer:GetMouse().Hit.p)
-        end
+  UserInputService.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 and UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then
+      if LocalPlayer.Character then
+        LocalPlayer.Character:MoveTo(LocalPlayer:GetMouse().Hit.p)
       end
-    end)
+    end
   end)
 end
 --#endregion
@@ -3160,18 +3158,16 @@ end
 
 --#region [Function] Auto Reconnect
 function auto_reconnect()
-  task.spawn(function()
-    game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
-      if e.Name == 'ErrorPrompt' then
-        StarterGui:SetCore("SendNotification",{
-          Title = "Reconnect",
-          Text = "the game will reconnect in 10 seconds.",
-          Icon = "rbxassetid://6031071050"
-        })
-        task.wait(10)
-        TeleportService:Teleport(game.PlaceId)
-      end
-    end)
+  game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
+    if e.Name == 'ErrorPrompt' then
+      StarterGui:SetCore("SendNotification",{
+        Title = "Reconnect",
+        Text = "the game will reconnect in 10 seconds.",
+        Icon = "rbxassetid://6031071050"
+      })
+      task.wait(10)
+      TeleportService:Teleport(game.PlaceId)
+    end
   end)
 end
 --#endregion
