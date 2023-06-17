@@ -91,7 +91,7 @@ function read_settings()
   if not Response.Success then
     StarterGui:SetCore("SendNotification",{
       Title = "Error",
-      Text = "failed to load account data",
+      Text = "API connection failed",
       Icon = "rbxassetid://6031071050"
     })
     return
@@ -99,7 +99,7 @@ function read_settings()
 
   StarterGui:SetCore("SendNotification",{
     Title = "Init Data",
-    Text = "successfully loaded data for account '" .. LocalPlayer.Name .. "'",
+    Text = "'" .. LocalPlayer.Name .. "'" .. "loaded",
     Icon = "rbxassetid://6023426926"
   })
   settings = game.HttpService:JSONDecode(Response.Body)
