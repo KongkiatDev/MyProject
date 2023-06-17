@@ -225,11 +225,11 @@ WorldConfigGroupbox:AddDropdown("SelectCategory", {
   Callback = function(Value)
     settings.world_category = Value
     if Value == "Story Worlds" then
-      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City", "Puppet Island"}
+      settings.worlds = {"Planet Namak", "Shiganshinu District", "Snowy Town", "Hidden Sand Village", "Marine's Ford", "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy", "Clover Kingdom", "Cape Canaveral", "Alien Spaceship", "Fabled Kingdom", "Hero City", "Puppet Island", "Virtual Dungeon"}
     elseif Value == "Legend Stages" then
-      settings.worlds = {"Clover Kingdom (Elf Invasion)", "Hollow Invasion", "Cape Canaveral (Legend)", "Fabled Kingdom (Legend)", "Hero City (Midnight)"}
+      settings.worlds = {"Clover Kingdom (Elf Invasion)", "Hollow Invasion", "Cape Canaveral (Legend)", "Fabled Kingdom (Legend)", "Hero City (Midnight)", "Virtual Dungeon (Bosses)"}
     elseif Value == "Raid Worlds" then
-      settings.worlds = {"Entertainment District", "West City (Freezo's Invasion)", "Storm Hideout", "West City", "Infinity Train", "Shiganshinu District - Raid", "Hiddel Sand Village - Raid"}
+      settings.worlds = {"Hero City (Hero Slayer)", "Entertainment District", "West City (Freezo's Invasion)", "Storm Hideout", "West City", "Infinity Train", "Shiganshinu District - Raid", "Hiddel Sand Village - Raid"}
     elseif Value == "Portals" then
       settings.worlds = {"Alien Portals", "Zeldris Portals", "Dressrosa Portals", "Madoka Portals"}
     end
@@ -276,7 +276,9 @@ WorldConfigGroupbox:AddDropdown("SelectWorld", {
       settings.levels = {"mha_infinite", "mha_level_1", "mha_level_2", "mha_level_3", "mha_level_4", "mha_level_5", "mha_level_6"}
     elseif Value == "Puppet Island" then
       settings.levels = {"dressrosa_infinite", "dressrosa_level_1", "dressrosa_level_2", "dressrosa_level_3", "dressrosa_level_4", "dressrosa_level_5", "dressrosa_level_6"}
-    --///Legend Stages\\\--- 
+    elseif Value == "Virtual Dungeon" then
+      settings.levels = {"sao_infinite", "sao_level_1", "sao_level_2", "sao_level_3", "sao_level_4", "sao_level_5", "sao_level_6"}
+      --///Legend Stages\\\--- 
     elseif Value == "Clover Kingdom (Elf Invasion)" then
       settings.levels = {"clover_legend_1", "clover_legend_2", "clover_legend_3"}
     elseif Value == "Hollow Invasion" then
@@ -287,11 +289,15 @@ WorldConfigGroupbox:AddDropdown("SelectWorld", {
       settings.levels = {"7ds_legend_1", "7ds_legend_2", "7ds_legend_3"}
     elseif Value == "Hero City (Midnight)" then
       settings.levels = {"mha_legend_1", "mha_legend_2", "mha_legend_3", "mha_legend_4", "mha_legend_5", "mha_legend_6"}
+    elseif Value == "Virtual Dungeon (Bosses)" then
+      settings.levels = {"sao_legend_1", "sao_legend_2", "sao_legend_3"}
     --///Raids\\\---
+  elseif Value == "Hero City (Hero Slayer)" then
+    settings.levels = {"mha_stain"}
     elseif Value == "Entertainment District" then
       settings.levels = {"entertainment_district_level_1", "entertainment_district_level_2", "entertainment_district_level_3", "entertainment_district_level_4", "entertainment_district_level_5"}
     elseif Value == "West City (Freezo's Invasion)" then
-    settings.levels = {"west_city_frieza_level_1", "west_city_frieza_level_2", "west_city_frieza_level_3", "west_city_frieza_level_4", "west_city_frieza_level_5"}
+      settings.levels = {"west_city_frieza_level_1", "west_city_frieza_level_2", "west_city_frieza_level_3", "west_city_frieza_level_4", "west_city_frieza_level_5"}
     elseif Value == "Storm Hideout" then
       settings.levels = {"uchiha_level_1", "uchiha_level_2", "uchiha_level_3", "uchiha_level_4", "uchiha_level_5"}
     elseif Value == "West City" then
@@ -1080,13 +1086,19 @@ MiscGroupbox:AddToggle("HideEnemyUnitNames", {
 MiscGroupbox:AddButton({
   Text = '🎀 Redeem Codes',
   Func = function()
-    local codes = {"MADOKA", "DRESSROSA", "BILLION", "ENTERTAINMENT", "HAPPYEASTER", "VIGILANTE", "GOLDENSHUTDOWN", "GOLDEN", "SINS2", "SINS", "UCHIHA", "CLOUD", "HERO", "CHAINSAW", "NEWYEAR2023", "kingluffy", "toadboigaming", "noclypso", "fictionthefirst", "subtomaokuma", "subtokelvingts", "subtoblamspot"}
+    local codes = {"AINCRAD", "MADOKA", "DRESSROSA", "BILLION", "ENTERTAINMENT", "HAPPYEASTER", "VIGILANTE", "GOLDENSHUTDOWN", "GOLDEN", "SINS2", "SINS", "UCHIHA", "CLOUD", "HERO", "CHAINSAW", "NEWYEAR2023", "kingluffy", "toadboigaming", "noclypso", "fictionthefirst", "subtomaokuma", "subtokelvingts", "subtoblamspot"}
     for _, code in pairs(codes) do
       local args = {
         [1] = code
       }
       game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_code:InvokeServer(unpack(args))
     end
+  end
+})
+MiscGroupbox:AddButton({
+  Text = '🖥️ Low Graphics',
+  Func = function()
+    auto_low_graphic_settings()
   end
 })
 
@@ -1261,14 +1273,12 @@ function handle_select_units()
 end
 
 function auto_select_units()
-  task.spawn(function ()
-    handle_select_units()
-    local collection = LocalPlayer.PlayerGui:WaitForChild("collection")
-    collection:GetPropertyChangedSignal("Enabled"):Connect(function()
-      if collection.Enabled == false then
-        handle_select_units()
-      end
-    end)
+  handle_select_units()
+  local collection = LocalPlayer.PlayerGui:WaitForChild("collection")
+  collection:GetPropertyChangedSignal("Enabled"):Connect(function()
+    if collection.Enabled == false then
+      handle_select_units()
+    end
   end)
 end
 --#endregion
@@ -2068,6 +2078,7 @@ function auto_start()
         local challenge = settings.farm_mode == "Challenge"
         if manual or gems or story or level_id or level_bp then
           start_farming()
+          set_battlepass_level()
         elseif portal then
           start_portal()
         elseif raid then
@@ -2274,6 +2285,12 @@ function auto_place_units()
           place_units({
             [1] = { x = pos_x, y = 2.600, z = pos_z }, -- ground unit position
             [2] = { x = -41.454, y = 5.986, z = -185.049 }, -- hill unit position
+          })
+        elseif map:match("sao") then
+          -- print("Puppet Island")
+          place_units({
+            [1] = { x = pos_x, y = 37.536, z = pos_z }, -- ground unit position
+            [2] = { x = 150.474, y = 41.677, z = 19.859 }, -- hill unit position
           })
   
         --///Legend Stages\\\--- 
@@ -2517,7 +2534,8 @@ function story_end()
       ["Alien Spaceship"] = "Act 6 - The Alien Mass",
       ["Fabled Kingdom"] = "Act 6 - The Possessed Prince",
       ["Hero City"] = "Act 6 - The Portal Villain",
-      ["Puppet Island"] = "Act 6 - The Spade Officer"
+      ["Puppet Island"] = "Act 6 - The Spade Officer",
+      ["Virtual Dungeon"] = "Act 6 - The Administrator",
     }
     if LocalPlayer.PlayerGui.ResultsUI.Holder.LevelName.Text == story_list[settings.story_target_name or "Puppet Island"] then
       settings.auto_farm = false
@@ -3063,61 +3081,64 @@ end
 
 --#region [Function] Auto Claim Quests
 function auto_claim_quests()
-  task.spawn(function()
-    if settings.auto_claim_quests then
-      pcall(function()
-        game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
-      end)
+  if settings.auto_claim_quests then
+    pcall(function()
+      game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
+      task.wait()
+    end)
 
-      local questStory = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.story.Scroll:GetChildren()
-      for i, v in pairs(questStory) do
-        if v.Name ~= "UIListLayout" and v.Name ~= "RefreshFrame" then
-          pcall(function()
-            local args = {
-              [1] = tostring(v.Name)
-            }
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
-          end)
-        end
-      end
-
-      local questEvent = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.event.Scroll:GetChildren()
-      for i, v in pairs(questEvent) do
-        if v.Name ~= "UIListLayout" and v.Name ~= "RefreshFrame" then
-          pcall(function()
-            local args = {
-              [1] = tostring(v.Name)
-            }
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
-          end)
-        end
-      end
-
-      local questDaily = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.daily.Scroll:GetChildren()
-      for i, v in pairs(questDaily) do
-        if v.Name ~= "UIListLayout" and v.Name ~= "RefreshFrame" then
-          pcall(function()
-            local args = {
-              [1] = tostring(v.Name)
-            }
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
-          end)
-        end
-      end
-
-      local questInfinity = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.infinite.Scroll:GetChildren()
-      for i , v in pairs(questInfinity) do
-        if v.Name ~= "UIListLayout" and v.Name ~= "RefreshFrame" then
-          pcall(function()
-            local args = {
-              [1] = tostring(v.Name)
-            }
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
-          end)
-        end
+    local questStory = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.story.Scroll:GetChildren()
+    for i, v in pairs(questStory) do
+      if v.Name ~= "UIListLayout" and v.Name ~= "RefreshFrame" then
+        pcall(function()
+          local args = {
+            [1] = tostring(v.Name)
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
+          task.wait()
+        end)
       end
     end
-  end)
+
+    local questEvent = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.event.Scroll:GetChildren()
+    for i, v in pairs(questEvent) do
+      if v.Name ~= "UIListLayout" and v.Name ~= "RefreshFrame" then
+        pcall(function()
+          local args = {
+            [1] = tostring(v.Name)
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
+          task.wait()
+        end)
+      end
+    end
+
+    local questDaily = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.daily.Scroll:GetChildren()
+    for i, v in pairs(questDaily) do
+      if v.Name ~= "UIListLayout" and v.Name ~= "RefreshFrame" then
+        pcall(function()
+          local args = {
+            [1] = tostring(v.Name)
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
+          task.wait()
+        end)
+      end
+    end
+
+    local questInfinity = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.infinite.Scroll:GetChildren()
+    for i , v in pairs(questInfinity) do
+      if v.Name ~= "UIListLayout" and v.Name ~= "RefreshFrame" then
+        pcall(function()
+          local args = {
+            [1] = tostring(v.Name)
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.redeem_quest:InvokeServer(unpack(args))
+          task.wait()
+        end)
+      end
+    end
+  end
 end
 --#endregion
 
@@ -3155,81 +3176,79 @@ end
 --#region [Function] Auto Buy Items
 function auto_buy_items()
   if settings.auto_buy_items ~= nil then
-    task.spawn(function()
-      for i, v in pairs(settings.auto_buy_items) do
-        if v == "star_remnant" then
-          if Workspace["travelling_merchant"]["is_open"].Value == true then
-            for _, x in pairs(Workspace["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
-              if x.Name:match("star_remnant") then
-                local args = {
-                  [1] = "star_remnant"
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_travelling_merchant_item:InvokeServer(unpack(args))
-              end
+    for i, v in pairs(settings.auto_buy_items) do
+      if v == "star_remnant" then
+        if Workspace["travelling_merchant"]["is_open"].Value == true then
+          for _, x in pairs(Workspace["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
+            if x.Name:match("star_remnant") then
+              local args = {
+                [1] = "star_remnant"
+              }
+              game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_travelling_merchant_item:InvokeServer(unpack(args))
             end
           end
-        end
-  
-        if v == "starfruit" then
-          if Workspace["travelling_merchant"]["is_open"].Value == true then
-            for _, x in pairs(Workspace["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
-              if x.Name:match("StarFruit") then
-                local args = {
-                  [1] = x.Name
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_travelling_merchant_item:InvokeServer(unpack(args))
-              end
-            end
-          end
-        end
-  
-        if v == "grief_seed" then
-          pcall(function()
-            local args = {
-              [1] = "grief_seed",
-              [2] = "100"
-            }
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-            task.wait()
-            local args = {
-              [1] = "grief_seed",
-              [2] = "100"
-            }
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-            task.wait()
-            local args = {
-              [1] = "grief_seed",
-              [2] = "10"
-            }
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-            task.wait()
-            local args = {
-              [1] = "grief_seed",
-              [2] = "10"
-            }
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-            task.wait()
-            local args = {
-              [1] = "grief_seed",
-              [2] = "10"
-            }
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-            task.wait()
-            local args = {
-              [1] = "grief_seed",
-              [2] = "10"
-            }
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-            task.wait()
-            local args = {
-              [1] = "grief_seed",
-              [2] = "10"
-            }
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
-          end)
         end
       end
-    end)
+
+      if v == "starfruit" then
+        if Workspace["travelling_merchant"]["is_open"].Value == true then
+          for _, x in pairs(Workspace["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
+            if x.Name:match("StarFruit") then
+              local args = {
+                [1] = x.Name
+              }
+              game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_travelling_merchant_item:InvokeServer(unpack(args))
+            end
+          end
+        end
+      end
+
+      if v == "grief_seed" then
+        pcall(function()
+          local args = {
+            [1] = "grief_seed",
+            [2] = "100"
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+          task.wait()
+          local args = {
+            [1] = "grief_seed",
+            [2] = "100"
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+          task.wait()
+          local args = {
+            [1] = "grief_seed",
+            [2] = "10"
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+          task.wait()
+          local args = {
+            [1] = "grief_seed",
+            [2] = "10"
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+          task.wait()
+          local args = {
+            [1] = "grief_seed",
+            [2] = "10"
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+          task.wait()
+          local args = {
+            [1] = "grief_seed",
+            [2] = "10"
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+          task.wait()
+          local args = {
+            [1] = "grief_seed",
+            [2] = "10"
+          }
+          game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_madoka_shop_item:InvokeServer(unpack(args))
+        end)
+      end
+    end
   end
 end
 --#endregion
@@ -3247,9 +3266,8 @@ end
 -- #endregion
 
 if game.PlaceId == ANIME_ADVENTURES_ID then
-  auto_claim_quests()
   auto_buy_items()
-  set_battlepass_level()
+  auto_claim_quests()
   auto_select_units()
   auto_start()
 else
@@ -3262,11 +3280,10 @@ else
   auto_lag()
   lag_handle()
   teleport_player_to_unit()
-  auto_remove_map()
-  hide_enemy_unit_names()
+  -- auto_remove_map()
+  -- hide_enemy_unit_names()
 end
-auto_low_graphic_settings()
-party_mode()
 click_to_teleport()
-set_fps_cap()
+party_mode()
 anti_afk()
+set_fps_cap()
