@@ -7,7 +7,7 @@
 --#region Get Service
 repeat task.wait() until game:IsLoaded()
 game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
-wait(5)
+wait(10)
 
 local ANIME_ADVENTURES_ID = 8304191830
 local API = "rollinhub.ngrok.app"
