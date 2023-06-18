@@ -3272,9 +3272,9 @@ end
 --#region [Function] Anti AFK
 function anti_afk()
   LocalPlayer.Idled:connect(function()
-    VirtualUser:Button2Down(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
-    wait(1)
-    VirtualUser:Button2Up(Vector2.new(0,0), Workspace.CurrentCamera.CFrame)
+    VirtualUser:CaptureController()
+    VirtualUser:ClickButton2(Vector2.new())
+    wait(2)
   end)
 end
 -- #endregion
@@ -3303,10 +3303,10 @@ else
   hide_enemy_unit_names()
 end
 task.wait(1)
+anti_afk()
 auto_low_graphic_settings()
 party_mode()
 click_to_teleport()
-anti_afk()
 auto_reconnect()
 set_fps_cap()
 StarterGui:SetCore("SendNotification",{
