@@ -3279,6 +3279,7 @@ function anti_afk()
 end
 -- #endregion
 
+auto_reconnect()
 if game.PlaceId == ANIME_ADVENTURES_ID then
   auto_buy_items()
   auto_claim_quests()
@@ -3307,7 +3308,6 @@ anti_afk()
 -- auto_low_graphic_settings()
 party_mode()
 click_to_teleport()
-auto_reconnect()
 set_fps_cap()
 StarterGui:SetCore("SendNotification",{
   Title = "Finished",
