@@ -7,7 +7,7 @@
 --#region Get Service
 repeat task.wait() until game:IsLoaded()
 game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
-wait(20)
+wait(10)
 
 local ANIME_ADVENTURES_ID = 8304191830
 local API = "rollinhub.ngrok.app"
@@ -3299,12 +3299,12 @@ else
   teleport_player_to_unit()
   task.wait(1)
   auto_remove_map()
-  task.wait(1)
-  hide_enemy_unit_names()
+  -- task.wait(1)
+  -- hide_enemy_unit_names()
 end
 task.wait(1)
 anti_afk()
-auto_low_graphic_settings()
+-- auto_low_graphic_settings()
 party_mode()
 click_to_teleport()
 auto_reconnect()
