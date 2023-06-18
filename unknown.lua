@@ -3289,8 +3289,15 @@ else
   task.wait(1)
   hide_enemy_unit_names()
 end
+task.wait(5)
+auto_low_graphic_settings()
 click_to_teleport()
 party_mode()
 set_fps_cap()
 anti_afk()
 auto_reconnect()
+StarterGui:SetCore("SendNotification",{
+  Title = "Finished",
+  -- Text = "'" .. LocalPlayer.Name .. "'" .. "loaded",
+  Icon = "rbxassetid://6023426926"
+})
