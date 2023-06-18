@@ -1297,21 +1297,25 @@ function auto_low_graphic_settings()
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
     local args = {
       [1] = "hide_other_pets",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
     local args = {
       [1] = "low_quality_shadows",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
     local args = {
       [1] = "low_quality_textures",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
     local args = {
       [1] = "dynamic_depth_of_field",
       [2] = true
@@ -1324,61 +1328,73 @@ function auto_low_graphic_settings()
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
     local args = {
       [1] = "show_damage_text",
       [2] = false
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
     local args = {
       [1] = "show_overheads",
       [2] = false
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
     local args = {
       [1] = "hide_damage_modifiers",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
     local args = {
       [1] = "autoskip_waves",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
     local args = {
       [1] = "disable_auto_open_overhead",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
     local args = {
       [1] = "show_upgrade_ui_on_left",
       [2] = false
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
     local args = {
       [1] = "low_quality",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
     local args = {
       [1] = "disable_kill_fx",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
     local args = {
       [1] = "disable_other_fx",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
     local args = {
       [1] = "disable_effects",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
     local args = {
       [1] = "low_quality_shadows",
       [2] = true
     }
     game:GetService("ReplicatedStorage").endpoints.client_to_server.toggle_setting:InvokeServer(unpack(args))
+    task.wait()
     local args = {
       [1] = "low_quality_textures",
       [2] = true
@@ -2911,7 +2927,8 @@ end
 function party_mode()
   task.spawn(function()
     if game.PlaceId == ANIME_ADVENTURES_ID then
-      while task.wait(5) do
+      task.wait(10)
+      while task.wait(1) do
         if settings.party_mode then
           if game.JobId ~= global_settings.party_id then
             TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, global_settings.party_id, LocalPlayer)
@@ -2956,7 +2973,7 @@ function party_mode()
       end
     else
       task.wait(10)
-      while task.wait(5) do
+      while task.wait(1) do
         if game.PlaceId ~= ANIME_ADVENTURES_ID and settings.party_mode then
           if LocalPlayer.PlayerGui.ResultsUI.Enabled == true then
             break
@@ -3271,13 +3288,9 @@ else
   auto_place_units()
   task.wait(1)
   auto_upgrade()
-  task.wait(1)
   auto_abilities()
-  task.wait(1)
   auto_sell_units()
-  task.wait(1)
   auto_force_leave()
-  task.wait(1)
   game_finished()
   task.wait(1)
   auto_lag()
@@ -3289,15 +3302,15 @@ else
   task.wait(1)
   hide_enemy_unit_names()
 end
-task.wait(5)
+task.wait(1)
 auto_low_graphic_settings()
-click_to_teleport()
 party_mode()
-set_fps_cap()
+click_to_teleport()
 anti_afk()
 auto_reconnect()
+set_fps_cap()
 StarterGui:SetCore("SendNotification",{
   Title = "Finished",
-  -- Text = "'" .. LocalPlayer.Name .. "'" .. "loaded",
+  Text = "ทุกฟังก์ชันทำงานเรียบร้อย",
   Icon = "rbxassetid://6023426926"
 })
