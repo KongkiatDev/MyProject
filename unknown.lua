@@ -7,7 +7,7 @@
 --#region Get Service
 repeat task.wait() until game:IsLoaded()
 game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
-wait(10)
+wait(20)
 
 local ANIME_ADVENTURES_ID = 8304191830
 local API = "rollinhub.ngrok.app"
@@ -3026,7 +3026,7 @@ end
 --#region [Function] Hide Enemy Unit Names
 function hide_enemy_unit_names()
   task.spawn(function()
-    while task.wait(1) do
+    while task.wait() do
       if settings.auto_remove_units_name then
         for _, v in pairs(Workspace["_UNITS"]:GetChildren()) do
           if v:FindFirstChild("HumanoidRootPart") then
@@ -3269,16 +3269,25 @@ if game.PlaceId == ANIME_ADVENTURES_ID then
   auto_start()
 else
   auto_place_units()
+  task.wait(1)
   auto_upgrade()
+  task.wait(1)
   auto_abilities()
+  task.wait(1)
   auto_sell_units()
+  task.wait(1)
   auto_force_leave()
+  task.wait(1)
   game_finished()
+  task.wait(1)
   auto_lag()
   lag_handle()
+  task.wait(1)
   teleport_player_to_unit()
+  task.wait(1)
   auto_remove_map()
-  -- hide_enemy_unit_names()
+  task.wait(1)
+  hide_enemy_unit_names()
 end
 click_to_teleport()
 party_mode()
