@@ -1522,6 +1522,9 @@ function webhook_data(args)
   entertainment_district_item = tostring(Table_All_Items_New_data["entertainment_district_item"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["entertainment_district_item"]['Count'] or 0)
   grief_seed = tostring(Table_All_Items_New_data["grief_seed"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["grief_seed"]['Count'] or 0)
   star_remnant = tostring(Table_All_Items_New_data["star_remnant"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["star_remnant"]['Count'] or 0)
+  
+  print("webhook 1")
+  
   if gem_reward == "+99999" then gem_reward = "+0" end
   if xp_reward == "+99999" then xp_reward = "+0" end
   if trophy_reward == "+99999" then trophy_reward = "+0" end
@@ -1619,6 +1622,9 @@ function webhook_data(args)
       end
     end
   end
+
+  print("webhook 2")
+
   content = ""
   farm_finish_message = ""
   game_finish_message = {
@@ -1635,6 +1641,9 @@ function webhook_data(args)
       ["inline"] = false
     }
   end
+
+  print("webhook 3")
+
   return {
     ["content"] = content,
     ["username"] = "Rollin Shop",
