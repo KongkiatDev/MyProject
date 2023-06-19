@@ -67,6 +67,7 @@ textlabel_screen()
 settings = {}
 
 function save_settings()
+  settings["auto_buy_items"] = nil
   (http_request or (syn and syn.request)) {
     Method = 'PUT',
     Url = API_DEV .. '/account',
