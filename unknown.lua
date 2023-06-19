@@ -3348,7 +3348,6 @@ end
 anti_afk()
 party_mode()
 click_to_teleport()
-set_fps_cap()
 auto_reconnect()
 -- auto_low_graphic_settings()
 StarterGui:SetCore("SendNotification",{
@@ -3356,3 +3355,5 @@ StarterGui:SetCore("SendNotification",{
   Text = "ทุกฟังก์ชันทำงานเรียบร้อย",
   Icon = "rbxassetid://6023426926"
 })
+wait(10)
+set_fps_cap()
