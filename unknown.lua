@@ -3192,13 +3192,16 @@ function teleport_player_to_unit()
   task.spawn(function()
     Workspace:WaitForChild("_wave_num")
     Workspace:WaitForChild("_UNITS")
-    for _, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
-      if v:FindFirstChild("_stats") then
-        if tostring(v._stats.player.Value) == LocalPlayer.Name then
-          LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1)
-          break
+    while task.wait() do
+      for _, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
+        if v:FindFirstChild("_stats") then
+          if tostring(v._stats.player.Value) == LocalPlayer.Name then
+            LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1)
+            break
+          end
         end
       end
+      break
     end
   end)
 end
@@ -3310,7 +3313,6 @@ function anti_afk()
 end
 -- #endregion
 
-auto_reconnect()
 if game.PlaceId == ANIME_ADVENTURES_ID then
   set_battlepass_level()
   auto_buy_items()
@@ -3319,28 +3321,23 @@ if game.PlaceId == ANIME_ADVENTURES_ID then
   auto_start()
 else
   auto_place_units()
-  task.wait(1)
+  teleport_player_to_unit()
+  auto_lag()
+  lag_handle()
+  auto_remove_map()
   auto_upgrade()
   auto_abilities()
   auto_sell_units()
   auto_force_leave()
   game_finished()
-  task.wait(1)
-  auto_lag()
-  lag_handle()
-  task.wait(1)
-  teleport_player_to_unit()
-  task.wait(1)
-  auto_remove_map()
-  -- task.wait(1)
   -- hide_enemy_unit_names()
 end
-task.wait(1)
 anti_afk()
--- auto_low_graphic_settings()
 party_mode()
 click_to_teleport()
 set_fps_cap()
+auto_reconnect()
+-- auto_low_graphic_settings()
 StarterGui:SetCore("SendNotification",{
   Title = "Finished",
   Text = "ทุกฟังก์ชันทำงานเรียบร้อย",
