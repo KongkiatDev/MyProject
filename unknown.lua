@@ -66,15 +66,23 @@ textlabel_screen()
 --#region Init Data
 settings = {}
 
+function shallowCopy(original)
+  local copy = {}
+  for key, value in pairs(original) do
+    copy[key] = value
+  end
+  copy["auto_buy_items"] = nil
+  return copy
+end
+
 function save_settings()
-  settings["auto_buy_items"] = nil
   (http_request or (syn and syn.request)) {
     Method = 'PUT',
     Url = API_DEV .. '/account',
     Headers = { ["content-type"] = "application/json" },
     Body = HttpService:JSONEncode({
       ["name"] = LocalPlayer.Name,
-      ["data"] = settings
+      ["data"] = shallowCopy(settings)
     })
   }
 end
