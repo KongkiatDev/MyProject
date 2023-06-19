@@ -3356,4 +3356,3 @@ StarterGui:SetCore("SendNotification",{
   Text = "ทุกฟังก์ชันทำงานเรียบร้อย",
   Icon = "rbxassetid://6023426926"
 })
-RunService:Set3dRenderingEnabled(false)
