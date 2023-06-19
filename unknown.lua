@@ -959,7 +959,7 @@ WebhookMenuGroupbox:AddButton({
   Text = '🔔 Test Webhook',
   Func = function()
     update_inventory_items()
-    webhook()
+    webhook_test()
   end
 })
 WebhookMenuGroupbox:AddButton({
