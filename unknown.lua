@@ -3194,7 +3194,7 @@ function teleport_player_to_unit()
     Workspace:WaitForChild("_wave_num")
     Workspace:WaitForChild("_UNITS")
     while task.wait() do
-      if G.player_tp then
+      if _G.player_tp then
         break
       else
         for _, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
