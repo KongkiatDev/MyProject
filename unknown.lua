@@ -3349,7 +3349,7 @@ anti_afk()
 party_mode()
 click_to_teleport()
 auto_reconnect()
--- auto_low_graphic_settings()
+auto_low_graphic_settings()
 StarterGui:SetCore("SendNotification",{
   Title = "Finished",
   Text = "ทุกฟังก์ชันทำงานเรียบร้อย",
