@@ -10,8 +10,8 @@ game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
 wait(10)
 
 local ANIME_ADVENTURES_ID = 8304191830
-local API = "rollinhub.ngrok.app"
-local API_DEV = "https://675ab96b5228.ngrok.app"
+local API_SERVER = "https://rollinhub.ngrok.app"
+local API_DISCORD = "https://f1f8526132cf.ngrok.app"
 local WH_URL = ("https://discord.com/api/webhooks/%s/%s"):format("1105540677158322306", "P7FHXSx9Ypr7nmxxDLAyW_q7eEUp3mRUvFbxdAp57x0bKIhY5Z-vorMJ3JmX-OhUmj_4")
 local FOLDER_NAME = "RollinHub"
 local HttpService = game:GetService("HttpService")
@@ -78,7 +78,7 @@ end
 function save_settings()
   (http_request or (syn and syn.request)) {
     Method = 'PUT',
-    Url = API_DEV .. '/account',
+    Url = API_SERVER .. '/account',
     Headers = { ["content-type"] = "application/json" },
     Body = HttpService:JSONEncode({
       ["name"] = LocalPlayer.Name,
@@ -90,7 +90,7 @@ end
 function read_settings()
   local Response = (http_request or (syn and syn.request)) {
     Method = 'POST',
-    Url = API_DEV .. '/account',
+    Url = API_SERVER .. '/account',
     Headers = { ["content-type"] = "application/json" },
     Body = HttpService:JSONEncode({
       ["name"] = LocalPlayer.Name
@@ -124,7 +124,7 @@ global_settings = {}
 function save_global_settings()
   (http_request or (syn and syn.request)) {
     Method = 'PUT',
-    Url = API_DEV .. '/config',
+    Url = API_SERVER .. '/config',
     Headers = { ["content-type"] = "application/json" },
     Body = HttpService:JSONEncode({
       ["data"] = global_settings
@@ -135,7 +135,7 @@ end
 function read_global_settings()
   local Response = (http_request or (syn and syn.request)) {
     Method = 'GET',
-    Url = API_DEV .. '/config',
+    Url = API_SERVER .. '/config',
     Headers = { ["content-type"] = "application/json" },
   }
 
@@ -867,7 +867,7 @@ MemberConfigGroupbox:AddDropdown("Players", {
 --#region [Menu] Webhook
 function check_channel()
   local status, result = pcall(function()
-    return game:HttpGet(("https://%s/check-channel?name=%s"):format(API, LocalPlayer.Name))
+    return game:HttpGet(("%s/check-channel?name=%s"):format(API_DISCORD, LocalPlayer.Name))
   end)
   if status then
     if result == 'true' and settings.personal_webhook_url ~= nil then
@@ -895,7 +895,7 @@ end
 function create_channel()
   Library:Notify("Create Channel", 2)
   local status, result = pcall(function()
-    return game:HttpGet(("https://%s/create-channel?name=%s&userId=%s"):format(API, LocalPlayer.Name, settings.discord_user_id))
+    return game:HttpGet(("%s/create-channel?name=%s&userId=%s"):format(API_DISCORD, LocalPlayer.Name, settings.discord_user_id))
   end)
   if status then
     game:GetService("StarterGui"):SetCore("SendNotification",{
@@ -916,7 +916,7 @@ end
 
 function delete_channel()
   local status, result = pcall(function()
-    return game:HttpGet(("https://%s/delete-channel?name=%s"):format(API, LocalPlayer.Name))
+    return game:HttpGet(("%s/delete-channel?name=%s"):format(API_DISCORD, LocalPlayer.Name))
   end)
   if status then
     if result == 'true' then
@@ -1193,7 +1193,7 @@ SettingsGroupbox:AddButton({
   Func = function()
     local Response = (http_request or (syn and syn.request)) {
       Method = 'DELETE',
-      Url = API_DEV .. '/account',
+      Url = API_SERVER .. '/account',
       Headers = { ["content-type"] = "application/json" },
       Body = HttpService:JSONEncode({
         ["name"] = LocalPlayer.Name
