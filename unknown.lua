@@ -2687,6 +2687,14 @@ function infinite_castle_end()
 end
 
 function raid_end()
+  local title = LocalPlayer.PlayerGui.ResultsUI.Holder.Title.Text
+  -- if title == "VICTORY" and settings.user_role == "Host" then
+  if title == "VICTORY" then
+    local name = settings.level:split("_level_")[1]
+    local current_level = settings.level:split("_level_")[2]
+    settings.level =  name .. "_level_" .. tostring(current_level + 1)
+    save_settings()
+  end
   if settings.enable_item_limit then
     if check_item_limit() then
       settings.auto_lag = false
