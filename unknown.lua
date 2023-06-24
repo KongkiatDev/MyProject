@@ -2688,12 +2688,13 @@ end
 
 function raid_end()
   local title = LocalPlayer.PlayerGui.ResultsUI.Holder.Title.Text
-  -- if title == "VICTORY" and settings.user_role == "Host" then
-  if title == "VICTORY" then
+  if title == "VICTORY" and settings.user_role == "Host" then
     local name = settings.level:split("_level_")[1]
     local current_level = settings.level:split("_level_")[2]
-    settings.level =  name .. "_level_" .. tostring(current_level + 1)
-    save_settings()
+    if tonumber(current_level) < 4 then
+      settings.level =  name .. "_level_" .. tostring(current_level + 1)
+      save_settings()
+    end
   end
   if settings.enable_item_limit then
     if check_item_limit() then
