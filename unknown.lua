@@ -2153,10 +2153,8 @@ _G.disable_auto_place_units = false
 
 function get_level_data()
   local list = {}
-  if game.PlaceId ~= ANIME_ADVENTURES_ID then
-    for i, v in pairs(game.Workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()) do
-      list[i] = v
-    end
+  for i, v in pairs(game.Workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()) do
+    list[i] = v
   end
   return list
 end
@@ -2229,11 +2227,12 @@ function place_units(position)
 end
 
 function auto_place_units()
+  local map = get_level_data().map
+  local pos_x, pos_z
+  Workspace:WaitForChild("_UNITS")
   task.spawn(function()
     while task.wait(1.5) do
       if settings.auto_place_units and not _G.disable_auto_place_units then
-        Workspace:WaitForChild("_wave_num")
-        Workspace:WaitForChild("_UNITS")
         for _, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
           if v:FindFirstChild("_stats") then
             if v._stats.player.Value == nil then
@@ -2243,7 +2242,6 @@ function auto_place_units()
             end
           end
         end
-        local map = get_level_data().map
         if map:match("namek_cartoon") then
           -- print("Planet Namak")
           place_units({
