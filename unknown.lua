@@ -2252,7 +2252,7 @@ function auto_place_units()
           -- print("Shiganshinu District")
           place_units({
             [1] = { x = pos_x, y = 33.74, z = pos_z }, -- ground unit position
-            [2] = { x = -3024.567, y = 38.415, z = -676.646 }, -- hill unit position
+            [2] = { x = -3013.500, y = 38.415, z = -690.597 }, -- hill unit position
           })
         elseif map:match("demonslayer") then
           -- print("Snowy Town")
