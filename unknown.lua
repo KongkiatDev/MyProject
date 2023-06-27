@@ -6,8 +6,16 @@
 
 --#region Get Service
 repeat task.wait() until game:IsLoaded()
+
+game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
+  if e.Name == 'ErrorPrompt' then
+    game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
+  end
+end)
+
 game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
 wait(10)
+
 
 local ANIME_ADVENTURES_ID = 8304191830
 local API_SERVER = "https://rollinhub.ngrok.app"
@@ -24,6 +32,7 @@ local RunService = game:GetService("RunService")
 -- local TweenService = game:GetService("TweenService")
 local StarterGui = game:GetService("StarterGui")
 local VirtualUser = game:GetService("VirtualUser")
+local Services = require(game.ReplicatedStorage.src.Loader)
 
 if game.PlaceId == ANIME_ADVENTURES_ID then
   game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("collection"):WaitForChild("grid"):WaitForChild("List"):WaitForChild("Outer"):WaitForChild("UnitFrames")
@@ -161,8 +170,7 @@ wait(1)
 --#endregion
 
 --#region Inventory Items
-local services = require(game.ReplicatedStorage.src.Loader)
-local ItemInventoryServiceClient = services.load_client_service(script, "ItemInventoryServiceClient")
+local ItemInventoryServiceClient = Services.load_client_service(script, "ItemInventoryServiceClient")
 local Table_All_Items_Old_data = {}
 local Table_All_Items_New_data = {}
 local Count_Portal_list = 0
@@ -1957,7 +1965,7 @@ function start_farming()
           _G.teleporting = false
           Library:Notify("Game Started: " .. settings.world .. " [" .. settings.level .. "]", 30)
           task.wait(60)
-          TeleportService:Teleport(game.PlaceId)
+          TeleportService:Teleport(game.PlaceId, LocalPlayer)
         else
           _G.teleporting = true
           task.wait(60)
@@ -2039,7 +2047,7 @@ function start_raid()
           _G.teleporting = false
           Library:Notify("Game Started: " .. settings.world .. " [" .. settings.level .. "]", 30)
           task.wait(60)
-          TeleportService:Teleport(game.PlaceId)
+          TeleportService:Teleport(game.PlaceId, LocalPlayer)
         else
           _G.teleporting = true
           task.wait(60)
@@ -2170,7 +2178,7 @@ function place_units(position)
       task.spawn(function()
         local args = {
           [1] = unit_id,
-          [2] = CFrame.new(position[2].x + (math.random() + math.random(-3, 3)), position[2].y, position[2].z + (math.random() + math.random(-3, 3))) * CFrame.Angles(0, -0, -0)
+          [2] = CFrame.new(position[2].x + (math.random() + math.random(-2, 2)), position[2].y, position[2].z + (math.random() + math.random(-2, 2))) * CFrame.Angles(0, -0, -0)
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
         task.wait(0.5)
@@ -2184,7 +2192,7 @@ function place_units(position)
         -- ground unit position
         local args = {
           [1] = unit_id,
-          [2] = CFrame.new(position[2].x + (math.random() + math.random(-3, 3)), position[1].y, position[2].z + (math.random() + math.random(-3, 3))) * CFrame.Angles(0, -0, -0)
+          [2] = CFrame.new(position[2].x + (math.random() + math.random(-2, 2)), position[1].y, position[2].z + (math.random() + math.random(-2, 2))) * CFrame.Angles(0, -0, -0)
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
         task.wait(0.5)
@@ -2192,7 +2200,7 @@ function place_units(position)
         -- hill unit position
         local args = {
           [1] = unit_id,
-          [2] = CFrame.new(position[2].x + (math.random() + math.random(-3, 3)), position[2].y, position[2].z + (math.random() + math.random(-3, 3))) * CFrame.Angles(0, -0, -0)
+          [2] = CFrame.new(position[2].x + (math.random() + math.random(-2, 2)), position[2].y, position[2].z + (math.random() + math.random(-2, 2))) * CFrame.Angles(0, -0, -0)
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
         task.wait(0.5)
@@ -2209,7 +2217,7 @@ function place_units(position)
         -- ground unit position
         local args = {
           [1] = unit_id,
-          [2] = CFrame.new(position[1].x + (math.random() + math.random(-3, 3)), position[1].y, position[1].z + (math.random() + math.random(-3, 3))) * CFrame.Angles(0, -0, -0)
+          [2] = CFrame.new(position[1].x + (math.random() + math.random(-2, 2)), position[1].y, position[1].z + (math.random() + math.random(-2, 2))) * CFrame.Angles(0, -0, -0)
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
         task.wait(0.5)
@@ -2217,7 +2225,7 @@ function place_units(position)
         -- hill unit position
         local args = {
           [1] = unit_id,
-          [2] = CFrame.new(position[2].x + (math.random() + math.random(-3, 3)), position[2].y, position[2].z + (math.random() + math.random(-3, 3))) * CFrame.Angles(0, -0, -0)
+          [2] = CFrame.new(position[2].x + (math.random() + math.random(-2, 2)), position[2].y, position[2].z + (math.random() + math.random(-2, 2))) * CFrame.Angles(0, -0, -0)
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
         task.wait(0.5)
@@ -2246,7 +2254,7 @@ function auto_place_units()
           -- print("Planet Namak")
           place_units({
             [1] = { x = pos_x, y = 91.80, z = pos_z }, -- ground unit position
-            [2] = { x = -2957.349, y = 94.532, z = -696.295 }, -- hill unit position
+            [2] = { x = -2945.898, y = 94.418, z = -719.315 }, -- hill unit position
           })
         elseif map:match("aot") then
           -- print("Shiganshinu District")
@@ -2734,17 +2742,20 @@ function game_finished()
         local gems = settings.farm_mode == "Gem"
         local story = settings.farm_mode == "Story"
         local level_id = settings.farm_mode == "Level-ID"
+        local level_bp = settings.farm_mode == "Level-BP"
         local portal = settings.farm_mode == "Portal"
         local raid = settings.farm_mode == "Raid"
         local infinite_castle = settings.farm_mode == "Infinity Castle"
         local challenge = settings.farm_mode == "Challenge"
         if gems then
           -- gem_end()
-          return_to_lobby()
+          -- return_to_lobby()
         elseif story then
           story_end()
         elseif level_id then
           level_id_end()
+        elseif level_bp then
+          -- level_id_end()
         elseif portal then
           portal_end()
         elseif raid then
@@ -3227,22 +3238,6 @@ function teleport_player_to_unit()
 end
 --#endregion
 
---#region [Function] Auto Reconnect
-function auto_reconnect()
-  game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
-    if e.Name == 'ErrorPrompt' then
-      StarterGui:SetCore("SendNotification",{
-        Title = "Reconnect",
-        Text = "the game will reconnect in 10 seconds.",
-        Icon = "rbxassetid://6031071050"
-      })
-      task.wait(10)
-      TeleportService:Teleport(game.PlaceId)
-    end
-  end)
-end
---#endregion
-
 --#region [Function] Auto Buy Items
 function auto_buy_items()
   if settings.auto_buy_items ~= nil then
@@ -3333,6 +3328,17 @@ function anti_afk()
 end
 -- #endregion
 
+--#region [Function] Place Any
+function place_any()
+  local placement_service = Services.load_client_service(script, "PlacementServiceClient")
+  task.spawn(function()
+    while task.wait() do
+      placement_service.can_place = true
+    end
+  end)
+end
+--#endregion
+
 if game.PlaceId == ANIME_ADVENTURES_ID then
   set_battlepass_level()
   auto_buy_items()
@@ -3340,6 +3346,7 @@ if game.PlaceId == ANIME_ADVENTURES_ID then
   auto_select_units()
   auto_start()
 else
+  place_any()
   auto_place_units()
   teleport_player_to_unit()
   auto_lag()
@@ -3355,12 +3362,11 @@ end
 anti_afk()
 party_mode()
 click_to_teleport()
--- auto_reconnect()
 auto_low_graphic_settings()
 StarterGui:SetCore("SendNotification",{
   Title = "Finished",
   Text = "ทุกฟังก์ชันทำงานเรียบร้อย",
   Icon = "rbxassetid://6023426926"
 })
-wait(10)
+wait(5)
 set_fps_cap()
