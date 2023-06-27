@@ -33,6 +33,7 @@ local RunService = game:GetService("RunService")
 local StarterGui = game:GetService("StarterGui")
 local VirtualUser = game:GetService("VirtualUser")
 local Services = require(game.ReplicatedStorage.src.Loader)
+local Request = http_request or (syn and syn.request)
 
 if game.PlaceId == ANIME_ADVENTURES_ID then
   game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("collection"):WaitForChild("grid"):WaitForChild("List"):WaitForChild("Outer"):WaitForChild("UnitFrames")
@@ -85,7 +86,7 @@ function shallowCopy(original)
 end
 
 function save_settings()
-  (http_request or (syn and syn.request)) {
+  Request({
     Method = 'PUT',
     Url = API_SERVER .. '/account',
     Headers = { ["content-type"] = "application/json" },
@@ -93,18 +94,18 @@ function save_settings()
       ["name"] = LocalPlayer.Name,
       ["data"] = shallowCopy(settings)
     })
-  }
+  })
 end
 
 function read_settings()
-  local Response = (http_request or (syn and syn.request)) {
+  local Response = Request({
     Method = 'POST',
     Url = API_SERVER .. '/account',
     Headers = { ["content-type"] = "application/json" },
     Body = HttpService:JSONEncode({
       ["name"] = LocalPlayer.Name
     })
-  }
+  })
 
   if not Response.Success then
     StarterGui:SetCore("SendNotification",{
@@ -131,22 +132,22 @@ wait(1)
 global_settings = {}
 
 function save_global_settings()
-  (http_request or (syn and syn.request)) {
+  Request({
     Method = 'PUT',
     Url = API_SERVER .. '/config',
     Headers = { ["content-type"] = "application/json" },
     Body = HttpService:JSONEncode({
       ["data"] = global_settings
     })
-  }
+  })
 end
 
 function read_global_settings()
-  local Response = (http_request or (syn and syn.request)) {
+  local Response = Request({
     Method = 'GET',
     Url = API_SERVER .. '/config',
     Headers = { ["content-type"] = "application/json" },
-  }
+  })
 
   if not Response.Success then
     StarterGui:SetCore("SendNotification",{
@@ -1199,14 +1200,14 @@ local SettingsGroupbox = Tabs.Misc:AddRightGroupbox("           【 Settings 】
 SettingsGroupbox:AddButton({
   Text = '🔄 Reset Settings',
   Func = function()
-    local Response = (http_request or (syn and syn.request)) {
+    local Response = Request({
       Method = 'DELETE',
       Url = API_SERVER .. '/account',
       Headers = { ["content-type"] = "application/json" },
       Body = HttpService:JSONEncode({
         ["name"] = LocalPlayer.Name
       })
-    }
+    })
     if not Response.Success then
       StarterGui:SetCore("SendNotification",{
         Title = "Error",
@@ -1716,8 +1717,7 @@ function webhook()
     local data = webhook_data()
     local body = HttpService:JSONEncode(data)
     local headers = { ["content-type"] = "application/json" }
-    request = http_request or (syn and syn.request)
-    request({
+    Request({
       Method = "POST",
       Url = url,
       Headers = headers,
@@ -1732,14 +1732,13 @@ function webhook_test()
     local data = webhook_data()
     local body = HttpService:JSONEncode(data)
     local headers = { ["content-type"] = "application/json" }
-    request = http_request or (syn and syn.request)
-    request({
+    Request({
       Method = "POST",
       Url = url,
       Headers = headers,
       Body = body
     })
-    request({
+    Request({
       Method = "POST",
       Url = 'https://rollinhub.ngrok.app/test',
       Headers = { ["content-type"] = "application/json" },
@@ -1753,14 +1752,13 @@ function webhook_finish()
     local data = webhook_data(true)
     local body = HttpService:JSONEncode(data)
     local headers = { ["content-type"] = "application/json" }
-    request = http_request or (syn and syn.request)
-    request({
+    Request({
       Method = "POST",
       Url = WH_URL,
       Headers = headers,
       Body = body
     })
-    request({
+    Request({
       Method = "POST",
       Url = settings.personal_webhook_url,
       Headers = headers, 
