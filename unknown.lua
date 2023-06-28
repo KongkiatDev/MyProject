@@ -6,16 +6,12 @@
 
 --#region Get Service
 repeat task.wait() until game:IsLoaded()
-
 game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
   if e.Name == 'ErrorPrompt' then
     game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
   end
 end)
-
-game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
 wait(10)
-
 
 local ANIME_ADVENTURES_ID = 8304191830
 local API_SERVER = "https://rollinhub.ngrok.app"
@@ -28,16 +24,14 @@ local LocalPlayer = game:GetService("Players").LocalPlayer
 local TeleportService = game:GetService("TeleportService")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
--- local ReplicatedFirst = game:GetService("ReplicatedFirst")
--- local TweenService = game:GetService("TweenService")
+local ReplicatedFirst = game:GetService("ReplicatedFirst")
+local TweenService = game:GetService("TweenService")
 local StarterGui = game:GetService("StarterGui")
 local VirtualUser = game:GetService("VirtualUser")
-local Services = require(game.ReplicatedStorage.src.Loader)
 local Request = http_request or (syn and syn.request)
 
 if game.PlaceId == ANIME_ADVENTURES_ID then
   game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("collection"):WaitForChild("grid"):WaitForChild("List"):WaitForChild("Outer"):WaitForChild("UnitFrames")
-  repeat task.wait() until LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text ~= "99"
 else
   game:GetService("ReplicatedStorage").endpoints.client_to_server.vote_start:InvokeServer()
   repeat task.wait() until game:GetService("Workspace")["_waves_started"].Value == true
@@ -46,32 +40,9 @@ else
   LocalPlayer.PlayerGui.MessageGui.Enabled = false
   _G.start_time = os.time()
 end
+
 --#endregion
 
---#region TextLabel Screen
-function textlabel_screen()
-  local gui = Instance.new("ScreenGui")
-  gui.Parent = game.Players.LocalPlayer.PlayerGui
-
-  local textLabel = Instance.new("TextLabel")
-  textLabel.Size = UDim2.new(0, 200, 0, 50)
-  textLabel.Position = UDim2.new(0.5, 0, 0.5, -225)
-  textLabel.AnchorPoint = Vector2.new(0.5, 0.5)
-  textLabel.BackgroundTransparency = 1
-  textLabel.Font = Enum.Font.SourceSansBold
-  textLabel.TextSize = 60
-  textLabel.Text = game.Players.LocalPlayer.Name
-  if game.PlaceId == ANIME_ADVENTURES_ID then
-    textLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
-  else
-    textLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-  end
-
-  textLabel.Parent = gui
-end
-
-textlabel_screen()
---#endregion
 
 --#region Init Data
 settings = {}
@@ -170,43 +141,50 @@ read_global_settings()
 wait(1)
 --#endregion
 
---#region Inventory Items
-local ItemInventoryServiceClient = Services.load_client_service(script, "ItemInventoryServiceClient")
-local Table_All_Items_Old_data = {}
-local Table_All_Items_New_data = {}
-local Count_Portal_list = 0
+--#region Custom Screen
+local screenGui = Instance.new("ScreenGui")
+screenGui.IgnoreGuiInset = true
+screenGui.Enabled = settings.white_screen
+screenGui.Parent = LocalPlayer.PlayerGui
 
-function get_inventory_unique_items()
-  return ItemInventoryServiceClient["session"]['inventory']['inventory_profile_data']['unique_items']
+local textLabel = Instance.new("TextLabel")
+textLabel.Size = UDim2.new(1, 0, 0.2, 0)
+textLabel.BackgroundTransparency = 1
+-- textLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+textLabel.Font = Enum.Font.GothamMedium
+textLabel.Text = game.Players.LocalPlayer.Name
+textLabel.TextSize = 60
+textLabel.Parent = screenGui
+if game.PlaceId == ANIME_ADVENTURES_ID then
+  textLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+else
+  textLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
 end
 
-function get_inventory_items()
-  return ItemInventoryServiceClient["session"]["inventory"]['inventory_profile_data']['normal_items']
+local loadingRing = Instance.new("ImageLabel")
+loadingRing.Size = UDim2.new(0, 800, 0, 800)
+loadingRing.BackgroundTransparency = 1
+loadingRing.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+loadingRing.Image = "rbxassetid://4965945816"
+loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
+loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
+loadingRing.Parent = screenGui
+
+ReplicatedFirst:RemoveDefaultLoadingScreen()
+
+local tweenInfo = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
+local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
+
+tween:Play()
+RunService:Set3dRenderingEnabled(not settings.white_screen)
+
+function toggleCustomScreen()
+  settings.white_screen = not settings.white_screen
+  screenGui.Enabled = settings.white_screen
+  RunService:Set3dRenderingEnabled(not settings.white_screen)
+  save_settings()
 end
 
-for v2, v3 in pairs(game:GetService("ReplicatedStorage").src.Data.Items:GetDescendants()) do
-  if v3:IsA("ModuleScript") then
-    for v4, v5 in pairs(require(v3)) do
-      Table_All_Items_Old_data[v4] = {}
-      Table_All_Items_Old_data[v4]['Name'] = v5['name']
-      Table_All_Items_Old_data[v4]['Count'] = 0
-      Table_All_Items_New_data[v4] = {}
-      Table_All_Items_New_data[v4]['Name'] = v5['name']
-      Table_All_Items_New_data[v4]['Count'] = 0
-    end
-  end
-end
-
-for i,v in pairs(get_inventory_items()) do
-  Table_All_Items_Old_data[i]['Count'] = v
-end
-
-for i,v in pairs(get_inventory_unique_items()) do
-  if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
-    Count_Portal_list = Count_Portal_list + 1
-    Table_All_Items_Old_data[v['item_id']]['Count'] = Table_All_Items_Old_data[v['item_id']]['Count'] + 1
-  end
-end
 --#endregion
 
 --------------------------------------------------
@@ -993,15 +971,12 @@ WebhookMenuGroupbox:AddButton({
 local MiscGroupbox = Tabs.Misc:AddLeftGroupbox("            【 Menu 】")
 MiscGroupbox:AddLabel('🖥️ White Screen'):AddKeyPicker('WhiteScreen', {
   Default = 'F1',
-  SyncToggleState = true,
+  SyncToggleState = false,
   Mode = 'Toggle',
   Text = '',
   NoUI = true,
-  Callback = function(Value)
-    print(Value)
-    settings.white_screen = Value
-    RunService:Set3dRenderingEnabled(not settings.white_screen)
-    save_settings()
+  Callback = function()
+    toggleCustomScreen()
   end
 })
 MiscGroupbox:AddLabel('🖥️ FPS Limit'):AddKeyPicker('FPSLimit', {
@@ -1224,23 +1199,23 @@ SettingsGroupbox:AddButton({
     })
   end
 })
-local ItemsGroupbox = Tabs.Misc:AddRightGroupbox("           【 Items 】")
-test_items = {}
-for i, v in pairs(Table_All_Items_Old_data) do
-  if v["Count"] > 0 then
-    table.insert(test_items, v["Name"] .. ": x" .. v["Count"])
-  end
-end
-table.sort(test_items)
-ItemsGroupbox:AddDropdown("ItemsDropdown", {
-  Values = test_items,
-  Default = "",
-  Multi = false,
-  Text = "🎁 Your Items",
-  Callback = function(Value)
-    -- 
-  end
-})
+-- local ItemsGroupbox = Tabs.Misc:AddRightGroupbox("           【 Items 】")
+-- test_items = {}
+-- for i, v in pairs(Table_All_Items_Old_data) do
+--   if v["Count"] > 0 then
+--     table.insert(test_items, v["Name"] .. ": x" .. v["Count"])
+--   end
+-- end
+-- table.sort(test_items)
+-- ItemsGroupbox:AddDropdown("ItemsDropdown", {
+--   Values = test_items,
+--   Default = "",
+--   Multi = false,
+--   Text = "🎁 Your Items",
+--   Callback = function(Value)
+--     -- 
+--   end
+-- })
 
 --#endregion
 
@@ -1263,6 +1238,49 @@ SaveManager:LoadAutoloadConfig()
 --------------------------------------------------
 ------------------- Function ---------------------
 --------------------------------------------------
+--#region Inventory Items
+local Table_All_Items_Old_data = {}
+local Table_All_Items_New_data = {}
+local Count_Portal_list = 0
+
+function get_inventory_unique_items()
+  local Services = require(game.ReplicatedStorage.src.Loader)
+  local ItemInventoryServiceClient = Services.load_client_service(script, "ItemInventoryServiceClient")
+  return ItemInventoryServiceClient["session"]['inventory']['inventory_profile_data']['unique_items']
+end
+
+function get_inventory_items()
+  local Services = require(game.ReplicatedStorage.src.Loader)
+  local ItemInventoryServiceClient = Services.load_client_service(script, "ItemInventoryServiceClient")
+  return ItemInventoryServiceClient["session"]["inventory"]['inventory_profile_data']['normal_items']
+end
+
+function inventory_items()
+  for v2, v3 in pairs(game:GetService("ReplicatedStorage").src.Data.Items:GetDescendants()) do
+    if v3:IsA("ModuleScript") then
+      for v4, v5 in pairs(require(v3)) do
+        Table_All_Items_Old_data[v4] = {}
+        Table_All_Items_Old_data[v4]['Name'] = v5['name']
+        Table_All_Items_Old_data[v4]['Count'] = 0
+        Table_All_Items_New_data[v4] = {}
+        Table_All_Items_New_data[v4]['Name'] = v5['name']
+        Table_All_Items_New_data[v4]['Count'] = 0
+      end
+    end
+  end
+  
+  for i, v in pairs(get_inventory_items()) do
+    Table_All_Items_Old_data[i]['Count'] = v
+  end
+  
+  for i, v in pairs(get_inventory_unique_items()) do
+    if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
+      Count_Portal_list = Count_Portal_list + 1
+      Table_All_Items_Old_data[v['item_id']]['Count'] = Table_All_Items_Old_data[v['item_id']]['Count'] + 1
+    end
+  end
+end
+--#endregion
 
 --#region [Function] Auto Select Units
 function handle_select_units()
@@ -1301,6 +1319,7 @@ end
 
 --#region [Function] Set Battlepass Level
 function set_battlepass_level()
+  repeat task.wait() until LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text ~= "99"
   settings.battlepass_current_level = tonumber(LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text)
   settings.battlepass_xp = tostring(LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text)
   save_settings()
@@ -3328,6 +3347,7 @@ end
 
 --#region [Function] Place Any
 function place_any()
+  local Services = require(game.ReplicatedStorage.src.Loader)
   local placement_service = Services.load_client_service(script, "PlacementServiceClient")
   task.spawn(function()
     while task.wait() do
@@ -3357,7 +3377,7 @@ else
   game_finished()
   -- hide_enemy_unit_names()
 end
-anti_afk()
+inventory_items()
 party_mode()
 click_to_teleport()
 auto_low_graphic_settings()
@@ -3368,3 +3388,4 @@ StarterGui:SetCore("SendNotification",{
 })
 wait(5)
 set_fps_cap()
+anti_afk()
