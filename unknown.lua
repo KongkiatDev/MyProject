@@ -42,8 +42,9 @@ else
   _G.start_time = os.time()
 end
 
-local Request = http_request or (syn and syn.request)
-local Services = require(game.ReplicatedStorage.src.Loader)
+-- local Request = http_request or (syn and syn.request)
+local Request = http_request or request or HttpPost or http.request
+local Services = require(game:GetService("ReplicatedStorage").src.Loader)
 --#endregion
 
 
@@ -95,7 +96,7 @@ function read_settings()
     Text = "'" .. LocalPlayer.Name .. "'" .. "loaded",
     Icon = "rbxassetid://6023426926"
   })
-  settings = game.HttpService:JSONDecode(Response.Body)
+  settings = HttpService:JSONDecode(Response.Body)
 end
 
 read_settings()
@@ -137,7 +138,7 @@ function read_global_settings()
     Text = "successfully loaded global data",
     Icon = "rbxassetid://6023426926"
   })
-  global_settings = game.HttpService:JSONDecode(Response.Body)
+  global_settings = HttpService:JSONDecode(Response.Body)
 end
 
 read_global_settings()
