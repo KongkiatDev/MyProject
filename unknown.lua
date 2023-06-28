@@ -6,12 +6,12 @@
 
 --#region Get Service
 repeat task.wait() until game:IsLoaded()
-game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
 game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
   if e.Name == 'ErrorPrompt' then
     game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
   end
 end)
+game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
 wait(10)
 
 local ANIME_ADVENTURES_ID = 8304191830
@@ -32,6 +32,7 @@ local VirtualUser = game:GetService("VirtualUser")
 
 if game.PlaceId == ANIME_ADVENTURES_ID then
   game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("collection"):WaitForChild("grid"):WaitForChild("List"):WaitForChild("Outer"):WaitForChild("UnitFrames")
+  repeat task.wait() until LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text ~= "99"
 else
   game:GetService("ReplicatedStorage").endpoints.client_to_server.vote_start:InvokeServer()
   repeat task.wait() until game:GetService("Workspace")["_waves_started"].Value == true
@@ -42,6 +43,7 @@ else
 end
 
 local Request = http_request or (syn and syn.request)
+local Services = require(game.ReplicatedStorage.src.Loader)
 --#endregion
 
 
@@ -151,7 +153,6 @@ screenGui.Parent = LocalPlayer.PlayerGui
 local textLabel = Instance.new("TextLabel")
 textLabel.Size = UDim2.new(1, 0, 0.2, 0)
 textLabel.BackgroundTransparency = 1
--- textLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 textLabel.Font = Enum.Font.GothamMedium
 textLabel.Text = game.Players.LocalPlayer.Name
 textLabel.TextSize = 60
@@ -1245,13 +1246,11 @@ local Table_All_Items_New_data = {}
 local Count_Portal_list = 0
 
 function get_inventory_unique_items()
-  local Services = require(game.ReplicatedStorage.src.Loader)
   local ItemInventoryServiceClient = Services.load_client_service(script, "ItemInventoryServiceClient")
   return ItemInventoryServiceClient["session"]['inventory']['inventory_profile_data']['unique_items']
 end
 
 function get_inventory_items()
-  local Services = require(game.ReplicatedStorage.src.Loader)
   local ItemInventoryServiceClient = Services.load_client_service(script, "ItemInventoryServiceClient")
   return ItemInventoryServiceClient["session"]["inventory"]['inventory_profile_data']['normal_items']
 end
@@ -1320,7 +1319,6 @@ end
 
 --#region [Function] Set Battlepass Level
 function set_battlepass_level()
-  repeat task.wait() until LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text ~= "99"
   settings.battlepass_current_level = tonumber(LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text)
   settings.battlepass_xp = tostring(LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text)
   save_settings()
@@ -3348,7 +3346,6 @@ end
 
 --#region [Function] Place Any
 function place_any()
-  local Services = require(game.ReplicatedStorage.src.Loader)
   local placement_service = Services.load_client_service(script, "PlacementServiceClient")
   task.spawn(function()
     while task.wait() do
