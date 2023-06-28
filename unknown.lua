@@ -8,7 +8,7 @@
 repeat task.wait() until game:IsLoaded()
 game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
   if e.Name == 'ErrorPrompt' then
-    game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
+    game:GetService("TeleportService"):Teleport(8304191830, game.Players.LocalPlayer)
   end
 end)
 repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
@@ -3346,8 +3346,8 @@ end
 
 --#region [Function] Place Any
 function place_any()
-  local placement_service = Services.load_client_service(script, "PlacementServiceClient")
   task.spawn(function()
+    local placement_service = Services.load_client_service(script, "PlacementServiceClient")
     while task.wait() do
       placement_service.can_place = true
     end
