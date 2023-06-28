@@ -11,7 +11,7 @@ game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
     game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
   end
 end)
-game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
+repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
 wait(10)
 
 local ANIME_ADVENTURES_ID = 8304191830
