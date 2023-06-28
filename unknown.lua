@@ -6,6 +6,7 @@
 
 --#region Get Service
 repeat task.wait() until game:IsLoaded()
+game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
 game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
   if e.Name == 'ErrorPrompt' then
     game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
@@ -41,7 +42,6 @@ else
 end
 
 local Request = http_request or (syn and syn.request)
-
 --#endregion
 
 
