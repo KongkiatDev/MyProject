@@ -6,12 +6,12 @@
 
 --#region Get Service
 repeat task.wait() until game:IsLoaded()
+-- game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
 game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
   if e.Name == 'ErrorPrompt' then
     game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
   end
 end)
-game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
 wait(10)
 
 local ANIME_ADVENTURES_ID = 8304191830
@@ -1239,7 +1239,7 @@ SaveManager:LoadAutoloadConfig()
 --------------------------------------------------
 ------------------- Function ---------------------
 --------------------------------------------------
---#region Inventory Items
+--#region [Function] Inventory Items
 local Table_All_Items_Old_data = {}
 local Table_All_Items_New_data = {}
 local Count_Portal_list = 0
