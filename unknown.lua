@@ -42,8 +42,7 @@ else
   _G.start_time = os.time()
 end
 
--- local Request = http_request or (syn and syn.request)
-local Request = http_request or request or HttpPost or http.request
+local Request = http_request or (syn and syn.request)
 local Services = require(game:GetService("ReplicatedStorage").src.Loader)
 --#endregion
 
