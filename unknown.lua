@@ -31,14 +31,14 @@ local StarterGui = game:GetService("StarterGui")
 local VirtualUser = game:GetService("VirtualUser")
 
 if game.PlaceId == ANIME_ADVENTURES_ID then
-  game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("collection"):WaitForChild("grid"):WaitForChild("List"):WaitForChild("Outer"):WaitForChild("UnitFrames")
+  LocalPlayer.PlayerGui:WaitForChild("collection"):WaitForChild("grid"):WaitForChild("List"):WaitForChild("Outer"):WaitForChild("UnitFrames")
   repeat task.wait() until LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text ~= "99"
 else
   game:GetService("ReplicatedStorage").endpoints.client_to_server.vote_start:InvokeServer()
   repeat task.wait() until game:GetService("Workspace")["_waves_started"].Value == true
+  LocalPlayer.PlayerGui.MessageGui.Enabled = false
   game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
   game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
-  LocalPlayer.PlayerGui.MessageGui.Enabled = false
   _G.start_time = os.time()
 end
 
@@ -1269,11 +1269,11 @@ function inventory_items()
       end
     end
   end
-  
+
   for i, v in pairs(get_inventory_items()) do
     Table_All_Items_Old_data[i]['Count'] = v
   end
-  
+
   for i, v in pairs(get_inventory_unique_items()) do
     if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
       Count_Portal_list = Count_Portal_list + 1
