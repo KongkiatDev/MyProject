@@ -6,7 +6,6 @@
 
 --#region Get Service
 repeat task.wait() until game:IsLoaded()
-repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
 game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
   if e.Name == 'ErrorPrompt' then
     game:GetService("TeleportService"):Teleport(8304191830, game.Players.LocalPlayer)
@@ -31,9 +30,11 @@ local StarterGui = game:GetService("StarterGui")
 local VirtualUser = game:GetService("VirtualUser")
 
 if game.PlaceId == ANIME_ADVENTURES_ID then
+  repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
   repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("collection"):FindFirstChild("grid"):FindFirstChild("List"):FindFirstChild("Outer"):FindFirstChild("UnitFrames")
   repeat task.wait() until LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text ~= "99"
 else
+  repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
   game:GetService("ReplicatedStorage").endpoints.client_to_server.vote_start:InvokeServer()
   repeat task.wait() until game:GetService("Workspace")["_waves_started"].Value == true
   LocalPlayer.PlayerGui.MessageGui.Enabled = false
