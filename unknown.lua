@@ -11,7 +11,6 @@ game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
     game:GetService("TeleportService"):Teleport(8304191830, game.Players.LocalPlayer)
   end
 end)
-repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
 wait(10)
 
 local ANIME_ADVENTURES_ID = 8304191830
@@ -29,11 +28,15 @@ local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local TweenService = game:GetService("TweenService")
 local StarterGui = game:GetService("StarterGui")
 local VirtualUser = game:GetService("VirtualUser")
+local Services = require(game:GetService("ReplicatedStorage").src.Loader)
+local Request = http_request or (syn and syn.request)
 
 if game.PlaceId == ANIME_ADVENTURES_ID then
-  LocalPlayer.PlayerGui:WaitForChild("collection"):WaitForChild("grid"):WaitForChild("List"):WaitForChild("Outer"):WaitForChild("UnitFrames")
+  repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
+  repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("collection"):FindFirstChild("grid"):FindFirstChild("List"):FindFirstChild("Outer"):FindFirstChild("UnitFrames")
   repeat task.wait() until LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text ~= "99"
 else
+  repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
   game:GetService("ReplicatedStorage").endpoints.client_to_server.vote_start:InvokeServer()
   repeat task.wait() until game:GetService("Workspace")["_waves_started"].Value == true
   LocalPlayer.PlayerGui.MessageGui.Enabled = false
@@ -42,8 +45,6 @@ else
   _G.start_time = os.time()
 end
 
-local Request = http_request or (syn and syn.request)
-local Services = require(game:GetService("ReplicatedStorage").src.Loader)
 --#endregion
 
 
@@ -1079,7 +1080,7 @@ MiscGroupbox:AddToggle("HideEnemyUnitNames", {
 MiscGroupbox:AddButton({
   Text = '🎀 Redeem Codes',
   Func = function()
-    local codes = {"AINCRAD", "MADOKA", "DRESSROSA", "BILLION", "ENTERTAINMENT", "HAPPYEASTER", "VIGILANTE", "GOLDENSHUTDOWN", "GOLDEN", "SINS2", "SINS", "UCHIHA", "CLOUD", "HERO", "CHAINSAW", "NEWYEAR2023", "kingluffy", "toadboigaming", "noclypso", "fictionthefirst", "subtomaokuma", "subtokelvingts", "subtoblamspot"}
+    local codes = {"TOURNAMENTUIFIX", "AINCRAD", "MADOKA", "DRESSROSA", "BILLION", "ENTERTAINMENT", "HAPPYEASTER", "VIGILANTE", "GOLDENSHUTDOWN", "GOLDEN", "SINS2", "SINS", "UCHIHA", "CLOUD", "HERO", "CHAINSAW", "NEWYEAR2023", "kingluffy", "toadboigaming", "noclypso", "fictionthefirst", "subtomaokuma", "subtokelvingts", "subtoblamspot"}
     for _, code in pairs(codes) do
       local args = {
         [1] = code
