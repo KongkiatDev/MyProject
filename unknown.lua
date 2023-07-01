@@ -2399,6 +2399,14 @@ function auto_place_units()
             [2] = { x = -127.54, y = 505.142, z = -92.913 }, -- hill unit position
             -- [2] = { x = -110.546, y = 505.219, z = -75.522 }, -- hill unit position
           })
+
+        --///Portals\\\---
+        elseif map:match("madoka") then
+          -- print("West City")
+          place_units({
+            [1] = { x = pos_x, y = 0.999, z = pos_z }, -- ground unit position
+            [2] = { x = -56.454, y = 5.263, z = -161.888 }, -- hill unit position
+          })
         end
       end
     end
