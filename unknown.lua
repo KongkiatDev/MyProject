@@ -1672,7 +1672,7 @@ function webhook_data(args)
   }
   if args then
     content = "<@" .. tostring(settings.discord_user_id) .. ">"
-    farm_finish_message = "<a:verify1:1100511439699058890> จบงานแล้ว ( เข้าเล่นเกมได้เลยครับ ) <a:verify1:1100511439699058890>"
+    farm_finish_message = "<a:verify1:1100511439699058890> จบงานแล้ว (เปลี่ยนรหัสผ่านด้วยนะครับ) <a:verify1:1100511439699058890>"
     game_finish_message = {
       ["name"] ="",
       ["value"] = "",
