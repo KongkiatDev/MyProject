@@ -2402,7 +2402,6 @@ function auto_place_units()
 
         --///Portals\\\---
         elseif map:match("madoka") then
-          -- print("West City")
           place_units({
             [1] = { x = pos_x, y = 0.999, z = pos_z }, -- ground unit position
             [2] = { x = -56.454, y = 5.263, z = -161.888 }, -- hill unit position
@@ -2656,9 +2655,9 @@ function level_id_end()
     webhook_finish()
     save_settings()
     task.wait(5)
-    game:Shutdown()
+    -- game:Shutdown()
     -- Nexus:SetAutoRelaunch(false)
-    -- return_to_lobby()
+    return_to_lobby()
   else
     webhook()
     replay()
@@ -2701,9 +2700,9 @@ function infinite_castle_end()
     webhook_finish()
     save_settings()
     task.wait(5)
-    game:Shutdown()
+    -- game:Shutdown()
     -- Nexus:SetAutoRelaunch(false)
-    -- return_to_lobby()
+    return_to_lobby()
   else
     webhook()
     for i = 1, 180, 1 do
@@ -2733,8 +2732,8 @@ function raid_end()
       settings.auto_lag = false
       save_settings()
       task.wait(5)
-      game:Shutdown()
-      -- return_to_lobby()
+      -- game:Shutdown()
+      return_to_lobby()
       -- Nexus:SetAutoRelaunch(false)
     else
       if settings.auto_replay then
@@ -2838,7 +2837,8 @@ function auto_force_leave()
               settings.auto_lag = false
               save_settings()
               task.wait(5)
-              game:Shutdown()
+              -- game:Shutdown()
+              return_to_lobby()
               -- Nexus:SetAutoRelaunch(false)
             else
               webhook()
@@ -2855,7 +2855,8 @@ function auto_force_leave()
               settings.auto_lag = false
               save_settings()
               task.wait(5)
-              game:Shutdown()
+              -- game:Shutdown()
+              return_to_lobby()
               -- Nexus:SetAutoRelaunch(false)
             else
               webhook()
