@@ -759,7 +759,7 @@ FarmConfigGroupbox:AddInput("PortalLimitAmount", {
 
 local ItemLimitConfigGroupbox = Tabs.Main:AddRightGroupbox("     【 Item Limit Config 】")
 ItemLimitConfigGroupbox:AddDropdown("ItemLimitCategory", {
-  Values = { "Grief Seed", "Wisteria Bloom", "Alien Scouter", "Tomoe", "Relic Shard", "Rikugan Eye",},
+  Values = { "Time Traveller Shard", "Grief Seed", "Wisteria Bloom", "Alien Scouter", "Tomoe", "Relic Shard", "Rikugan Eye",},
   Default = settings.item_limit_selected or "",
   Multi = false,
   Text = "🎁 Select Item",
@@ -1560,8 +1560,7 @@ function webhook_data(args)
   entertainment_district_item = tostring(Table_All_Items_New_data["entertainment_district_item"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["entertainment_district_item"]['Count'] or 0)
   grief_seed = tostring(Table_All_Items_New_data["grief_seed"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["grief_seed"]['Count'] or 0)
   star_remnant = tostring(Table_All_Items_New_data["star_remnant"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["star_remnant"]['Count'] or 0)
-  
-  print("webhook 1")
+  madoka_portal_shard = tostring(Table_All_Items_New_data["madoka_portal_shard"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["madoka_portal_shard"]['Count'] or 0)
   
   if gem_reward == "+99999" then gem_reward = "+0" end
   if xp_reward == "+99999" then xp_reward = "+0" end
@@ -1623,6 +1622,18 @@ function webhook_data(args)
     result = "ไม่มี"
   end
   if settings.enable_item_limit then
+    if settings.item_limit_selected == "Time Traveller Shard" then
+      madoka_portal_shard = tostring(Table_All_Items_New_data["madoka_portal_shard"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["madoka_portal_shard"]['Count'] or 0) .. " [" .. settings.item_limit_received .. "/" .. settings.item_limit_received + settings.item_limit_amount_to_farm  .. "]"
+      if settings.item_limit_amount_to_farm == 0 then
+        madoka_portal_shard = tostring(Table_All_Items_New_data["madoka_portal_shard"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["madoka_portal_shard"]['Count'] or 0) .. " (+" .. settings.item_limit_received .. ")"
+      end
+    end
+    if settings.item_limit_selected == "Grief Seed" then
+      grief_seed = tostring(Table_All_Items_New_data["grief_seed"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["grief_seed"]['Count'] or 0) .. " [" .. settings.item_limit_received .. "/" .. settings.item_limit_received + settings.item_limit_amount_to_farm  .. "]"
+      if settings.item_limit_amount_to_farm == 0 then
+        grief_seed = tostring(Table_All_Items_New_data["grief_seed"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["grief_seed"]['Count'] or 0) .. " (+" .. settings.item_limit_received .. ")"
+      end
+    end
     if settings.item_limit_selected == "Relic Shard" then
       relic_shard = tostring(Table_All_Items_New_data["relic_shard"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["relic_shard"]['Count'] or 0) .. " [" .. settings.item_limit_received .. "/" .. settings.item_limit_received + settings.item_limit_amount_to_farm  .. "]"
       if settings.item_limit_amount_to_farm == 0 then
@@ -1706,7 +1717,7 @@ function webhook_data(args)
           },
           {
             ["name"] ="<a:yyyy:1100545093787721790> ไอเท็มทั่วไป <a:yyyy:1100545093787721790>",
-            ["value"] = emoji_info .. "<:Grief_Seed:1111838652247592980>  " .. grief_seed .. "\n" .. emoji_info .. "<:Wisteria_Bloom:1099264528853770271> " .. entertainment_district_item .. "\n" .. emoji_info .. "<:Alien_Scouter:1086919543034753114> " .. alien_scouter .. "\n" .. emoji_info .. "<:Tomoe:1086919541092790362> " .. tomoe .. "\n" .. emoji_info .. "<:Relic_Shard:1087158655822090380> " .. relic_shard .. "\n" .. emoji_info .. "<:Rikugan_Eye:1096869167002550282> " .. rikugan_eye .. "\n" .. emoji_info .. "<:Star_Remnant:1112744970546323456> " .. star_remnant,
+            ["value"] = emoji_info .. "<:time_traveller_shard:1125280707623792700>  " .. madoka_portal_shard .. "\n" .. emoji_info .. "<:Grief_Seed:1111838652247592980>  " .. grief_seed .. "\n" .. emoji_info .. "<:Wisteria_Bloom:1099264528853770271> " .. entertainment_district_item .. "\n" .. emoji_info .. "<:Alien_Scouter:1086919543034753114> " .. alien_scouter .. "\n" .. emoji_info .. "<:Tomoe:1086919541092790362> " .. tomoe .. "\n" .. emoji_info .. "<:Relic_Shard:1087158655822090380> " .. relic_shard .. "\n" .. emoji_info .. "<:Rikugan_Eye:1096869167002550282> " .. rikugan_eye .. "\n" .. emoji_info .. "<:Star_Remnant:1112744970546323456> " .. star_remnant,
             ["inline"] = false
           },
           {
