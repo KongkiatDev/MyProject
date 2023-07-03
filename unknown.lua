@@ -6,11 +6,11 @@
 
 --#region Get Service
 repeat task.wait() until game:IsLoaded()
--- game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
---   if e.Name == 'ErrorPrompt' then
---     game:GetService("TeleportService"):Teleport(8304191830, game.Players.LocalPlayer)
---   end
--- end)
+game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
+  if e.Name == 'ErrorPrompt' then
+    game:GetService("TeleportService"):Teleport(8304191830, game.Players.LocalPlayer)
+  end
+end)
 wait(10)
 
 local ANIME_ADVENTURES_ID = 8304191830
@@ -3409,8 +3409,3 @@ StarterGui:SetCore("SendNotification",{
 wait(5)
 set_fps_cap()
 anti_afk()
-game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
-  if e.Name == 'ErrorPrompt' then
-    game:GetService("TeleportService"):Teleport(8304191830, game.Players.LocalPlayer)
-  end
-end)
