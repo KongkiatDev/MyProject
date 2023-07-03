@@ -33,6 +33,7 @@ if game.PlaceId == ANIME_ADVENTURES_ID then
   repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
   repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("collection"):FindFirstChild("grid"):FindFirstChild("List"):FindFirstChild("Outer"):FindFirstChild("UnitFrames")
   repeat task.wait() until LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text ~= "99"
+  wait(10)
 else
   repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
   game:GetService("ReplicatedStorage").endpoints.client_to_server.vote_start:InvokeServer()
