@@ -32,8 +32,6 @@ game:GetService("UserInputService").InputBegan:Connect(function(input)
   end
 end)
 
-task.wait(10)
-
 local ANIME_ADVENTURES_ID = 8304191830
 local API_SERVER = "https://rollinhub.ngrok.app"
 local API_DISCORD = "https://f1f8526132cf.ngrok.app"
@@ -155,6 +153,7 @@ end
 --#endregion
 
 --#region Custom Screen
+task.wait(10)
 local screenGui = Instance.new("ScreenGui")
 screenGui.IgnoreGuiInset = true
 screenGui.Enabled = settings.white_screen
