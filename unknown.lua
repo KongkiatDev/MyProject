@@ -566,7 +566,7 @@ AutoPlayGroupbox:AddDropdown("SelectMode", {
       Options.SelectDifficulty:SetValue(nil)
       Options.SelectStoryTarget:SetValue(nil)
     end
-    -- save_settings()
+    save_settings()
   end
 })
 AutoPlayGroupbox:AddToggle("AutoStart", {
