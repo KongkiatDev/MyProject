@@ -32,6 +32,8 @@ game:GetService("UserInputService").InputBegan:Connect(function(input)
   end
 end)
 
+task.wait(10)
+
 local ANIME_ADVENTURES_ID = 8304191830
 local API_SERVER = "https://rollinhub.ngrok.app"
 local API_DISCORD = "https://f1f8526132cf.ngrok.app"
