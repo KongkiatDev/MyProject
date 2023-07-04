@@ -152,52 +152,6 @@ function read_global_settings()
 end
 --#endregion
 
---#region Custom Screen
-task.wait(10)
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Enabled = settings.white_screen
-screenGui.Parent = LocalPlayer.PlayerGui
-
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 0.2, 0)
-textLabel.BackgroundTransparency = 1
-textLabel.Font = Enum.Font.GothamMedium
-textLabel.Text = game.Players.LocalPlayer.Name
-textLabel.TextSize = 60
-textLabel.Parent = screenGui
-if game.PlaceId == ANIME_ADVENTURES_ID then
-  textLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
-else
-  textLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-end
-
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 800, 0, 800)
-loadingRing.BackgroundTransparency = 1
-loadingRing.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-
-tween:Play()
-RunService:Set3dRenderingEnabled(not settings.white_screen)
-
-function toggleCustomScreen()
-  settings.white_screen = not settings.white_screen
-  screenGui.Enabled = settings.white_screen
-  RunService:Set3dRenderingEnabled(not settings.white_screen)
-  save_settings()
-end
-
---#endregion
-
 --------------------------------------------------
 ------------------ UI Library --------------------
 --------------------------------------------------
@@ -3434,5 +3388,49 @@ StarterGui:SetCore("SendNotification",{
 })
 set_fps_cap()
 anti_afk()
+
+--#region Custom Screen
+local screenGui = Instance.new("ScreenGui")
+screenGui.IgnoreGuiInset = true
+screenGui.Enabled = settings.white_screen
+screenGui.Parent = LocalPlayer.PlayerGui
+
+local textLabel = Instance.new("TextLabel")
+textLabel.Size = UDim2.new(1, 0, 0.2, 0)
+textLabel.BackgroundTransparency = 1
+textLabel.Font = Enum.Font.GothamMedium
+textLabel.Text = game.Players.LocalPlayer.Name
+textLabel.TextSize = 60
+textLabel.Parent = screenGui
+if game.PlaceId == ANIME_ADVENTURES_ID then
+  textLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+else
+  textLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+end
+
+local loadingRing = Instance.new("ImageLabel")
+loadingRing.Size = UDim2.new(0, 800, 0, 800)
+loadingRing.BackgroundTransparency = 1
+loadingRing.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+loadingRing.Image = "rbxassetid://4965945816"
+loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
+loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
+loadingRing.Parent = screenGui
+
+ReplicatedFirst:RemoveDefaultLoadingScreen()
+
+local tweenInfo = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
+local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
+
+tween:Play()
+RunService:Set3dRenderingEnabled(not settings.white_screen)
+
+function toggleCustomScreen()
+  settings.white_screen = not settings.white_screen
+  screenGui.Enabled = settings.white_screen
+  RunService:Set3dRenderingEnabled(not settings.white_screen)
+  save_settings()
+end
+--#endregion
 
 end
