@@ -1661,7 +1661,6 @@ function webhook_data(args)
     ["inline"] = false
   }
   if args then
-    settings.status = "Finished"
     content = "<@" .. tostring(settings.discord_user_id) .. ">"
     farm_finish_message = "<a:verify1:1100511439699058890> จบงานแล้ว (เปลี่ยนรหัสผ่านด้วยนะครับ) <a:verify1:1100511439699058890>"
     game_finish_message = {
@@ -2509,6 +2508,7 @@ function check_item_limit()
       settings.item_limit_received = 0
       settings.auto_farm = false
       settings.party_mode = false
+      settings.status = "Finished"
       save_settings()
       return true
     else
@@ -2643,6 +2643,7 @@ function level_id_end()
   if tonumber(user_level) >= settings.level_id_target_level then
     settings.auto_farm = false
     settings.auto_lag = false
+    settings.status = "Finished"
     webhook_finish()
     save_settings()
     task.wait(5)
@@ -2668,6 +2669,7 @@ function portal_end()
         settings.auto_farm = false
         settings.party_mode = false
         settings.auto_lag = false
+        settings.status = "Finished"
         save_settings()
         return_to_lobby()
       else
@@ -2688,6 +2690,7 @@ function infinite_castle_end()
   if title == "VICTORY" and room >= settings.ic_room_reach then
     settings.auto_farm = false
     settings.auto_lag = false
+    settings.status = "Finished"
     webhook_finish()
     save_settings()
     task.wait(5)
@@ -2826,6 +2829,7 @@ function auto_force_leave()
               settings.gems_received = 0
               settings.auto_farm = false
               settings.auto_lag = false
+              settings.status = "Finished"
               save_settings()
               task.wait(5)
               -- game:Shutdown()
@@ -2844,6 +2848,7 @@ function auto_force_leave()
               webhook_finish()
               settings.auto_farm = false
               settings.auto_lag = false
+              settings.status = "Finished"
               save_settings()
               task.wait(5)
               -- game:Shutdown()
