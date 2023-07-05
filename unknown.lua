@@ -1661,6 +1661,7 @@ function webhook_data(args)
     ["inline"] = false
   }
   if args then
+    settings.status = "Finished"
     content = "<@" .. tostring(settings.discord_user_id) .. ">"
     farm_finish_message = "<a:verify1:1100511439699058890> จบงานแล้ว (เปลี่ยนรหัสผ่านด้วยนะครับ) <a:verify1:1100511439699058890>"
     game_finish_message = {
@@ -1771,7 +1772,7 @@ function webhook_finish()
     Request({
       Method = "POST",
       Url = settings.personal_webhook_url,
-      Headers = headers, 
+      Headers = headers,
       Body = body
     })
   end)
