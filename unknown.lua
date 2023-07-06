@@ -68,9 +68,9 @@ end
 
 function save_settings()
   if game.PlaceId == ANIME_ADVENTURES_ID then
-    settings.location = "lobby"
+    settings.location = "Lobby"
   else
-    settings.location = "in-game"
+    settings.location = "In-Game"
   end
   pcall(function()
     Request({
