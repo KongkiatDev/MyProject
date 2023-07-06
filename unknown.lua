@@ -66,7 +66,7 @@ function shallowCopy(original)
 end
 
 function save_settings()
-  if ANIME_ADVENTURES_ID then
+  if game.PlaceId == ANIME_ADVENTURES_ID then
     settings.location = "lobby"
   else
     settings.location = "in-game"
