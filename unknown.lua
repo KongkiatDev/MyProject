@@ -2704,6 +2704,7 @@ function infinite_castle_end()
     return_to_lobby()
   else
     webhook()
+    save_settings()
     for i = 1, 180, 1 do
       game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer()
       task.wait(1)
