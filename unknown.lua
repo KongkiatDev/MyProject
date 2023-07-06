@@ -62,6 +62,7 @@ function shallowCopy(original)
     copy[key] = value
   end
   copy["auto_buy_items"] = nil
+  copy["status"] = nil
   return copy
 end
 
