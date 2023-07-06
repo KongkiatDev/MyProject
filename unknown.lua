@@ -758,7 +758,6 @@ ItemLimitConfigGroupbox:AddButton({
   Text = '✅ Save Settings',
   Func = function()
     save_settings()
-  
     StarterGui:SetCore("SendNotification",{
       Title = "Save",
       Text = "save complete",
@@ -2521,6 +2520,7 @@ function check_item_limit()
     end
   else
     webhook()
+    save_settings()
     return false
   end
 end
@@ -3056,7 +3056,7 @@ function party_mode()
       end
     else
       task.wait(10)
-      while task.wait(1) do
+      while task.wait(5) do
         if game.PlaceId ~= ANIME_ADVENTURES_ID and settings.party_mode then
           if LocalPlayer.PlayerGui.ResultsUI.Enabled == true then
             break
