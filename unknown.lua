@@ -1546,8 +1546,10 @@ function webhook_data(args)
   if trophy_reward == "+99999" then trophy_reward = "+0" end
   if result == "VICTORY" then
     result = "ชัยชนะ"
+    settings.result = "Victory"
   else
     result = "พ่ายแพ้"
+    settings.result = "Defeat"
   end
   if settings.farm_mode == "Gem" then
     title = "<a:sirenelightblue:1101319518887882763> ════〔 Rollin Shop 〕════ <a:sirenelightblue:1101319518887882763>"
@@ -1599,6 +1601,7 @@ function webhook_data(args)
     total_wave = tostring(Workspace["_wave_num"].Value)
     total_time = disp_time(os.difftime(_G.end_time, _G.start_time))
     result = "ไม่มี"
+    settings.result = "Instant Leave"
   end
   if settings.enable_item_limit then
     if settings.item_limit_selected == "Time Traveller Shard" then
