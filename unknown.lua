@@ -3182,6 +3182,7 @@ function auto_claim_quests()
   if settings.auto_claim_quests then
     pcall(function()
       game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
+      game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_christmas_calendar_reward:InvokeServer()
     end)
 
     local questStory = LocalPlayer.PlayerGui.QuestsUI.Main.Main.Main.Content.story.Scroll:GetChildren()
@@ -3368,7 +3369,7 @@ end
 if game.PlaceId == ANIME_ADVENTURES_ID then
   set_battlepass_level()
   auto_buy_items()
-  -- auto_claim_quests()
+  auto_claim_quests()
   auto_select_units()
   auto_start()
 else
