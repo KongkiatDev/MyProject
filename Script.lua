@@ -728,6 +728,7 @@ function webhook_test()
     -- })
   end)
 end
+_G.webhook_test = webhook_test()
 
 function webhook_finish()
   pcall(function()
