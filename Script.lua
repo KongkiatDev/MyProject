@@ -71,6 +71,7 @@ function shallowCopy(original)
   for key, value in pairs(original) do
     if
       key == "auto_start"
+      or key == "party_mode"
       or key == "gems_amount_to_farm"
       or key == "item_amount_to_farm"
       or key == "white_screen"
