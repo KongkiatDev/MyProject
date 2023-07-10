@@ -728,7 +728,6 @@ function webhook_test()
     -- })
   end)
 end
-_G.webhook_test = webhook_test()
 
 function webhook_finish()
   pcall(function()
@@ -2562,6 +2561,18 @@ game:GetService("UserInputService").InputBegan:Connect(function(input)
       Icon = "rbxassetid://6031280882"
     })
     read_settings()
+    read_global_settings()
+  end
+end)
+
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+  if input.KeyCode == Enum.KeyCode.F7 then
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+      Title = "Test Webhook",
+      Text = game.Players.LocalPlayer.Name,
+      Icon = "rbxassetid://6031280882"
+    })
+    webhook_test()
   end
 end)
 
