@@ -1772,6 +1772,7 @@ function level_id_end()
     return_to_lobby()
   else
     webhook()
+    save_settings()
     replay()
   end
 end
