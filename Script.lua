@@ -2562,7 +2562,6 @@ game:GetService("UserInputService").InputBegan:Connect(function(input)
   end
 end)
 
-settings.status = "working"
 if game.PlaceId == ANIME_ADVENTURES_ID then
   set_battlepass_level()
   auto_buy_items()
@@ -2576,6 +2575,7 @@ else
   game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
   game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
   _G.start_time = os.time()
+  settings.status = "working"
   -- place_any()
   auto_remove_map()
   auto_place()
