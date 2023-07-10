@@ -71,7 +71,6 @@ function shallowCopy(original)
   for key, value in pairs(original) do
     if
       key == "auto_start"
-      or key == "level"
       or key == "party_mode"
       or key == "gems_amount_to_farm"
       or key == "item_amount_to_farm"
@@ -1479,6 +1478,11 @@ function auto_place()
           place_units({
             [1] = { x = pos_x, y = 37.536, z = pos_z }, -- ground unit position
             [2] = { x = 150.474, y = 41.677, z = 19.859 }, -- hill unit position
+          })
+        elseif map:match('berserk') then
+          place_units({
+            [1] = { x = pos_x, y =  -0.074, z = pos_z }, -- ground unit position 
+            [2] = { x = -252.30, y = 3.54, z = 20.98 }, -- hill unit position
           })
   
         --///Legend Stages\\\--- 
