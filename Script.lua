@@ -70,7 +70,8 @@ function shallowCopy(original)
   local copy = {}
   for key, value in pairs(original) do
     if
-      key == "gems_amount_to_farm"
+      key == "auto_start"
+      or key == "gems_amount_to_farm"
       or key == "item_amount_to_farm"
       or key == "white_screen"
       or key == "fps_limit"
@@ -778,23 +779,51 @@ end
 function start_portal()
   if game.PlaceId == ANIME_ADVENTURES_ID then
     if settings.portal_farm_limit and settings.portal_amount_to_farm == 0 then
-      -- Library:Notify("The amount of portals to farm is 0", 5)
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start",
+        Text = "The amount of portals to farm is 0",
+        Icon = "rbxassetid://6023426926"
+      })
       task.wait(5)
       return
     end
     -- Game Start Notification
-    -- Library:Notify("The game will start in 5..", 2)
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+      Title = "Auto Start",
+      Text = "The game will start in 5..",
+      Icon = "rbxassetid://6023426926"
+    })
     task.wait(1)
-    -- Library:Notify("The game will start in 4..", 2)
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+      Title = "Auto Start",
+      Text = "The game will start in 4..",
+      Icon = "rbxassetid://6023426926"
+    })
     task.wait(1)
-    -- Library:Notify("The game will start in 3..", 2)
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+      Title = "Auto Start",
+      Text = "The game will start in 3..",
+      Icon = "rbxassetid://6023426926"
+    })
     task.wait(1)
-    -- Library:Notify("The game will start in 2..", 2)
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+      Title = "Auto Start",
+      Text = "The game will start in 2..",
+      Icon = "rbxassetid://6023426926"
+    })
     task.wait(1)
-    -- Library:Notify("The game will start in 1..", 2)
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+      Title = "Auto Start",
+      Text = "The game will start in 1..",
+      Icon = "rbxassetid://6023426926"
+    })
     task.wait(1)
     if not settings.auto_start then
-      -- Library:Notify("Starting the game has been canceled", 5)
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start",
+        Text = "Starting the game has been canceled",
+        Icon = "rbxassetid://6023426926"
+      })
       return
     end
     LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(256.604, 322.388, -528.098)
@@ -814,7 +843,11 @@ function start_portal()
             }
             game:GetService("ReplicatedStorage").endpoints.client_to_server.request_leave_lobby:InvokeServer(unpack(args))
             task.wait()
-            -- Library:Notify("There are no party members in the room", 30)
+            game:GetService("StarterGui"):SetCore("SendNotification",{
+              Title = "Auto Start",
+              Text = "There are no party members in the room",
+              Icon = "rbxassetid://6023426926"
+            })
             break
           end
         end
@@ -852,35 +885,71 @@ function start_farming()
     if _G.teleporting then
       -- Check Gems
       if settings.farm_mode == "Gem" and settings.gems_amount_to_farm == 0 then
-        -- Library:Notify("The amount of gems to farm is 0", 5)
+        game:GetService("StarterGui"):SetCore("SendNotification",{
+          Title = "Auto Start",
+          Text = "The amount of gems to farm is 0",
+          Icon = "rbxassetid://6023426926"
+        })
         task.wait(5)
         return
       end
       -- Check BattlePass Level
       if settings.farm_mode == "BattlePass" and ettings.battlepass_level_target == 0 then
-        -- Library:Notify("Battlepass level to farm is 0", 5)
+        game:GetService("StarterGui"):SetCore("SendNotification",{
+          Title = "Auto Start",
+          Text = "Battlepass level to farm is 0",
+          Icon = "rbxassetid://6023426926"
+        })
         task.wait(5)
         return
       end
       -- Check Level-ID
       if settings.farm_mode == "LevelID" and settings.character_level_target == 0 then
-        -- Library:Notify("LevelID to farm is 0", 5)
+        game:GetService("StarterGui"):SetCore("SendNotification",{
+          Title = "Auto Start",
+          Text = "LevelID to farm is 0",
+          Icon = "rbxassetid://6023426926"
+        })
         task.wait(5)
         return
       end
       -- Game Start Notification
-      -- Library:Notify("The game will start in 5..", 2)
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start",
+        Text = "The game will start in 5..",
+        Icon = "rbxassetid://6023426926"
+      })
       task.wait(1)
-      -- Library:Notify("The game will start in 4..", 2)
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start",
+        Text = "The game will start in 4..",
+        Icon = "rbxassetid://6023426926"
+      })
       task.wait(1)
-      -- Library:Notify("The game will start in 3..", 2)
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start",
+        Text = "The game will start in 3..",
+        Icon = "rbxassetid://6023426926"
+      })
       task.wait(1)
-      -- Library:Notify("The game will start in 2..", 2)
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start",
+        Text = "The game will start in 2..",
+        Icon = "rbxassetid://6023426926"
+      })
       task.wait(1)
-      -- Library:Notify("The game will start in 1..", 2)
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start",
+        Text = "The game will start in 1..",
+        Icon = "rbxassetid://6023426926"
+      })
       task.wait(1)
       if not settings.auto_start then
-        -- Library:Notify("Starting the game has been canceled", 5)
+        game:GetService("StarterGui"):SetCore("SendNotification",{
+          Title = "Auto Start",
+          Text = "Starting the game has been canceled",
+          Icon = "rbxassetid://6023426926"
+        })
         return
       end
       local first_position = LocalPlayer.Character.HumanoidRootPart.CFrame
@@ -921,7 +990,11 @@ function start_farming()
                 }
                 game:GetService("ReplicatedStorage").endpoints.client_to_server.request_leave_lobby:InvokeServer(unpack(args))
                 LocalPlayer.Character.HumanoidRootPart.CFrame = first_position
-                -- Library:Notify("There are no party members in the room", 30)
+                game:GetService("StarterGui"):SetCore("SendNotification",{
+                  Title = "Auto Start",
+                  Text = "There are no party members in the room",
+                  Icon = "rbxassetid://6023426926"
+                })
                 task.wait(30)
                 break
               end
@@ -941,7 +1014,11 @@ function start_farming()
       if tostring(Workspace["_LOBBIES"].Story[_G.door].Owner.Value) == LocalPlayer.Name then
         if Workspace["_LOBBIES"].Story[_G.door].Teleporting.Value == true then
           _G.teleporting = false
-          -- Library:Notify("Game Started: " .. settings.world .. " [" .. settings.level .. "]", 30)
+          game:GetService("StarterGui"):SetCore("SendNotification",{
+            Title = "Game Started",
+            Text = settings.world .. " [" .. settings.level .. "]",
+            Icon = "rbxassetid://6023426926"
+          })
           task.wait(60)
           TeleportService:Teleport(game.PlaceId, LocalPlayer)
         else
@@ -958,19 +1035,42 @@ end
 function start_raid()
   if game.PlaceId == ANIME_ADVENTURES_ID then
     if _G.teleporting then
-      -- Game Start Notification
-      -- Library:Notify("The game will start in 5..", 2)
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start",
+        Text = "The game will start in 5..",
+        Icon = "rbxassetid://6023426926"
+      })
       task.wait(1)
-      -- Library:Notify("The game will start in 4..", 2)
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start",
+        Text = "The game will start in 4..",
+        Icon = "rbxassetid://6023426926"
+      })
       task.wait(1)
-      -- Library:Notify("The game will start in 3..", 2)
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start",
+        Text = "The game will start in 3..",
+        Icon = "rbxassetid://6023426926"
+      })
       task.wait(1)
-      -- Library:Notify("The game will start in 2..", 2)
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start",
+        Text = "The game will start in 2..",
+        Icon = "rbxassetid://6023426926"
+      })
       task.wait(1)
-      -- Library:Notify("The game will start in 1..", 2)
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start",
+        Text = "The game will start in 1..",
+        Icon = "rbxassetid://6023426926"
+      })
       task.wait(1)
       if not settings.auto_start then
-        -- Library:Notify("Starting the game has been canceled", 5)
+        game:GetService("StarterGui"):SetCore("SendNotification",{
+          Title = "Auto Start",
+          Text = "Starting the game has been canceled",
+          Icon = "rbxassetid://6023426926"
+        })
         return
       end
       local first_position = LocalPlayer.Character.HumanoidRootPart.CFrame
@@ -1003,7 +1103,11 @@ function start_raid()
                 }
                 game:GetService("ReplicatedStorage").endpoints.client_to_server.request_leave_lobby:InvokeServer(unpack(args))
                 LocalPlayer.Character.HumanoidRootPart.CFrame = first_position
-                -- Library:Notify("There are no party members in the room", 30)
+                game:GetService("StarterGui"):SetCore("SendNotification",{
+                  Title = "Auto Start",
+                  Text = "There are no party members in the room",
+                  Icon = "rbxassetid://6023426926"
+                })
                 task.wait(30)
                 break
               end
@@ -1023,7 +1127,11 @@ function start_raid()
       if tostring(Workspace["_RAID"].Raid[_G.door].Owner.Value) == LocalPlayer.Name then
         if Workspace["_RAID"].Raid[_G.door].Teleporting.Value == true then
           _G.teleporting = false
-          -- Library:Notify("Game Started: " .. settings.world .. " [" .. settings.level .. "]", 30)
+          game:GetService("StarterGui"):SetCore("SendNotification",{
+            Title = "Game Started",
+            Text = settings.world .. " [" .. settings.level .. "]",
+            Icon = "rbxassetid://6023426926"
+          })
           task.wait(60)
           TeleportService:Teleport(game.PlaceId, LocalPlayer)
         else
@@ -1039,23 +1147,51 @@ function start_infinity_castle()
   if game.PlaceId == ANIME_ADVENTURES_ID then
     -- Check Infinity Castle Floor
     if settings.farm_mode == "Infinity Castle" and settings.ic_room_target == 0 then
-      -- Library:Notify("Infinity Castle room reach is 0", 5)
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start",
+        Text = "Infinity Castle room reach is 0",
+        Icon = "rbxassetid://6023426926"
+      })
       task.wait(5)
       return
     end
     -- Game Start Notification
-    -- Library:Notify("The game will start in 5..", 2)
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+      Title = "Auto Start",
+      Text = "The game will start in 5..",
+      Icon = "rbxassetid://6023426926"
+    })
     task.wait(1)
-    -- Library:Notify("The game will start in 4..", 2)
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+      Title = "Auto Start",
+      Text = "The game will start in 4..",
+      Icon = "rbxassetid://6023426926"
+    })
     task.wait(1)
-    -- Library:Notify("The game will start in 3..", 2)
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+      Title = "Auto Start",
+      Text = "The game will start in 3..",
+      Icon = "rbxassetid://6023426926"
+    })
     task.wait(1)
-    -- Library:Notify("The game will start in 2..", 2)
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+      Title = "Auto Start",
+      Text = "The game will start in 2..",
+      Icon = "rbxassetid://6023426926"
+    })
     task.wait(1)
-    -- Library:Notify("The game will start in 1..", 2)
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+      Title = "Auto Start",
+      Text = "The game will start in 1..",
+      Icon = "rbxassetid://6023426926"
+    })
     task.wait(1)
     if not settings.auto_start then
-      -- Library:Notify("Starting the game has been canceled", 5)
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start",
+        Text = "Starting the game has been canceled",
+        Icon = "rbxassetid://6023426926"
+      })
       return
     end
     LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(12423.2, 155.308, 3198.08)
@@ -1067,7 +1203,11 @@ function start_infinity_castle()
             [1] = room,
           }
           game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower:InvokeServer(unpack(args))
-          -- Library:Notify("Game Started: Infinity Castle [Room " .. tostring(room) .. "]" , 30)
+          game:GetService("StarterGui"):SetCore("SendNotification",{
+            Title = "Game Started",
+            Text = "Infinity Castle [Room " .. tostring(room) .. "]",
+            Icon = "rbxassetid://6023426926"
+          })
           break
         end
       end
@@ -1087,7 +1227,11 @@ function start_challenge()
         _G.challenge_door = v.Parent.Name
         task.wait()
         LocalPlayer.Character.HumanoidRootPart.CFrame = v.Parent.Door.CFrame * CFrame.new(0, 0, -6)
-        -- Library:Notify("Game Joined: Challenge", 5)
+        game:GetService("StarterGui"):SetCore("SendNotification",{
+          Title = "Auto Start",
+          Text = "Challenge",
+          Icon = "rbxassetid://6023426926"
+        })
         break
       end
     end
@@ -1099,7 +1243,11 @@ function start_challenge()
       game:GetService("ReplicatedStorage").endpoints.client_to_server.request_leave_lobby:InvokeServer(unpack(args))
       task.wait()
       LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(251.891205, 192.158447, -527.349609, 0.999444902, 0, 0.0333156772, 0, 1, 0, -0.0333156772, 0, 0.999444902)
-      -- Library:Notify("Starting the game has been canceled", 5)
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start",
+        Text = "Starting the game has been canceled",
+        Icon = "rbxassetid://6023426926"
+      })
     end
   end
 end
