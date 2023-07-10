@@ -1626,7 +1626,7 @@ function check_item_limit()
       settings.item_received = 0
       settings.auto_start = false
       settings.party_mode = false
-      settings.status = "Finished"
+      settings.status = "finished"
       save_settings()
       return true
     else
@@ -1762,7 +1762,7 @@ function level_id_end()
   if tonumber(user_level) >= settings.character_level_target then
     settings.auto_start = false
     settings.auto_lag = false
-    settings.status = "Finished"
+    settings.status = "finished"
     webhook_finish()
     save_settings()
     task.wait(5)
@@ -1788,7 +1788,7 @@ function portal_end()
         settings.auto_start = false
         settings.party_mode = false
         settings.auto_lag = false
-        settings.status = "Finished"
+        settings.status = "finished"
         save_settings()
         return_to_lobby()
       else
@@ -1809,7 +1809,7 @@ function infinite_castle_end()
   if title == "VICTORY" and room >= settings.ic_room_target then
     settings.auto_start = false
     settings.auto_lag = false
-    settings.status = "Finished"
+    settings.status = "finished"
     webhook_finish()
     save_settings()
     task.wait(5)
@@ -1949,7 +1949,7 @@ function auto_instant_leave()
               settings.gems_received = 0
               settings.auto_start = false
               settings.auto_lag = false
-              settings.status = "Finished"
+              settings.status = "finished"
               save_settings()
               task.wait(5)
               -- game:Shutdown()
@@ -1968,7 +1968,7 @@ function auto_instant_leave()
               webhook_finish()
               settings.auto_start = false
               settings.auto_lag = false
-              settings.status = "Finished"
+              settings.status = "finished"
               save_settings()
               task.wait(5)
               -- game:Shutdown()
