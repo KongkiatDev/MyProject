@@ -1411,7 +1411,7 @@ function auto_place()
           -- print("Ghoul City")
           place_units({
             [1] = { x = pos_x, y = 58.58, z = pos_z }, -- ground unit position
-            [2] = { x = -2958.325, y = 62.821, z = -47.757 }, -- hill unit position
+            [2] = { x = -2982.847, y = 66.701, z = -52.975 }, -- hill unit position
           })
         elseif map:match("hueco") then
           -- print("Hollow World")
@@ -1530,6 +1530,7 @@ end
 --#region [Function] Auto Upgrade
 function auto_upgrade()
   Workspace:WaitForChild("_UNITS")
+  print("WaitForChild UNITS")
   task.spawn(function()
     while task.wait(2) do
       if settings.auto_upgrade then
