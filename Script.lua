@@ -1529,21 +1529,19 @@ end
 
 --#region [Function] Auto Upgrade
 function auto_upgrade()
+  Workspace:WaitForChild("_UNITS")
   task.spawn(function()
-    Workspace:WaitForChild("_UNITS")
     while task.wait(2) do
       if settings.auto_upgrade then
         for i, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
-          pcall(function()
-            if v:FindFirstChild("_stats") then
-              local _wave = Workspace:WaitForChild("_wave_num")
-              if tostring(v["_stats"].player.Value) == LocalPlayer.Name and v["_stats"].xp.Value >= 0 and _wave.Value >= 6 then
-                if not v.Name:match("wendy") or not v.Name:match("emilia") then
-                  game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
-                end
+          if v:FindFirstChild("_stats") then
+            local _wave = Workspace:WaitForChild("_wave_num")
+            if tostring(v["_stats"].player.Value) == LocalPlayer.Name and v["_stats"].xp.Value >= 0 and _wave.Value >= 6 then
+              if not v.Name:match("wendy") or not v.Name:match("emilia") then
+                game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
               end
             end
-          end)
+          end
         end
       end
     end
