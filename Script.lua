@@ -1539,6 +1539,7 @@ function auto_upgrade()
             if tostring(v["_stats"].player.Value) == LocalPlayer.Name and v["_stats"].xp.Value >= 0 and _wave.Value >= 6 then
               if not v.Name:match("wendy") or not v.Name:match("emilia") then
                 game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
+                print("upgrade_unit", v.Name)
               end
             end
           end
