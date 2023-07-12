@@ -2628,7 +2628,7 @@ screenGui.Parent = LocalPlayer.PlayerGui
 
 local textLabel = Instance.new("TextLabel")
 textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(0, 20, 40)
+textLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 textLabel.Font = Enum.Font.GothamMedium
 textLabel.Text = game.Players.LocalPlayer.Name
 textLabel.TextSize = 28
