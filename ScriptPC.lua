@@ -37,6 +37,8 @@ game:GetService("UserInputService").InputBegan:Connect(function(input)
   end
 end)
 
+task.wait(5)
+
 local ANIME_ADVENTURES_ID = 8304191830
 local API_SERVER = "https://rollinhub.ngrok.app"
 local WH_URL = ("https://discord.com/api/webhooks/%s/%s"):format("1105540677158322306", "P7FHXSx9Ypr7nmxxDLAyW_q7eEUp3mRUvFbxdAp57x0bKIhY5Z-vorMJ3JmX-OhUmj_4")
@@ -791,10 +793,10 @@ function start_portal()
     -- Game Start Notification
     game:GetService("StarterGui"):SetCore("SendNotification",{
       Title = "Auto Start",
-      Text = "The game will start in 5..",
+      Text = "The game will start in 30..",
       Icon = "rbxassetid://6023426926"
     })
-    task.wait(1)
+    task.wait(26)
     game:GetService("StarterGui"):SetCore("SendNotification",{
       Title = "Auto Start",
       Text = "The game will start in 4..",
@@ -2627,11 +2629,11 @@ screenGui.Enabled = settings.white_screen
 screenGui.Parent = LocalPlayer.PlayerGui
 
 local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+textLabel.Size = UDim2.new(1, 0, 0.2, 0)
+textLabel.BackgroundTransparency = 1
 textLabel.Font = Enum.Font.GothamMedium
 textLabel.Text = game.Players.LocalPlayer.Name
-textLabel.TextSize = 28
+textLabel.TextSize = 60
 textLabel.Parent = screenGui
 if game.PlaceId == ANIME_ADVENTURES_ID then
   textLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
@@ -2640,8 +2642,9 @@ else
 end
 
 local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
+loadingRing.Size = UDim2.new(0, 800, 0, 800)
 loadingRing.BackgroundTransparency = 1
+loadingRing.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 loadingRing.Image = "rbxassetid://4965945816"
 loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
 loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
