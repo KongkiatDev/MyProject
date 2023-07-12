@@ -22,7 +22,7 @@ end
 
 game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(e)
   if e.Name == 'ErrorPrompt' then
-    game:GetService("TeleportService"):Teleport(8304191830, game.Players.LocalPlayer)
+    -- game:GetService("TeleportService"):Teleport(8304191830, game.Players.LocalPlayer)
   end
 end)
 
