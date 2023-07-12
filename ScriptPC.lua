@@ -191,7 +191,7 @@ read_global_settings()
 task.wait(3)
 
 game:GetService("UserInputService").InputBegan:Connect(function(input)
-  if input.KeyCode == Enum.KeyCode.F7 then
+  if input.KeyCode == Enum.KeyCode.P and game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.RightShift)  then
     settings.auto_start = not settings.auto_start
     save_settings()
     if settings.auto_start then
