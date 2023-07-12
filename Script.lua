@@ -793,10 +793,10 @@ function start_portal()
     -- Game Start Notification
     game:GetService("StarterGui"):SetCore("SendNotification",{
       Title = "Auto Start",
-      Text = "The game will start in 5..",
+      Text = "The game will start in 30..",
       Icon = "rbxassetid://6023426926"
     })
-    task.wait(1)
+    task.wait(26)
     game:GetService("StarterGui"):SetCore("SendNotification",{
       Title = "Auto Start",
       Text = "The game will start in 4..",
@@ -2492,6 +2492,26 @@ end
 game:GetService("UserInputService").InputBegan:Connect(function(input)
   if input.KeyCode == Enum.KeyCode.F1 then
     toggleCustomScreen()
+  end
+end)
+
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+  if input.KeyCode == Enum.KeyCode.RightControl then
+    settings.auto_start = not settings.auto_start
+    save_settings()
+    if settings.auto_start then
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start [ON]",
+        Text = game.Players.LocalPlayer.Name,
+        Icon = "rbxassetid://6031280882"
+      })
+    else
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start [OFF]",
+        Text = game.Players.LocalPlayer.Name,
+        Icon = "rbxassetid://6031280882"
+      })
+    end
   end
 end)
 
