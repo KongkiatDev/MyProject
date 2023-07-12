@@ -190,6 +190,26 @@ task.wait(3)
 read_global_settings()
 task.wait(3)
 
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+  if input.KeyCode == Enum.KeyCode.F7 then
+    settings.auto_start = not settings.auto_start
+    save_settings()
+    if settings.auto_start then
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start [ON]",
+        Text = game.Players.LocalPlayer.Name,
+        Icon = "rbxassetid://6031280882"
+      })
+    else
+      game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Auto Start [OFF]",
+        Text = game.Players.LocalPlayer.Name,
+        Icon = "rbxassetid://6031280882"
+      })
+    end
+  end
+end)
+
 --------------------------------------------------
 ------------------- Function ---------------------
 --------------------------------------------------
@@ -2490,26 +2510,6 @@ end
 game:GetService("UserInputService").InputBegan:Connect(function(input)
   if input.KeyCode == Enum.KeyCode.F1 then
     toggleCustomScreen()
-  end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(input)
-  if input.KeyCode == Enum.KeyCode.RightControl then
-    settings.auto_start = not settings.auto_start
-    save_settings()
-    if settings.auto_start then
-      game:GetService("StarterGui"):SetCore("SendNotification",{
-        Title = "Auto Start [ON]",
-        Text = game.Players.LocalPlayer.Name,
-        Icon = "rbxassetid://6031280882"
-      })
-    else
-      game:GetService("StarterGui"):SetCore("SendNotification",{
-        Title = "Auto Start [OFF]",
-        Text = game.Players.LocalPlayer.Name,
-        Icon = "rbxassetid://6031280882"
-      })
-    end
   end
 end)
 
