@@ -812,10 +812,10 @@ function start_portal()
     -- Game Start Notification
     game:GetService("StarterGui"):SetCore("SendNotification",{
       Title = "Auto Start",
-      Text = "The game will start in 30..",
+      Text = "The game will start in 5..",
       Icon = "rbxassetid://6023426926"
     })
-    task.wait(26)
+    task.wait(1)
     game:GetService("StarterGui"):SetCore("SendNotification",{
       Title = "Auto Start",
       Text = "The game will start in 4..",
@@ -839,7 +839,7 @@ function start_portal()
       Text = "The game will start in 1..",
       Icon = "rbxassetid://6023426926"
     })
-    task.wait(1)
+    task.wait(60)
     if not settings.auto_start then
       game:GetService("StarterGui"):SetCore("SendNotification",{
         Title = "Auto Start",
