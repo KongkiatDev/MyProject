@@ -1678,7 +1678,8 @@ function replay()
     timer = 180 - i
     warn("Fail Safe Timer to Teleport: " .. timer)
     if i == 180 and LocalPlayer.PlayerGui.ResultsUI.Enabled == true then
-      return_to_lobby()
+      -- return_to_lobby()
+      game:Shutdown()
     end
   end
 end
@@ -1708,8 +1709,8 @@ function return_to_lobby()
     timer = 180 - i
     warn("Fail Safe Timer to Teleport: " .. timer)
     if i == 180 then
-      -- game:Shutdown()
-      return_to_lobby()
+      -- return_to_lobby()
+      game:Shutdown()
     end
   end
 end
@@ -1792,7 +1793,6 @@ function level_id_end()
     settings.status = "finished"
     webhook_finish()
     save_settings()
-    task.wait(5)
     -- game:Shutdown()
     -- Nexus:SetAutoRelaunch(false)
     return_to_lobby()
@@ -1840,10 +1840,9 @@ function infinite_castle_end()
     settings.status = "finished"
     webhook_finish()
     save_settings()
-    task.wait(5)
+    return_to_lobby()
     -- game:Shutdown()
     -- Nexus:SetAutoRelaunch(false)
-    return_to_lobby()
   else
     webhook()
     save_settings()
@@ -1853,7 +1852,8 @@ function infinite_castle_end()
       timer = 180 - i
       warn("Fail Safe Timer to Teleport: " .. timer)
       if i == 180 and LocalPlayer.PlayerGui.ResultsUI.Enabled == true then
-        return_to_lobby()
+        -- return_to_lobby()
+        game:Shutdown()
       end
     end
   end
@@ -1873,9 +1873,8 @@ function raid_end()
     if check_item_limit() then
       settings.auto_lag = false
       save_settings()
-      task.wait(5)
-      -- game:Shutdown()
       return_to_lobby()
+      -- game:Shutdown()
       -- Nexus:SetAutoRelaunch(false)
     else
       if settings.auto_replay then
@@ -2575,7 +2574,30 @@ game:GetService("UserInputService").InputBegan:Connect(function(input)
       Text = game.Players.LocalPlayer.Name,
       Icon = "rbxassetid://6031280882"
     })
-    return_to_lobby()
+    if settings.party_mode then
+      TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, global_settings.party_id, LocalPlayer)
+    else
+      math.randomseed(os.time())
+      local servers = {}
+      pcall(function()
+        local response = HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/8304191830/servers/Public?sortOrder=Asc&limit=100'))
+        for i, v in pairs(response.data) do
+          if v.playing ~= nil and v.playing < 5 then
+            table.insert(servers, v.id)
+          end
+        end
+      end)
+      if #servers > 0 then
+        TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, servers[math.random(1, #servers)], LocalPlayer)
+      else
+        TeleportService:Teleport(ANIME_ADVENTURES_ID, LocalPlayer)
+        game:GetService("StarterGui"):SetCore("SendNotification",{
+          Title = "Not Found Server",
+          Text = game.Players.LocalPlayer.Name,
+          Icon = "rbxassetid://6031071050"
+        })
+      end
+    end
   end
 end)
 
