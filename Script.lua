@@ -1660,7 +1660,8 @@ function replay()
     timer = 180 - i
     warn("Fail Safe Timer to Teleport: " .. timer)
     if i == 180 and LocalPlayer.PlayerGui.ResultsUI.Enabled == true then
-      return_to_lobby()
+      -- return_to_lobby()
+      game:Shutdown()
     end
   end
 end
@@ -1690,8 +1691,8 @@ function return_to_lobby()
     timer = 180 - i
     warn("Fail Safe Timer to Teleport: " .. timer)
     if i == 180 then
-      -- game:Shutdown()
-      return_to_lobby()
+      -- return_to_lobby()
+      game:Shutdown()
     end
   end
 end
@@ -1774,7 +1775,6 @@ function level_id_end()
     settings.status = "finished"
     webhook_finish()
     save_settings()
-    task.wait(5)
     -- game:Shutdown()
     -- Nexus:SetAutoRelaunch(false)
     return_to_lobby()
@@ -1822,10 +1822,9 @@ function infinite_castle_end()
     settings.status = "finished"
     webhook_finish()
     save_settings()
-    task.wait(5)
+    return_to_lobby()
     -- game:Shutdown()
     -- Nexus:SetAutoRelaunch(false)
-    return_to_lobby()
   else
     webhook()
     save_settings()
@@ -1835,7 +1834,8 @@ function infinite_castle_end()
       timer = 180 - i
       warn("Fail Safe Timer to Teleport: " .. timer)
       if i == 180 and LocalPlayer.PlayerGui.ResultsUI.Enabled == true then
-        return_to_lobby()
+        -- return_to_lobby()
+        game:Shutdown()
       end
     end
   end
@@ -1855,9 +1855,8 @@ function raid_end()
     if check_item_limit() then
       settings.auto_lag = false
       save_settings()
-      task.wait(5)
-      -- game:Shutdown()
       return_to_lobby()
+      -- game:Shutdown()
       -- Nexus:SetAutoRelaunch(false)
     else
       if settings.auto_replay then
