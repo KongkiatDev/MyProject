@@ -840,7 +840,6 @@ function start_portal()
       Text = "The game will start in 1..",
       Icon = "rbxassetid://6023426926"
     })
-    task.wait(60)
     if not settings.auto_start then
       game:GetService("StarterGui"):SetCore("SendNotification",{
         Title = "Auto Start",
@@ -850,7 +849,7 @@ function start_portal()
       return
     end
     LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(256.604, 322.388, -528.098)
-    task.wait(1)
+    task.wait(120)
     local args = {
       [1] = get_portals(settings.level)[1]["uuid"],
       [2] = { ["friends_only"] = false }
