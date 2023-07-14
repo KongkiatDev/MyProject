@@ -628,6 +628,7 @@ function webhook_data(args)
     end
   end
 
+  emoji_info = ""
   print("webhook 2")
 
   content = ""
@@ -647,7 +648,6 @@ function webhook_data(args)
     }
   end
 
-  emoji_info = ""
   print("webhook 3")
 
   return {
