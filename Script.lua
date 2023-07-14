@@ -515,7 +515,9 @@ function webhook_data(args)
   grief_seed = tostring(Table_All_Items_New_data["grief_seed"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["grief_seed"]['Count'] or 0)
   star_remnant = tostring(Table_All_Items_New_data["star_remnant"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["star_remnant"]['Count'] or 0)
   madoka_portal_shard = tostring(Table_All_Items_New_data["madoka_portal_shard"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["madoka_portal_shard"]['Count'] or 0)
-  
+  capsule_anniversary = tostring(Table_All_Items_New_data["capsule_anniversary"]['Name']) .. ": x" .. tostring(Table_All_Items_New_data["capsule_anniversary"]['Count'] or 0)
+
+
   if gem_reward == "+99999" then gem_reward = "+0" end
   if xp_reward == "+99999" then xp_reward = "+0" end
   if trophy_reward == "+99999" then trophy_reward = "+0" end
@@ -645,6 +647,7 @@ function webhook_data(args)
     }
   end
 
+  emoji_info = ""
   print("webhook 3")
 
   return {
@@ -653,9 +656,6 @@ function webhook_data(args)
     ["avatar_url"] = "https://cdn.discordapp.com/attachments/995718625078030398/1080895039598755840/logo-art.jpg",
     ["embeds"] = {
       {
-        -- ["author"] = {
-        --   ["name"] = title
-        -- },
         ["title"] = title,
         ["description"] = farm_finish_message,
         ["color"] = color,
@@ -665,27 +665,27 @@ function webhook_data(args)
         },
         ["fields"] = {
           {
-            ["name"] ="<a:yyyy:1100545093787721790> ข้อมูลลูกค้า <a:yyyy:1100545093787721790>",
-            ["value"] = emoji_info .. "<:account:1100597293113167944> ID: " .. tostring(LocalPlayer.Name) .. "\n" .. emoji_info .. "<:Gold:1100584913369059509> ทอง: " .. total_gold .. "\n" .. emoji_info .. "<:Gems:1086812238607822959> เพชร: " .. total_gems .. "\n" .. emoji_info .. "<:Level:1086831024421474324> เลเวล: " .. user_level:split(" ")[2] .. " " .. user_level:split(" ")[3] .. "\n" .. emoji_info .. "<:Battlepass:1112553595557130341> แบทเทิลพาส: " .. settings.battlepass_current_level .. " [" .. settings.battlepass_xp .. "]",
+            ["name"] ="ข้อมูลลูกค้า",
+            ["value"] = emoji_info .. "<:account:1100597293113167944> ID: " .. tostring(LocalPlayer.Name) .. "\n" .. emoji_info .. "<:Gold:1100584913369059509> ทอง: " .. total_gold .. "\n" .. emoji_info .. "<:Gems:1086812238607822959> เพชร: " .. total_gems .. "\n" .. emoji_info .. "<:Level:1086831024421474324> เลเวล: " .. user_level:split(" ")[2] .. " " .. user_level:split(" ")[3] .. "\n" .. emoji_info .. "<:Battlepass:1129266867836555274> แบทเทิลพาส: " .. settings.battlepass_current_level .. " [" .. settings.battlepass_xp .. "]",
             ["inline"] = false
           },
           {
-            ["name"] ="<a:yyyy:1100545093787721790> ไอเท็มทั่วไป <a:yyyy:1100545093787721790>",
-            ["value"] = emoji_info .. "<:time_traveller_shard:1125280707623792700>  " .. madoka_portal_shard .. "\n" .. emoji_info .. "<:Grief_Seed:1111838652247592980>  " .. grief_seed .. "\n" .. emoji_info .. "<:Wisteria_Bloom:1099264528853770271> " .. entertainment_district_item .. "\n" .. emoji_info .. "<:Alien_Scouter:1086919543034753114> " .. alien_scouter .. "\n" .. emoji_info .. "<:Tomoe:1086919541092790362> " .. tomoe .. "\n" .. emoji_info .. "<:Relic_Shard:1087158655822090380> " .. relic_shard .. "\n" .. emoji_info .. "<:Rikugan_Eye:1096869167002550282> " .. rikugan_eye .. "\n" .. emoji_info .. "<:Star_Remnant:1112744970546323456> " .. star_remnant,
+            ["name"] ="ไอเท็มทั่วไป",
+            ["value"] = emoji_info .. "<:capsule_anniversary:1129263429941739551>  " .. capsule_anniversary .. "\n" .. emoji_info .. "<:time_traveller_shard:1125280707623792700>  " .. madoka_portal_shard .. "\n" .. emoji_info .. "<:Grief_Seed:1111838652247592980>  " .. grief_seed .. "\n" .. emoji_info .. "<:Wisteria_Bloom:1099264528853770271> " .. entertainment_district_item .. "\n" .. emoji_info .. "<:Alien_Scouter:1086919543034753114> " .. alien_scouter .. "\n" .. emoji_info .. "<:Tomoe:1086919541092790362> " .. tomoe .. "\n" .. emoji_info .. "<:Relic_Shard:1087158655822090380> " .. relic_shard .. "\n" .. emoji_info .. "<:Rikugan_Eye:1096869167002550282> " .. rikugan_eye .. "\n" .. emoji_info .. "<:Star_Remnant:1112744970546323456> " .. star_remnant,
             ["inline"] = false
           },
           {
-            ["name"] ="<a:yyyy:1100545093787721790> ไอเท็มประตู <a:yyyy:1100545093787721790>",
+            ["name"] ="ไอเท็มประตู",
             ["value"] = emoji_info .. "<:Madoka_Portal:1111835881804943450> " .. madoka_portal .. "\n" .. emoji_info .. "<:Demon_Leaders_Portal:1087031381361700906> " .. zeldris_portal .. "\n" .. emoji_info .. "<:Alien_Portal:1094173284905533490> " .. alien_portal,
             ["inline"] = false
           },
           -- {
-          --   ["name"] ="<a:yyyy:1100545093787721790> ไอเท็มกิจกรรม <a:yyyy:1100545093787721790>",
+          --   ["name"] =" ไอเท็มกิจกรรม ",
           --   ["value"] = emoji_info .. "<:easter_egg_1:1095132443884925070> " .. easter_egg_1 .. "\n" .. emoji_info .. "<:easter_egg_2:1095132446946770955> " .. easter_egg_2 .. "\n" .. emoji_info .. "<:easter_egg_3:1095132449136189510> " .. easter_egg_3 .. "\n" .. emoji_info .. "<:easter_egg_4:1095132452487442473> " .. easter_egg_4 .. "\n" .. emoji_info .. "<:easter_egg_5:1095132456643985440> " .. easter_egg_5 .. "\n" .. emoji_info .. "<:easter_egg_6:1095132460146241566> " .. easter_egg_6,
           --   ["inline"] = false
           -- },
           {
-            ["name"] ="<a:yyyy:1100545093787721790> ไอเท็มชาเลนจ์ <a:yyyy:1100545093787721790>",
+            ["name"] ="ไอเท็มชาเลนจ์",
             ["value"] = emoji_info .. "<:StarFruit:1086923974233034812> " .. starfruit .. "\n" .. emoji_info .. "<:StarFruit_Rainbow:1086923969703190569> " .. starfruit_rainbow .. "\n" .. emoji_info .. "<:StarFruit_Green:1086923966205132830> " .. starfruit_green .. "\n" .. emoji_info .. "<:StarFruit_Red:1086923962249924620> " .. starfruit_red .. "\n" .. emoji_info .. "<:StarFruit_Blue:1086923960408604734> " .. starfruit_blue .. "\n" .. emoji_info .. "<:StarFruit_Pink:1086923957334184057> " .. starfruit_pink,
             ["inline"] = false
           },
@@ -2496,26 +2496,6 @@ game:GetService("UserInputService").InputBegan:Connect(function(input)
 end)
 
 game:GetService("UserInputService").InputBegan:Connect(function(input)
-  if input.KeyCode == Enum.KeyCode.RightControl then
-    settings.auto_start = not settings.auto_start
-    save_settings()
-    if settings.auto_start then
-      game:GetService("StarterGui"):SetCore("SendNotification",{
-        Title = "Auto Start [ON]",
-        Text = game.Players.LocalPlayer.Name,
-        Icon = "rbxassetid://6031280882"
-      })
-    else
-      game:GetService("StarterGui"):SetCore("SendNotification",{
-        Title = "Auto Start [OFF]",
-        Text = game.Players.LocalPlayer.Name,
-        Icon = "rbxassetid://6031280882"
-      })
-    end
-  end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(input)
   if input.KeyCode == Enum.KeyCode.F2 then
     settings.auto_lag = not settings.auto_lag
     save_settings()
@@ -2576,7 +2556,30 @@ game:GetService("UserInputService").InputBegan:Connect(function(input)
       Text = game.Players.LocalPlayer.Name,
       Icon = "rbxassetid://6031280882"
     })
-    return_to_lobby()
+    if settings.party_mode then
+      TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, global_settings.party_id, LocalPlayer)
+    else
+      math.randomseed(os.time())
+      local servers = {}
+      pcall(function()
+        local response = HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/8304191830/servers/Public?sortOrder=Asc&limit=100'))
+        for i, v in pairs(response.data) do
+          if v.playing ~= nil and v.playing < 5 then
+            table.insert(servers, v.id)
+          end
+        end
+      end)
+      if #servers > 0 then
+        TeleportService:TeleportToPlaceInstance(ANIME_ADVENTURES_ID, servers[math.random(1, #servers)], LocalPlayer)
+      else
+        TeleportService:Teleport(ANIME_ADVENTURES_ID, LocalPlayer)
+        game:GetService("StarterGui"):SetCore("SendNotification",{
+          Title = "Not Found Server",
+          Text = game.Players.LocalPlayer.Name,
+          Icon = "rbxassetid://6031071050"
+        })
+      end
+    end
   end
 end)
 
