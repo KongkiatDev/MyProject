@@ -450,6 +450,7 @@ function update_inventory_items()
     emoji_info = "<a:onlinepinggreen:1101318680324882442> "
   end
   TextDropLabel = ""
+  emoji_info =""
   CountAmount = 1
   Table_All_Items_Received_data = {}
   for i,v in pairs(get_inventory_items()) do
@@ -634,7 +635,7 @@ function webhook_data(args)
   content = ""
   farm_finish_message = ""
   game_finish_message = {
-    ["name"] ="<a:yyyy:1100545093787721790> ข้อมูลการเล่น <a:yyyy:1100545093787721790>",
+    ["name"] ="ข้อมูลการเล่น",
     ["value"] = emoji_info .. "<:Map:1086829763802431590> แมพ " .. level_name .. "\n" .. emoji_info .. "<:Result:1086829004142673970> ผลลัพธ์: " .. result .. "\n" .. emoji_info .. "<:Wave:1086831936321892484> จำนวนรอบ: " .. total_wave .. "\n" .. emoji_info .. "<:Hourglass:1086827945261273108> เวลา: " .. tostring(total_time) .. "\n" .. emoji_info .. "<:Gems:1086812238607822959> เพชร: " .. gem_reward .. "\n" .. emoji_info .. "<:XP:1086893748656541696> ค่าประสบการณ์: " .. xp_reward .. "\n" .. TextDropLabel,
     ["inline"] = false
   }
